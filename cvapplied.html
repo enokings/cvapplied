@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CVApplied — Your CV, Perfected.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0f1117;
+    --ink-soft: #3a3d4a;
+    --ink-muted: #7a7f8e;
+    --paper: #fafaf8;
+    --white: #ffffff;
+    --accent: #1a56db;
+    --accent-soft: #e8effe;
+    --accent-mid: #3b6fd4;
+    --rule: #e4e4e0;
+    --gold: #c89b3c;
+    --green: #1a7a4a;
+    --green-soft: #e6f4ed;
+    --shadow-sm: 0 1px 3px rgba(15,17,23,0.06), 0 1px 2px rgba(15,17,23,0.04);
+    --shadow-md: 0 4px 16px rgba(15,17,23,0.08), 0 2px 6px rgba(15,17,23,0.05);
+    --shadow-lg: 0 12px 40px rgba(15,17,23,0.10), 0 4px 12px rgba(15,17,23,0.06);
+    --radius: 10px;
+    --radius-lg: 18px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(250,250,248,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--rule);
+    padding: 0 48px;
+    height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.35rem; font-weight: 700;
+    color: var(--ink); text-decoration: none;
+    letter-spacing: -0.02em;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; align-items: center; gap: 32px; }
+  .nav-links a {
+    font-size: 0.875rem; font-weight: 500; color: var(--ink-soft);
+    text-decoration: none; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-cta {
+    background: var(--ink); color: var(--white) !important;
+    padding: 9px 20px; border-radius: 6px;
+    font-weight: 600 !important; font-size: 0.85rem !important;
+    transition: background 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--accent) !important; color: var(--white) !important; }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 144px 48px 96px;
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--accent-soft); color: var(--accent);
+    font-size: 0.8rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 6px 12px; border-radius: 4px; margin-bottom: 24px;
+  }
+  .hero-eyebrow::before { content: ''; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; }
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 4vw, 3.4rem);
+    font-weight: 700; line-height: 1.15;
+    letter-spacing: -0.03em; color: var(--ink);
+    margin-bottom: 20px;
+  }
+  h1 em { font-style: normal; color: var(--accent); }
+  .hero-sub {
+    font-size: 1.1rem; color: var(--ink-soft); line-height: 1.65;
+    font-weight: 300; max-width: 480px; margin-bottom: 36px;
+  }
+  .hero-actions { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--accent); color: var(--white);
+    padding: 14px 28px; border-radius: 8px;
+    font-size: 0.95rem; font-weight: 600; text-decoration: none;
+    box-shadow: 0 4px 14px rgba(26,86,219,0.3);
+    transition: all 0.2s; cursor: pointer; border: none;
+  }
+  .btn-primary:hover { background: #1548c0; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(26,86,219,0.35); }
+  .btn-secondary {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: transparent; color: var(--ink-soft);
+    padding: 14px 24px; border-radius: 8px;
+    font-size: 0.95rem; font-weight: 500; text-decoration: none;
+    border: 1.5px solid var(--rule); transition: all 0.2s; cursor: pointer;
+  }
+  .btn-secondary:hover { border-color: var(--ink-soft); color: var(--ink); }
+  .hero-trust {
+    margin-top: 32px; display: flex; align-items: center; gap: 20px;
+    padding-top: 28px; border-top: 1px solid var(--rule);
+  }
+  .trust-stat { text-align: center; }
+  .trust-stat strong {
+    display: block; font-family: 'Playfair Display', serif;
+    font-size: 1.5rem; font-weight: 700; color: var(--ink);
+  }
+  .trust-stat span { font-size: 0.78rem; color: var(--ink-muted); font-weight: 400; }
+  .trust-divider { width: 1px; height: 36px; background: var(--rule); }
+
+  /* ── HERO VISUAL ── */
+  .hero-visual { position: relative; }
+  .cv-mockup {
+    background: var(--white); border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: 28px; border: 1px solid var(--rule);
+    position: relative; overflow: hidden;
+    animation: float 6s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+  .cv-mockup::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    background: linear-gradient(90deg, var(--accent), var(--gold));
+  }
+  .cv-header-mock { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+  .cv-avatar {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent-soft), var(--accent));
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: var(--white);
+  }
+  .cv-name-block .cv-name { font-weight: 700; font-size: 0.95rem; color: var(--ink); }
+  .cv-name-block .cv-role { font-size: 0.78rem; color: var(--ink-muted); }
+  .cv-score-badge {
+    margin-left: auto; background: var(--green-soft);
+    color: var(--green); font-size: 0.75rem; font-weight: 700;
+    padding: 4px 10px; border-radius: 20px;
+  }
+  .cv-section { margin-bottom: 14px; }
+  .cv-section-label {
+    font-size: 0.68rem; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.07em; color: var(--ink-muted); margin-bottom: 6px;
+  }
+  .cv-line { height: 8px; background: var(--rule); border-radius: 4px; margin-bottom: 5px; }
+  .cv-line.short { width: 65%; }
+  .cv-line.medium { width: 85%; }
+  .cv-line.full { width: 100%; }
+  .cv-line.accent { background: var(--accent-soft); }
+
+  .cv-suggestion {
+    background: #fff8ec; border: 1px solid #f0d898; border-radius: 8px;
+    padding: 10px 12px; margin-top: 14px;
+    display: flex; align-items: flex-start; gap: 8px;
+  }
+  .cv-suggestion-icon { font-size: 0.85rem; margin-top: 1px; }
+  .cv-suggestion-text { font-size: 0.73rem; color: #8a6500; line-height: 1.4; }
+  .cv-suggestion-text strong { color: #5a4000; }
+
+  .floating-badge {
+    position: absolute; right: -20px; top: 40px;
+    background: var(--white); border-radius: 12px;
+    box-shadow: var(--shadow-md); border: 1px solid var(--rule);
+    padding: 12px 16px; display: flex; align-items: center; gap: 10px;
+    animation: float 6s ease-in-out infinite reverse;
+  }
+  .badge-icon { width: 32px; height: 32px; background: var(--green-soft); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; }
+  .badge-text strong { display: block; font-size: 0.78rem; font-weight: 700; color: var(--ink); }
+  .badge-text span { font-size: 0.7rem; color: var(--ink-muted); }
+
+  /* ── SECTION WRAPPER ── */
+  section { padding: 96px 48px; }
+  .section-inner { max-width: 1200px; margin: 0 auto; }
+  .section-label {
+    font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 12px;
+  }
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    font-weight: 700; line-height: 1.2; letter-spacing: -0.025em;
+    color: var(--ink); margin-bottom: 16px;
+  }
+  .section-sub {
+    font-size: 1.05rem; color: var(--ink-soft); font-weight: 300;
+    max-width: 520px; line-height: 1.65;
+  }
+
+  /* ── HOW IT WORKS ── */
+  .how-section { background: var(--white); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+  .how-header { text-align: center; margin-bottom: 64px; }
+  .how-header .section-sub { margin: 0 auto; }
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; position: relative; }
+  .steps::before {
+    content: ''; position: absolute; top: 28px; left: calc(16.66% + 24px); right: calc(16.66% + 24px);
+    height: 1px; background: var(--rule); z-index: 0;
+  }
+  .step { padding: 32px; text-align: center; position: relative; }
+  .step-num {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: var(--white); border: 2px solid var(--rule);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700;
+    color: var(--ink); margin: 0 auto 20px; position: relative; z-index: 1;
+    transition: all 0.3s;
+  }
+  .step:hover .step-num { background: var(--accent); border-color: var(--accent); color: var(--white); }
+  .step h3 { font-size: 1rem; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
+  .step p { font-size: 0.88rem; color: var(--ink-soft); line-height: 1.6; }
+
+  /* ── FEATURES ── */
+  .features-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px 80px; margin-top: 64px; }
+  .feature-card {
+    padding: 32px; border-radius: var(--radius-lg);
+    border: 1px solid var(--rule); background: var(--white);
+    transition: all 0.25s;
+  }
+  .feature-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); border-color: var(--accent); }
+  .feature-icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    background: var(--accent-soft); display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem; margin-bottom: 18px;
+  }
+  .feature-card h3 { font-size: 1.05rem; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
+  .feature-card p { font-size: 0.88rem; color: var(--ink-soft); line-height: 1.65; }
+
+  /* ── CV BUILDER PREVIEW ── */
+  .builder-section { background: var(--ink); color: var(--white); }
+  .builder-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .builder-inner .section-label { color: var(--gold); }
+  .builder-inner h2 { color: var(--white); }
+  .builder-inner .section-sub { color: rgba(255,255,255,0.6); }
+  .builder-checklist { margin-top: 32px; display: flex; flex-direction: column; gap: 12px; }
+  .check-item { display: flex; align-items: center; gap: 12px; }
+  .check-icon {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--green); display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem; color: var(--white); flex-shrink: 0;
+  }
+  .check-item span { font-size: 0.9rem; color: rgba(255,255,255,0.8); }
+
+  .builder-ui {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: var(--radius-lg); padding: 24px; overflow: hidden;
+  }
+  .builder-tabs {
+    display: flex; gap: 2px; margin-bottom: 20px;
+    background: rgba(255,255,255,0.06); border-radius: 8px; padding: 4px;
+  }
+  .builder-tab {
+    flex: 1; text-align: center; padding: 7px 12px;
+    font-size: 0.78rem; font-weight: 500; color: rgba(255,255,255,0.5);
+    border-radius: 6px; cursor: pointer; transition: all 0.2s;
+  }
+  .builder-tab.active {
+    background: rgba(255,255,255,0.12); color: var(--white); font-weight: 600;
+  }
+  .form-mock { display: flex; flex-direction: column; gap: 14px; }
+  .form-field {}
+  .form-label { font-size: 0.72rem; font-weight: 600; color: rgba(255,255,255,0.5); letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 5px; }
+  .form-input {
+    width: 100%; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 6px; padding: 9px 12px; color: var(--white);
+    font-family: 'DM Sans', sans-serif; font-size: 0.85rem; outline: none;
+  }
+  .form-input:focus { border-color: rgba(26,86,219,0.6); background: rgba(255,255,255,0.1); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .form-textarea {
+    width: 100%; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 6px; padding: 9px 12px; color: var(--white);
+    font-family: 'DM Sans', sans-serif; font-size: 0.85rem; outline: none;
+    resize: none; height: 72px;
+  }
+  .ai-enhance-btn {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--accent); color: var(--white);
+    padding: 9px 16px; border-radius: 6px;
+    font-size: 0.8rem; font-weight: 600; border: none; cursor: pointer;
+    width: fit-content; transition: background 0.2s;
+  }
+  .ai-enhance-btn:hover { background: #1548c0; }
+  .ai-pill { font-size: 0.65rem; background: rgba(255,255,255,0.2); padding: 2px 6px; border-radius: 10px; }
+
+  /* ── PRICING ── */
+  .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 56px; }
+  .pricing-card {
+    background: var(--white); border: 1px solid var(--rule);
+    border-radius: var(--radius-lg); padding: 36px 32px;
+    position: relative; transition: all 0.25s;
+  }
+  .pricing-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-3px); }
+  .pricing-card.popular {
+    border: 2px solid var(--accent);
+    box-shadow: 0 0 0 4px var(--accent-soft);
+  }
+  .popular-badge {
+    position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+    background: var(--accent); color: var(--white);
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+    padding: 4px 14px; border-radius: 20px;
+  }
+  .plan-name { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 12px; }
+  .plan-price {
+    font-family: 'Playfair Display', serif; font-size: 2.8rem; font-weight: 700;
+    color: var(--ink); line-height: 1; margin-bottom: 4px;
+  }
+  .plan-price sup { font-size: 1.2rem; vertical-align: top; margin-top: 8px; font-family: 'DM Sans', sans-serif; font-weight: 600; }
+  .plan-price sub { font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 400; color: var(--ink-muted); }
+  .plan-desc { font-size: 0.85rem; color: var(--ink-muted); margin-bottom: 28px; line-height: 1.5; }
+  .plan-features { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 32px; }
+  .plan-features li { display: flex; align-items: center; gap: 10px; font-size: 0.875rem; color: var(--ink-soft); }
+  .plan-features li::before { content: '✓'; color: var(--green); font-weight: 700; font-size: 0.8rem; }
+  .plan-features li.off { color: var(--ink-muted); }
+  .plan-features li.off::before { content: '–'; color: var(--rule); }
+  .plan-btn {
+    display: block; width: 100%; text-align: center;
+    padding: 13px; border-radius: 8px; font-size: 0.9rem; font-weight: 600;
+    text-decoration: none; cursor: pointer; border: none; transition: all 0.2s;
+  }
+  .plan-btn-outline { background: transparent; border: 1.5px solid var(--rule); color: var(--ink-soft); }
+  .plan-btn-outline:hover { border-color: var(--ink); color: var(--ink); }
+  .plan-btn-solid { background: var(--accent); color: var(--white); box-shadow: 0 4px 12px rgba(26,86,219,0.25); }
+  .plan-btn-solid:hover { background: #1548c0; }
+  .plan-btn-dark { background: var(--ink); color: var(--white); }
+  .plan-btn-dark:hover { background: #2a2d3a; }
+
+  /* ── TESTIMONIALS ── */
+  .testimonials-section { background: var(--white); border-top: 1px solid var(--rule); }
+  .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 56px; }
+  .testimonial-card {
+    padding: 28px 28px 24px; border: 1px solid var(--rule);
+    border-radius: var(--radius-lg); background: var(--paper);
+    transition: box-shadow 0.2s;
+  }
+  .testimonial-card:hover { box-shadow: var(--shadow-md); }
+  .stars { color: var(--gold); font-size: 0.85rem; letter-spacing: 2px; margin-bottom: 14px; }
+  .testimonial-quote {
+    font-size: 0.9rem; line-height: 1.7; color: var(--ink-soft);
+    font-style: italic; margin-bottom: 20px;
+  }
+  .testimonial-author { display: flex; align-items: center; gap: 12px; }
+  .author-avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem; font-weight: 700; color: var(--white); flex-shrink: 0;
+  }
+  .author-info strong { display: block; font-size: 0.82rem; font-weight: 700; color: var(--ink); }
+  .author-info span { font-size: 0.75rem; color: var(--ink-muted); }
+
+  /* ── CTA BANNER ── */
+  .cta-section {
+    background: linear-gradient(135deg, var(--accent) 0%, #1548c0 100%);
+    padding: 80px 48px; text-align: center;
+  }
+  .cta-section h2 { color: var(--white); margin-bottom: 16px; }
+  .cta-section p { color: rgba(255,255,255,0.75); font-size: 1.05rem; margin-bottom: 36px; }
+  .cta-btn-white {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--white); color: var(--accent);
+    padding: 14px 32px; border-radius: 8px;
+    font-size: 0.95rem; font-weight: 700; text-decoration: none;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15); transition: all 0.2s;
+  }
+  .cta-btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink); padding: 56px 48px 32px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .footer-inner { max-width: 1200px; margin: 0 auto; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+  .footer-brand .nav-logo { color: var(--white); display: block; margin-bottom: 12px; }
+  .footer-brand p { font-size: 0.85rem; color: rgba(255,255,255,0.45); line-height: 1.6; }
+  .footer-col h4 { font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: rgba(255,255,255,0.4); margin-bottom: 16px; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .footer-col ul li a { font-size: 0.875rem; color: rgba(255,255,255,0.55); text-decoration: none; transition: color 0.2s; }
+  .footer-col ul li a:hover { color: var(--white); }
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.08); padding-top: 24px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-bottom p { font-size: 0.8rem; color: rgba(255,255,255,0.3); }
+
+  /* ── UPLOAD ZONE ── */
+  .upload-section { background: var(--paper); }
+  .upload-zone-wrapper { max-width: 700px; margin: 48px auto 0; }
+  .upload-zone {
+    border: 2px dashed var(--rule); border-radius: var(--radius-lg);
+    padding: 56px 32px; text-align: center;
+    background: var(--white); cursor: pointer;
+    transition: all 0.2s; position: relative;
+  }
+  .upload-zone:hover { border-color: var(--accent); background: var(--accent-soft); }
+  .upload-zone input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; }
+  .upload-icon { font-size: 2.5rem; margin-bottom: 16px; }
+  .upload-zone h3 { font-size: 1.1rem; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
+  .upload-zone p { font-size: 0.875rem; color: var(--ink-muted); }
+  .upload-formats {
+    display: flex; justify-content: center; gap: 8px; margin-top: 20px; flex-wrap: wrap;
+  }
+  .fmt-pill {
+    background: var(--rule); color: var(--ink-muted);
+    font-size: 0.72rem; font-weight: 600; padding: 4px 10px;
+    border-radius: 4px; text-transform: uppercase; letter-spacing: 0.04em;
+  }
+
+  /* ── ROLE TEMPLATES ── */
+  .templates-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .template-card {
+    background: var(--white); border: 1px solid var(--rule);
+    border-radius: var(--radius-lg); overflow: hidden;
+    transition: all 0.25s; cursor: pointer;
+  }
+  .template-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-3px); border-color: var(--accent); }
+  .template-preview {
+    background: #f5f6fa; padding: 20px 20px 16px;
+    border-bottom: 1px solid var(--rule); position: relative;
+    height: 140px; overflow: hidden;
+  }
+  .tp-bar {
+    position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    background: var(--accent);
+  }
+  .accent-bar { background: var(--accent); }
+  .tp-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; margin-top: 8px; }
+  .tp-avatar { width: 28px; height: 28px; border-radius: 50%; background: var(--rule); flex-shrink: 0; }
+  .tp-name-block { flex: 1; }
+  .tp-name { height: 8px; background: var(--ink); border-radius: 4px; width: 60%; margin-bottom: 5px; opacity: 0.15; }
+  .tp-role { height: 6px; background: var(--ink-muted); border-radius: 4px; width: 40%; opacity: 0.2; }
+  .tp-lines { display: flex; flex-direction: column; gap: 5px; }
+  .tp-line { height: 6px; background: var(--rule); border-radius: 3px; }
+  .tp-line.full { width: 100%; }
+  .tp-line.medium { width: 75%; }
+  .tp-line.short { width: 50%; }
+  .template-info { padding: 16px 20px 20px; }
+  .template-role { font-size: 0.95rem; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
+  .template-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
+  .ttag {
+    font-size: 0.7rem; font-weight: 600; padding: 3px 8px;
+    background: var(--accent-soft); color: var(--accent);
+    border-radius: 4px; letter-spacing: 0.03em;
+  }
+  .template-cta {
+    display: inline-flex; align-items: center;
+    font-size: 0.82rem; font-weight: 600; color: var(--accent);
+    text-decoration: none; transition: gap 0.2s; gap: 4px;
+  }
+  .template-cta:hover { gap: 8px; }
+  .template-card-more {
+    background: var(--ink); border-color: var(--ink);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .template-card-more:hover { border-color: var(--accent-mid); }
+  .template-more-inner { text-align: center; padding: 32px 24px; }
+  .template-more-count {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem; font-weight: 700; color: var(--white); line-height: 1;
+    margin-bottom: 6px;
+  }
+  .template-more-label { font-size: 0.95rem; font-weight: 700; color: rgba(255,255,255,0.85); margin-bottom: 10px; }
+  .template-more-roles { font-size: 0.78rem; color: rgba(255,255,255,0.4); line-height: 1.6; }
+  .template-card-more .template-cta { color: var(--gold); margin-top: 20px; display: block; }
+
+  /* ── WAITLIST FORM ── */
+  .waitlist-form {
+    display: flex; gap: 10px; margin-top: 28px; flex-wrap: wrap;
+  }
+  .waitlist-input {
+    flex: 1; min-width: 220px;
+    padding: 13px 16px; border-radius: 8px;
+    border: 1.5px solid var(--rule); background: var(--white);
+    font-family: 'DM Sans', sans-serif; font-size: 0.9rem; color: var(--ink);
+    outline: none; transition: border-color 0.2s;
+  }
+  .waitlist-input:focus { border-color: var(--accent); }
+  .waitlist-input::placeholder { color: var(--ink-muted); }
+  .waitlist-note {
+    font-size: 0.78rem; color: var(--ink-muted);
+    margin-top: 10px; display: flex; align-items: center; gap: 6px;
+  }
+  .waitlist-success {
+    display: none; align-items: center; gap: 12px;
+    background: var(--green-soft); border: 1px solid #a8dfc0;
+    border-radius: 10px; padding: 14px 18px; margin-top: 16px;
+    font-size: 0.9rem; color: var(--green); font-weight: 500;
+  }
+  .waitlist-success.show { display: flex; }
+
+  /* CTA waitlist (dark bg version) */
+  .cta-waitlist-form {
+    display: flex; gap: 10px; justify-content: center;
+    flex-wrap: wrap; margin-top: 28px;
+  }
+  .cta-waitlist-input {
+    flex: 1; min-width: 240px; max-width: 360px;
+    padding: 13px 18px; border-radius: 8px;
+    border: none; background: rgba(255,255,255,0.15);
+    font-family: 'DM Sans', sans-serif; font-size: 0.9rem; color: var(--white);
+    outline: none; transition: background 0.2s;
+    backdrop-filter: blur(4px);
+  }
+  .cta-waitlist-input:focus { background: rgba(255,255,255,0.22); }
+  .cta-waitlist-input::placeholder { color: rgba(255,255,255,0.55); }
+  .cta-waitlist-note {
+    font-size: 0.78rem; color: rgba(255,255,255,0.55);
+    margin-top: 12px; text-align: center;
+  }
+  .cta-waitlist-success {
+    display: none; align-items: center; justify-content: center; gap: 10px;
+    background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 10px; padding: 14px 24px; margin-top: 16px;
+    font-size: 0.9rem; color: var(--white); font-weight: 500;
+  }
+  .cta-waitlist-success.show { display: flex; }
+
+  /* ── SCROLL ANIMATIONS ── */
+  .fade-up {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 0 24px; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; gap: 48px; padding: 112px 24px 72px; }
+    .hero-visual { display: none; }
+    section { padding: 64px 24px; }
+    .steps, .features-grid, .pricing-grid, .testimonials-grid, .templates-grid { grid-template-columns: 1fr; }
+    .builder-inner { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .steps::before { display: none; }
+    .cta-section { padding: 64px 24px; }
+    footer { padding: 48px 24px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">CV<span>Applied</span></a>
+  <div class="nav-links">
+    <a href="#how">How It Works</a>
+    <a href="#templates">Templates</a>
+    <a href="#features">Features</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#waitlist" class="nav-cta">Join Waitlist</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-content fade-up">
+    <div class="hero-eyebrow">Built for the UK Job Market</div>
+    <h1>The UK job market is brutal. Your CV shouldn't make it <em>harder.</em></h1>
+    <p class="hero-sub">CVApplied is built specifically for UK recruiters, UK ATS systems, and UK hiring standards — not a US tool with a £ sign slapped on. Analyse your CV free, or build one from scratch in under 10 minutes.</p>
+    <div class="waitlist-form" id="hero-form">
+      <input type="email" class="waitlist-input" id="hero-email" placeholder="Enter your email address" autocomplete="email">
+      <button class="btn-primary" onclick="submitWaitlist('hero')">
+        <span>Join the Waitlist</span>
+        <span>→</span>
+      </button>
+    </div>
+    <div class="waitlist-success" id="hero-success">
+      ✓ You're on the list! We'll email you when CVApplied launches.
+    </div>
+    <p class="waitlist-note">🔒 No spam. Unsubscribe any time.</p>
+    <div class="hero-trust">
+      <div class="trust-stat">
+        <strong>94%</strong>
+        <span>interview rate increase</span>
+      </div>
+      <div class="trust-divider"></div>
+      <div class="trust-stat">
+        <strong>12k+</strong>
+        <span>CVs optimised</span>
+      </div>
+      <div class="trust-divider"></div>
+      <div class="trust-stat">
+        <strong>4.9★</strong>
+        <span>average rating</span>
+      </div>
+    </div>
+  </div>
+  <div class="hero-visual fade-up">
+    <div class="cv-mockup">
+      <div class="cv-header-mock">
+        <div class="cv-avatar">JR</div>
+        <div class="cv-name-block">
+          <div class="cv-name">James Richardson</div>
+          <div class="cv-role">Senior Product Manager</div>
+        </div>
+        <div class="cv-score-badge">Score: 87</div>
+      </div>
+      <div class="cv-section">
+        <div class="cv-section-label">Profile Summary</div>
+        <div class="cv-line full"></div>
+        <div class="cv-line medium"></div>
+        <div class="cv-line short"></div>
+      </div>
+      <div class="cv-section">
+        <div class="cv-section-label">Experience</div>
+        <div class="cv-line full accent"></div>
+        <div class="cv-line medium"></div>
+        <div class="cv-line full"></div>
+        <div class="cv-line short"></div>
+      </div>
+      <div class="cv-section">
+        <div class="cv-section-label">Skills</div>
+        <div class="cv-line medium accent"></div>
+        <div class="cv-line short"></div>
+      </div>
+      <div class="cv-suggestion">
+        <div class="cv-suggestion-icon">💡</div>
+        <div class="cv-suggestion-text">
+          <strong>AI Suggestion:</strong> Add quantified achievements to your experience section — e.g. "Led team of 8, delivering £2.4M project 3 weeks early."
+        </div>
+      </div>
+    </div>
+    <div class="floating-badge">
+      <div class="badge-icon">✓</div>
+      <div class="badge-text">
+        <strong>ATS Optimised</strong>
+        <span>Passes 98% of systems</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="how-section" id="how">
+  <div class="section-inner">
+    <div class="how-header fade-up">
+      <div class="section-label">How It Works</div>
+      <h2>From draft to offer-ready — the British way</h2>
+      <p class="section-sub">Built around how UK recruiters actually screen CVs — not US résumé conventions.</p>
+    </div>
+    <div class="steps">
+      <div class="step fade-up">
+        <div class="step-num">01</div>
+        <h3>Upload or Build</h3>
+        <p>Upload your existing CV in PDF or Word format, or start fresh with our guided CV builder.</p>
+      </div>
+      <div class="step fade-up">
+        <div class="step-num">02</div>
+        <h3>AI Analysis</h3>
+        <p>Our AI scores your CV across 14 dimensions — from ATS compatibility to impact language and structure.</p>
+      </div>
+      <div class="step fade-up">
+        <div class="step-num">03</div>
+        <h3>Export & Apply</h3>
+        <p>Download your polished CV in PDF or DOCX format, tailored to any job description in one click.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- UPLOAD / ANALYSE -->
+<section class="upload-section" id="analyse">
+  <div class="section-inner" style="text-align:center;">
+    <div class="fade-up">
+      <div class="section-label">Free CV Analysis</div>
+      <h2>See exactly what's holding your CV back</h2>
+      <p class="section-sub" style="margin: 0 auto;">Get a full breakdown: ATS score, keyword gaps, structure issues, and rewrite suggestions — in under 30 seconds.</p>
+    </div>
+    <div class="upload-zone-wrapper fade-up">
+      <div class="upload-zone" onclick="handleUpload()">
+        <input type="file" accept=".pdf,.doc,.docx" id="cv-file">
+        <div class="upload-icon">📄</div>
+        <h3>Drop your CV here, or click to browse</h3>
+        <p>We'll analyse it instantly — no sign-up required</p>
+        <div class="upload-formats">
+          <span class="fmt-pill">PDF</span>
+          <span class="fmt-pill">DOC</span>
+          <span class="fmt-pill">DOCX</span>
+        </div>
+      </div>
+      <p style="margin-top:16px; font-size:0.8rem; color:var(--ink-muted);">🔒 Your CV is never stored or shared. Analysed in-session only.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features" style="background:var(--white); border-top:1px solid var(--rule);">
+  <div class="section-inner">
+    <div class="fade-up" style="max-width:560px;">
+      <div class="section-label">Platform Features</div>
+      <h2>Built for how UK hiring actually works</h2>
+      <p class="section-sub">UK recruiters spend 7 seconds on a CV. UK ATS systems have their own quirks. CVApplied is calibrated for both.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card fade-up">
+        <div class="feature-icon">🎯</div>
+        <h3>UK ATS Score & Keyword Analysis</h3>
+        <p>Calibrated against the ATS systems used by UK employers — Greenhouse, Workday, SAP SuccessFactors. See which keywords UK recruiters are screening for in your sector.</p>
+      </div>
+      <div class="feature-card fade-up">
+        <div class="feature-icon">✍️</div>
+        <h3>AI Rewrite Suggestions</h3>
+        <p>Weak bullet points and passive language flagged instantly. Rewrites use strong action verbs, quantified impact, and British English — not Americanised spelling.</p>
+      </div>
+      <div class="feature-card fade-up">
+        <div class="feature-icon">🏗️</div>
+        <h3>UK Role-Based CV Builder</h3>
+        <p>Templates and prompts built around UK job titles, UK salary conventions, and UK hiring norms. No "Objective Statement" — just clean, recruiter-approved structure.</p>
+      </div>
+      <div class="feature-card fade-up">
+        <div class="feature-icon">🎨</div>
+        <h3>One-Click Job Tailoring</h3>
+        <p>Paste any UK job description and CVApplied instantly reorders and rewrites your CV to match — without changing your core content or experience.</p>
+      </div>
+      <div class="feature-card fade-up">
+        <div class="feature-icon">📊</div>
+        <h3>14-Dimension CV Score</h3>
+        <p>Scored across structure, readability, impact language, length, formatting, contact info, skills section, and more — benchmarked against successful UK applications.</p>
+      </div>
+      <div class="feature-card fade-up">
+        <div class="feature-icon">📥</div>
+        <h3>Export in Any Format</h3>
+        <p>Download as a beautifully formatted PDF or editable DOCX. LinkedIn summary and cover letter included. All in British English, ready to send.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROLE-BASED TEMPLATES -->
+<section id="templates" style="background:var(--paper); border-top:1px solid var(--rule);">
+  <div class="section-inner">
+    <div class="fade-up" style="text-align:center; margin-bottom:56px;">
+      <div class="section-label" style="text-align:center;">Role-Based Templates</div>
+      <h2>Start with a template built for your role</h2>
+      <p class="section-sub" style="margin:0 auto;">Every template is structured around what UK hiring managers in that sector actually want to see — not a generic one-size-fits-all layout.</p>
+    </div>
+    <div class="templates-grid fade-up">
+
+      <div class="template-card">
+        <div class="template-preview">
+          <div class="tp-bar accent-bar"></div>
+          <div class="tp-header">
+            <div class="tp-name-block"><div class="tp-name"></div><div class="tp-role"></div></div>
+          </div>
+          <div class="tp-lines"><div class="tp-line full"></div><div class="tp-line medium"></div><div class="tp-line short"></div><div class="tp-line full"></div><div class="tp-line medium"></div></div>
+        </div>
+        <div class="template-info">
+          <div class="template-role">Project Manager</div>
+          <div class="template-tags"><span class="ttag">APM</span><span class="ttag">PRINCE2</span><span class="ttag">Agile</span></div>
+          <a href="#waitlist" class="template-cta">Use Template →</a>
+        </div>
+      </div>
+
+      <div class="template-card">
+        <div class="template-preview" style="--tp-accent:#1a7a4a;">
+          <div class="tp-bar" style="background:var(--tp-accent, var(--accent))"></div>
+          <div class="tp-header">
+            <div class="tp-name-block"><div class="tp-name"></div><div class="tp-role"></div></div>
+          </div>
+          <div class="tp-lines"><div class="tp-line full"></div><div class="tp-line medium"></div><div class="tp-line short"></div><div class="tp-line full"></div><div class="tp-line medium"></div></div>
+        </div>
+        <div class="template-info">
+          <div class="template-role">Software Engineer</div>
+          <div class="template-tags"><span class="ttag">Tech</span><span class="ttag">Startups</span><span class="ttag">FAANG</span></div>
+          <a href="#waitlist" class="template-cta">Use Template →</a>
+        </div>
+      </div>
+
+      <div class="template-card">
+        <div class="template-preview" style="--tp-accent:#7c3aed;">
+          <div class="tp-bar" style="background:var(--tp-accent, var(--accent))"></div>
+          <div class="tp-header">
+            <div class="tp-name-block"><div class="tp-name"></div><div class="tp-role"></div></div>
+          </div>
+          <div class="tp-lines"><div class="tp-line full"></div><div class="tp-line medium"></div><div class="tp-line short"></div><div class="tp-line full"></div><div class="tp-line medium"></div></div>
+        </div>
+        <div class="template-info">
+          <div class="template-role">Marketing Manager</div>
+          <div class="template-tags"><span class="ttag">B2B</span><span class="ttag">B2C</span><span class="ttag">Digital</span></div>
+          <a href="#waitlist" class="template-cta">Use Template →</a>
+        </div>
+      </div>
+
+      <div class="template-card">
+        <div class="template-preview" style="--tp-accent:#c89b3c;">
+          <div class="tp-bar" style="background:var(--tp-accent, var(--accent))"></div>
+          <div class="tp-header">
+            <div class="tp-name-block"><div class="tp-name"></div><div class="tp-role"></div></div>
+          </div>
+          <div class="tp-lines"><div class="tp-line full"></div><div class="tp-line medium"></div><div class="tp-line short"></div><div class="tp-line full"></div><div class="tp-line medium"></div></div>
+        </div>
+        <div class="template-info">
+          <div class="template-role">Finance & Accounting</div>
+          <div class="template-tags"><span class="ttag">ACA</span><span class="ttag">ACCA</span><span class="ttag">CIMA</span></div>
+          <a href="#waitlist" class="template-cta">Use Template →</a>
+        </div>
+      </div>
+
+      <div class="template-card">
+        <div class="template-preview" style="--tp-accent:#0891b2;">
+          <div class="tp-bar" style="background:var(--tp-accent, var(--accent))"></div>
+          <div class="tp-header">
+            <div class="tp-name-block"><div class="tp-name"></div><div class="tp-role"></div></div>
+          </div>
+          <div class="tp-lines"><div class="tp-line full"></div><div class="tp-line medium"></div><div class="tp-line short"></div><div class="tp-line full"></div><div class="tp-line medium"></div></div>
+        </div>
+        <div class="template-info">
+          <div class="template-role">Data Analyst</div>
+          <div class="template-tags"><span class="ttag">SQL</span><span class="ttag">Python</span><span class="ttag">BI</span></div>
+          <a href="#waitlist" class="template-cta">Use Template →</a>
+        </div>
+      </div>
+
+      <div class="template-card">
+        <div class="template-preview" style="--tp-accent:#1e40af;">
+          <div class="tp-bar" style="background:var(--tp-accent, var(--accent))"></div>
+          <div class="tp-header">
+            <div class="tp-name-block"><div class="tp-name"></div><div class="tp-role"></div></div>
+          </div>
+          <div class="tp-lines"><div class="tp-line full"></div><div class="tp-line medium"></div><div class="tp-line short"></div><div class="tp-line full"></div><div class="tp-line medium"></div></div>
+        </div>
+        <div class="template-info">
+          <div class="template-role">Data Governance Lead</div>
+          <div class="template-tags"><span class="ttag">DAMA</span><span class="ttag">DCAM</span><span class="ttag">Purview</span></div>
+          <a href="#waitlist" class="template-cta">Use Template →</a>
+        </div>
+      </div>
+
+      <div class="template-card">
+        <div class="template-preview" style="--tp-accent:#0f766e;">
+          <div class="tp-bar" style="background:var(--tp-accent, var(--accent))"></div>
+          <div class="tp-header">
+            <div class="tp-name-block"><div class="tp-name"></div><div class="tp-role"></div></div>
+          </div>
+          <div class="tp-lines"><div class="tp-line full"></div><div class="tp-line medium"></div><div class="tp-line short"></div><div class="tp-line full"></div><div class="tp-line medium"></div></div>
+        </div>
+        <div class="template-info">
+          <div class="template-role">Data Management</div>
+          <div class="template-tags"><span class="ttag">MDM</span><span class="ttag">Data Quality</span><span class="ttag">Lineage</span></div>
+          <a href="#waitlist" class="template-cta">Use Template →</a>
+        </div>
+      </div>
+
+      <div class="template-card template-card-more">
+        <div class="template-more-inner">
+          <div class="template-more-count">30+</div>
+          <div class="template-more-label">More UK role templates</div>
+          <div class="template-more-roles">HR · Legal · NHS · Sales · Operations · Graduate · Executive · Career Change</div>
+          <a href="#waitlist" class="template-cta" style="margin-top:20px;">See All Templates →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CV BUILDER -->
+<section class="builder-section" id="builder">
+  <div class="builder-inner section-inner">
+    <div class="fade-up">
+      <div class="section-label">CV Builder</div>
+      <h2>Build your CV from scratch — in under 10 minutes.</h2>
+      <p class="section-sub" style="color:rgba(255,255,255,0.6);">Guided prompts, real-time AI suggestions, and 14 recruiter-approved templates. No Word document wrestling required.</p>
+      <div class="builder-checklist">
+        <div class="check-item"><div class="check-icon">✓</div><span>14 ATS-friendly professional templates</span></div>
+        <div class="check-item"><div class="check-icon">✓</div><span>Section-by-section writing prompts</span></div>
+        <div class="check-item"><div class="check-icon">✓</div><span>AI bullet point enhancement</span></div>
+        <div class="check-item"><div class="check-icon">✓</div><span>Live ATS score as you build</span></div>
+        <div class="check-item"><div class="check-icon">✓</div><span>Export to PDF or DOCX instantly</span></div>
+      </div>
+    </div>
+    <div class="fade-up">
+      <div class="builder-ui">
+        <div class="builder-tabs">
+          <div class="builder-tab active">Personal</div>
+          <div class="builder-tab">Experience</div>
+          <div class="builder-tab">Skills</div>
+          <div class="builder-tab">Education</div>
+        </div>
+        <div class="form-mock">
+          <div class="form-row">
+            <div class="form-field">
+              <div class="form-label">First Name</div>
+              <input class="form-input" type="text" placeholder="James" readonly>
+            </div>
+            <div class="form-field">
+              <div class="form-label">Last Name</div>
+              <input class="form-input" type="text" placeholder="Richardson" readonly>
+            </div>
+          </div>
+          <div class="form-field">
+            <div class="form-label">Job Title</div>
+            <input class="form-input" type="text" placeholder="Senior Product Manager" readonly>
+          </div>
+          <div class="form-field">
+            <div class="form-label">Professional Summary</div>
+            <textarea class="form-textarea" placeholder="Results-driven Product Manager with 7+ years experience leading cross-functional teams..." readonly></textarea>
+          </div>
+          <button class="ai-enhance-btn">
+            ✦ Enhance with AI <span class="ai-pill">Pro</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="section-inner">
+    <div class="fade-up" style="text-align:center; margin-bottom:8px;">
+      <div class="section-label" style="text-align:center;">Pricing</div>
+      <h2>Simple, transparent pricing</h2>
+      <p class="section-sub" style="margin: 0 auto;">Start free. Upgrade when you're ready to go all-in on your job search.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="pricing-card fade-up">
+        <div class="plan-name">Free</div>
+        <div class="plan-price"><sup>£</sup>0<sub>/mo</sub></div>
+        <div class="plan-desc">For jobseekers who want to see what they're working with.</div>
+        <ul class="plan-features">
+          <li>1 free CV analysis</li>
+          <li>Basic ATS score</li>
+          <li>3 template previews</li>
+          <li class="off">AI rewrite suggestions</li>
+          <li class="off">Job tailoring</li>
+          <li class="off">Unlimited exports</li>
+        </ul>
+        <a href="#" class="plan-btn plan-btn-outline">Get Started Free</a>
+      </div>
+      <div class="pricing-card popular fade-up">
+        <div class="popular-badge">Most Popular</div>
+        <div class="plan-name">Pro</div>
+        <div class="plan-price"><sup>£</sup>9<sub>/mo</sub></div>
+        <div class="plan-desc">For active jobseekers who want every edge in a competitive market.</div>
+        <ul class="plan-features">
+          <li>Unlimited CV analyses</li>
+          <li>Full 14-dimension score</li>
+          <li>All 14 templates</li>
+          <li>AI rewrite suggestions</li>
+          <li>One-click job tailoring</li>
+          <li>Unlimited PDF/DOCX exports</li>
+        </ul>
+        <a href="#" class="plan-btn plan-btn-solid">Start Pro Free — 7 Days</a>
+      </div>
+      <div class="pricing-card fade-up">
+        <div class="plan-name">Career+</div>
+        <div class="plan-price"><sup>£</sup>19<sub>/mo</sub></div>
+        <div class="plan-desc">For senior professionals and career changers who need the full suite.</div>
+        <ul class="plan-features">
+          <li>Everything in Pro</li>
+          <li>Cover letter AI writer</li>
+          <li>LinkedIn profile optimiser</li>
+          <li>Interview prep guide</li>
+          <li>Priority support</li>
+          <li>1-to-1 CV review (monthly)</li>
+        </ul>
+        <a href="#" class="plan-btn plan-btn-dark">Get Career+</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-section">
+  <div class="section-inner">
+    <div class="fade-up" style="text-align:center;">
+      <div class="section-label" style="text-align:center;">Results</div>
+      <h2>Real people. Real interviews.</h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card fade-up">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-quote">"I'd been applying for 3 months with zero callbacks. CVApplied flagged that my CV was failing UK ATS on every single application. Two weeks after fixing it, I had four interviews lined up."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar" style="background: linear-gradient(135deg, #1a56db, #3b6fd4);">SL</div>
+          <div class="author-info">
+            <strong>Sarah Lawton</strong>
+            <span>Marketing Director · London</span>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card fade-up">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-quote">"Finally a CV tool that uses British English and understands UK job titles. Every other platform I tried kept Americanising my content. Went from no responses to three interviews in a week."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar" style="background: linear-gradient(135deg, #1a7a4a, #2d9e62);">MO</div>
+          <div class="author-info">
+            <strong>Marcus Obi</strong>
+            <span>Software Engineer · Manchester</span>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card fade-up">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-quote">"The Finance template was built exactly around what Big 4 recruiters want to see. The ACCA and CIMA sections were already structured correctly. Saved me hours and landed me a role at Deloitte."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar" style="background: linear-gradient(135deg, #c89b3c, #e0b55a);">PH</div>
+          <div class="author-info">
+            <strong>Priya Haridas</strong>
+            <span>Finance Manager · Edinburgh</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WAITLIST BANNER -->
+<section class="cta-section" style="padding:80px 48px;" id="waitlist">
+  <div class="fade-up">
+    <h2 style="margin-bottom:12px;">The UK job market doesn't wait. Neither should you.</h2>
+    <p style="color:rgba(255,255,255,0.75); font-size:1.05rem;">Join the waitlist for early access + 3 months free on Pro. Built for Britain.</p>
+    <div class="cta-waitlist-form" id="cta-form">
+      <input type="email" class="cta-waitlist-input" id="cta-email" placeholder="your@email.com" autocomplete="email">
+      <button class="cta-btn-white" onclick="submitWaitlist('cta')">Reserve My Spot →</button>
+    </div>
+    <div class="cta-waitlist-success" id="cta-success">
+      🎉 You're on the list! Expect an email from us soon.
+    </div>
+    <p class="cta-waitlist-note">🔒 No spam. No credit card. Just early access.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="nav-logo">CV<span style="color:var(--accent)">Applied</span></a>
+        <p>AI-powered CV analysis and building platform. Helping UK professionals land more interviews, faster.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="#">CV Analyser</a></li>
+          <li><a href="#">CV Builder</a></li>
+          <li><a href="#">Job Tailoring</a></li>
+          <li><a href="#">Templates</a></li>
+          <li><a href="#">LinkedIn Optimiser</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Press</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="#">Help Centre</a></li>
+          <li><a href="#">Pricing</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Use</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 CVApplied. All rights reserved.</p>
+      <p>Made for UK job seekers 🇬🇧</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Waitlist submissions
+  const waitlistSignups = [];
+
+  function submitWaitlist(source) {
+    const emailInput = document.getElementById(source === 'hero' ? 'hero-email' : 'cta-email');
+    const email = emailInput.value.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(email)) {
+      emailInput.style.borderColor = '#e53e3e';
+      emailInput.style.background = '#fff5f5';
+      emailInput.placeholder = 'Please enter a valid email';
+      setTimeout(() => {
+        emailInput.style.borderColor = '';
+        emailInput.style.background = '';
+        emailInput.placeholder = source === 'hero' ? 'Enter your email address' : 'your@email.com';
+      }, 2000);
+      return;
+    }
+
+    // Store locally (replace with API call / Mailchimp / ConvertKit in production)
+    waitlistSignups.push({ email, source, timestamp: new Date().toISOString() });
+    console.log('Waitlist signups:', waitlistSignups);
+
+    if (source === 'hero') {
+      document.getElementById('hero-form').style.display = 'none';
+      document.getElementById('hero-success').classList.add('show');
+    } else {
+      document.getElementById('cta-form').style.display = 'none';
+      document.getElementById('cta-success').classList.add('show');
+    }
+  }
+
+  // Allow Enter key on email inputs
+  ['hero-email', 'cta-email'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('keydown', e => { if (e.key === 'Enter') submitWaitlist(id === 'hero-email' ? 'hero' : 'cta'); });
+  });
+
+  // Scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // Builder tabs
+  document.querySelectorAll('.builder-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.builder-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+    });
+  });
+
+  // Upload handler
+  function handleUpload() {
+    const file = document.getElementById('cv-file').files[0];
+    if (file) {
+      const zone = document.querySelector('.upload-zone');
+      zone.style.borderColor = 'var(--green)';
+      zone.style.background = 'var(--green-soft)';
+      zone.querySelector('h3').textContent = `✓ ${file.name} uploaded`;
+      zone.querySelector('p').textContent = 'Analysis would begin here in the full product…';
+    }
+  }
+
+  document.getElementById('cv-file').addEventListener('change', handleUpload);
+
+  // Nav scroll effect
+  window.addEventListener('scroll', () => {
+    const nav = document.querySelector('nav');
+    nav.style.boxShadow = window.scrollY > 20 ? '0 2px 16px rgba(15,17,23,0.08)' : 'none';
+  });
+</script>
+</body>
+</html>
