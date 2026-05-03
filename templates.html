@@ -52,7 +52,7 @@
   .page-sub { font-size: 1.05rem; color: var(--ink-soft); font-weight: 300; }
 
   /* TEMPLATE GRID */
-  .templates-wrapper { max-width: 1200px; margin: 0 auto; padding: 0 24px 80px; }
+  .templates-wrapper { max-width: 1400px; margin: 0 auto; padding: 0 32px 80px; }
   .role-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 48px; }
 
   /* ROLE CARD */
@@ -122,9 +122,9 @@
   }
   .btn-analyse:hover { border-color: var(--ink); color: var(--ink); }
   .cv-text-area {
-    font-family: 'DM Mono', monospace; font-size: 0.8rem; line-height: 1.75;
-    color: var(--ink-soft); padding: 28px 32px; white-space: pre-wrap;
-    max-height: 600px; overflow-y: auto; border: none; outline: none;
+    font-family: 'DM Mono', monospace; font-size: 0.85rem; line-height: 1.8;
+    color: var(--ink-soft); padding: 32px 36px; white-space: pre-wrap;
+    min-height: 1800px; overflow-y: auto; border: none; outline: none;
     width: 100%; resize: none; background: var(--white);
   }
   .cv-hint {
@@ -150,7 +150,7 @@
   @media (max-width: 900px) {
     nav { padding: 0 20px; }
     .role-grid { grid-template-columns: 1fr 1fr; }
-    .cv-text-area { padding: 20px; font-size: 0.75rem; }
+    .cv-text-area { padding: 20px; font-size: 0.78rem; min-height: 800px; }
     .cv-panel-header { padding: 16px 20px; }
     .bottom-cta { padding: 32px 20px; }
   }
