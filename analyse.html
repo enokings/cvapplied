@@ -388,6 +388,46 @@
   }
   .error-banner.show { display: block; }
 
+  /* ── UPSELL BLOCK ── */
+  .upsell-block { margin-top: 24px; }
+
+  .email-gate {
+    background: linear-gradient(135deg, var(--accent) 0%, #1548c0 100%);
+    border-radius: var(--radius-lg); padding: 40px 36px;
+    text-align: center; margin-bottom: 20px;
+  }
+  .gate-eyebrow { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.7); margin-bottom: 12px; }
+  .gate-title { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--white); margin-bottom: 10px; line-height: 1.3; }
+  .gate-sub { font-size: 0.9rem; color: rgba(255,255,255,0.7); margin-bottom: 24px; line-height: 1.6; }
+  .gate-form { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 12px; }
+  .gate-input { flex: 1; min-width: 240px; max-width: 340px; padding: 13px 18px; border-radius: 8px; border: none; background: rgba(255,255,255,0.15); font-family: 'DM Sans', sans-serif; font-size: 0.9rem; color: var(--white); outline: none; transition: background 0.2s; }
+  .gate-input:focus { background: rgba(255,255,255,0.22); }
+  .gate-input::placeholder { color: rgba(255,255,255,0.55); }
+  .gate-btn { padding: 13px 24px; background: var(--white); color: var(--accent); border: none; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 700; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+  .gate-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(0,0,0,0.15); }
+  .gate-success { display: none; background: rgba(255,255,255,0.15); border-radius: 8px; padding: 12px 20px; color: var(--white); font-size: 0.9rem; font-weight: 600; margin-bottom: 12px; }
+  .gate-success.show { display: block; }
+  .gate-note { font-size: 0.75rem; color: rgba(255,255,255,0.5); }
+
+  .pro-upsell { background: var(--white); border: 1px solid var(--rule); border-radius: var(--radius-lg); overflow: hidden; }
+  .pro-upsell-header { background: var(--ink); padding: 24px 28px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .pro-badge { background: var(--gold); color: var(--ink); font-size: 0.7rem; font-weight: 800; letter-spacing: 0.08em; padding: 4px 10px; border-radius: 4px; flex-shrink: 0; }
+  .pro-title { font-size: 0.95rem; font-weight: 700; color: var(--white); }
+  .pro-subtitle { font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-top: 2px; }
+  .pro-price { margin-left: auto; text-align: right; }
+  .pro-price-amount { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: var(--white); line-height: 1; }
+  .pro-price-period { font-size: 0.85rem; color: rgba(255,255,255,0.5); }
+  .pro-features-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-bottom: 1px solid var(--rule); }
+  .pro-feature { display: flex; align-items: flex-start; gap: 12px; padding: 16px 20px; border-bottom: 1px solid var(--rule); border-right: 1px solid var(--rule); }
+  .pro-feature:nth-child(even) { border-right: none; }
+  .pro-feature-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+  .pro-feature-name { font-size: 0.85rem; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+  .pro-feature-desc { font-size: 0.78rem; color: var(--ink-muted); line-height: 1.4; }
+  .pro-locked { margin-left: auto; flex-shrink: 0; font-size: 0.68rem; font-weight: 600; color: var(--ink-muted); background: var(--paper); padding: 3px 8px; border-radius: 4px; border: 1px solid var(--rule); white-space: nowrap; }
+  .pro-cta-row { display: flex; gap: 12px; padding: 20px 24px; flex-wrap: wrap; align-items: center; }
+  .pro-cta-btn { flex: 1; min-width: 220px; padding: 14px 24px; background: var(--accent); color: var(--white); border: none; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 700; cursor: pointer; text-align: center; text-decoration: none; transition: all 0.2s; display: block; box-shadow: 0 4px 14px rgba(26,86,219,0.3); }
+  .pro-cta-btn:hover { background: #1548c0; transform: translateY(-1px); }
+
   /* RESPONSIVE */
   @media (max-width: 700px) {
     nav { padding: 0 20px; }
@@ -535,10 +575,96 @@ We are looking for a Senior Data Analyst to join our team..."></textarea>
       <div class="keywords-grid" id="keywords-grid"></div>
     </div>
 
-    <!-- ACTIONS -->
-    <div class="action-row">
-      <button class="btn-secondary" onclick="resetAnalysis()">← Analyse Another CV</button>
-      <a href="index.html#waitlist" class="btn-primary">Get Full Access — Join Waitlist →</a>
+    <!-- EMAIL CAPTURE + PRO UPSELL -->
+    <div class="upsell-block" id="upsell-block">
+
+      <!-- Email gate (shown if not yet submitted) -->
+      <div class="email-gate" id="email-gate">
+        <div class="email-gate-inner">
+          <div class="gate-eyebrow">✦ Save Your Report</div>
+          <h3 class="gate-title">Get your full report by email — and be first to access Pro features</h3>
+          <p class="gate-sub">We'll email you your CV score, plus early access when the CV Builder and Export features launch.</p>
+          <div class="gate-form" id="gate-form">
+            <input type="email" class="gate-input" id="gate-email" placeholder="your@email.com" autocomplete="email">
+            <button class="gate-btn" onclick="submitGateEmail()">Send My Report →</button>
+          </div>
+          <div class="gate-success" id="gate-success">
+            ✓ Saved! Check your inbox for your CV report.
+          </div>
+          <p class="gate-note">🔒 No spam. Unsubscribe any time.</p>
+        </div>
+      </div>
+
+      <!-- Pro features upsell (always visible) -->
+      <div class="pro-upsell">
+        <div class="pro-upsell-header">
+          <div class="pro-badge">PRO</div>
+          <div>
+            <div class="pro-title">Take your CV further with CVApplied Pro</div>
+            <div class="pro-subtitle">Everything you need to go from analysis to offer</div>
+          </div>
+          <div class="pro-price">
+            <span class="pro-price-amount">£9</span>
+            <span class="pro-price-period">/mo</span>
+          </div>
+        </div>
+        <div class="pro-features-grid">
+          <div class="pro-feature">
+            <div class="pro-feature-icon">🏗️</div>
+            <div>
+              <div class="pro-feature-name">CV Builder</div>
+              <div class="pro-feature-desc">Build from scratch with guided prompts and live scoring</div>
+            </div>
+            <div class="pro-locked">🔒 Pro</div>
+          </div>
+          <div class="pro-feature">
+            <div class="pro-feature-icon">📄</div>
+            <div>
+              <div class="pro-feature-name">Role-Based Templates</div>
+              <div class="pro-feature-desc">Copy and adapt UK-specific CV templates for your role</div>
+            </div>
+            <div class="pro-locked">🔒 Pro</div>
+          </div>
+          <div class="pro-feature">
+            <div class="pro-feature-icon">🎯</div>
+            <div>
+              <div class="pro-feature-name">One-Click Job Tailoring</div>
+              <div class="pro-feature-desc">Paste any JD — get your CV rewritten to match instantly</div>
+            </div>
+            <div class="pro-locked">🔒 Pro</div>
+          </div>
+          <div class="pro-feature">
+            <div class="pro-feature-icon">♾️</div>
+            <div>
+              <div class="pro-feature-name">Unlimited Analyses</div>
+              <div class="pro-feature-desc">Analyse as many CVs as you need — no daily limits</div>
+            </div>
+            <div class="pro-locked">🔒 Pro</div>
+          </div>
+          <div class="pro-feature">
+            <div class="pro-feature-icon">📥</div>
+            <div>
+              <div class="pro-feature-name">PDF & DOCX Export</div>
+              <div class="pro-feature-desc">Download your finished CV in any format, beautifully formatted</div>
+            </div>
+            <div class="pro-locked">🔒 Pro</div>
+          </div>
+          <div class="pro-feature">
+            <div class="pro-feature-icon">✍️</div>
+            <div>
+              <div class="pro-feature-name">Cover Letter Generator</div>
+              <div class="pro-feature-desc">AI-written cover letter matched to your CV and the job</div>
+            </div>
+            <div class="pro-locked">🔒 Pro</div>
+          </div>
+        </div>
+        <div class="pro-cta-row">
+          <a href="https://buy.stripe.com/cNi14n72RfH1aBa1HOfjG00" class="pro-cta-btn" id="pro-cta-btn">Get CVApplied Pro — £9/mo →</a>
+          <button class="btn-secondary" onclick="resetAnalysis()" style="min-width:180px;">← Analyse Another CV</button>
+        </div>
+        <p style="text-align:center; font-size:0.78rem; color:var(--ink-muted); margin-top:12px;">7-day free trial · Cancel any time · No commitment</p>
+      </div>
+
     </div>
 
   </div>
@@ -913,6 +1039,51 @@ Be honest and specific. Reference actual content from the CV. Use British Englis
     document.getElementById('step-1').classList.add('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+
+  // ── GATE EMAIL SUBMIT ──
+  async function submitGateEmail() {
+    const emailInput = document.getElementById('gate-email');
+    const btn = document.querySelector('.gate-btn');
+    const email = emailInput.value.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(email)) {
+      emailInput.style.background = 'rgba(255,80,80,0.2)';
+      emailInput.placeholder = 'Please enter a valid email';
+      setTimeout(() => { emailInput.style.background = ''; emailInput.placeholder = 'your@email.com'; }, 2000);
+      return;
+    }
+
+    btn.textContent = 'Saving…';
+    btn.disabled = true;
+
+    try {
+      const response = await fetch(
+        `https://api.convertkit.com/v3/forms/${CK_FORM_ID}/subscribe`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ api_key: CK_API_KEY, email, tags: ['cvapplied-analyser'] })
+        }
+      );
+      const data = await response.json();
+      if (response.ok && data.subscription) {
+        document.getElementById('gate-form').style.display = 'none';
+        document.getElementById('gate-success').classList.add('show');
+        gtag('event', 'analyser_email_captured', { email_domain: email.split('@')[1] });
+      } else {
+        throw new Error('Signup failed');
+      }
+    } catch (e) {
+      btn.textContent = 'Try again';
+      btn.disabled = false;
+    }
+  }
+
+  // Allow Enter on gate email input
+  document.getElementById('gate-email')?.addEventListener('keydown', e => {
+    if (e.key === 'Enter') submitGateEmail();
+  });
 
   // ── ERROR ──
   function showError(msg) {
