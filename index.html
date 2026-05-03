@@ -888,55 +888,334 @@
 </section>
 
 <!-- CV BUILDER -->
-<section class="builder-section" id="builder">
-  <div class="builder-inner section-inner">
-    <div class="fade-up">
-      <div class="section-label">CV Builder</div>
-      <h2>Build your CV from scratch — in under 10 minutes.</h2>
-      <p class="section-sub" style="color:rgba(255,255,255,0.6);">Guided prompts, real-time AI suggestions, and 14 recruiter-approved templates. No Word document wrestling required.</p>
-      <div class="builder-checklist">
-        <div class="check-item"><div class="check-icon">✓</div><span>14 ATS-friendly professional templates</span></div>
-        <div class="check-item"><div class="check-icon">✓</div><span>Section-by-section writing prompts</span></div>
-        <div class="check-item"><div class="check-icon">✓</div><span>AI bullet point enhancement</span></div>
-        <div class="check-item"><div class="check-icon">✓</div><span>Live ATS score as you build</span></div>
-        <div class="check-item"><div class="check-icon">✓</div><span>Export to PDF or DOCX instantly</span></div>
+<section class="builder-section" id="builder" style="background:var(--ink); padding:80px 0;">
+<div style="max-width:1200px; margin:0 auto; padding:0 32px;">
+
+  <!-- Header -->
+  <div style="text-align:center; margin-bottom:48px;" class="fade-up">
+    <div class="section-label" style="color:var(--gold); text-align:center;">CV Builder</div>
+    <h2 style="color:var(--white); margin-bottom:12px;">Build your CV from scratch — in under 10 minutes.</h2>
+    <p style="color:rgba(255,255,255,0.6); font-size:1rem; max-width:520px; margin:0 auto;">Fill in each section, hit Enhance with AI, then copy your finished CV. Export to PDF or DOCX with Pro.</p>
+  </div>
+
+  <!-- Builder UI -->
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:start;" class="builder-grid fade-up">
+
+    <!-- LEFT: Form -->
+    <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:var(--radius-lg); overflow:hidden;">
+
+      <!-- Tabs -->
+      <div style="display:flex; background:rgba(0,0,0,0.2); border-bottom:1px solid rgba(255,255,255,0.08);" id="builder-tabs">
+        <button class="b-tab b-tab-active" onclick="showBuilderTab('personal')">Personal</button>
+        <button class="b-tab" onclick="showBuilderTab('experience')">Experience</button>
+        <button class="b-tab" onclick="showBuilderTab('skills')">Skills</button>
+        <button class="b-tab" onclick="showBuilderTab('education')">Education</button>
       </div>
+
+      <!-- Personal -->
+      <div id="btab-personal" class="b-panel" style="padding:24px; display:block;">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px;">
+          <div>
+            <div class="b-label">First Name</div>
+            <input class="b-input" id="b-firstname" type="text" placeholder="Your first name" oninput="updatePreview()">
+          </div>
+          <div>
+            <div class="b-label">Last Name</div>
+            <input class="b-input" id="b-lastname" type="text" placeholder="Your last name" oninput="updatePreview()">
+          </div>
+        </div>
+        <div style="margin-bottom:12px;">
+          <div class="b-label">Job Title / Target Role</div>
+          <input class="b-input" id="b-jobtitle" type="text" placeholder="e.g. Senior Project Manager" oninput="updatePreview()">
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px;">
+          <div>
+            <div class="b-label">Email</div>
+            <input class="b-input" id="b-email" type="email" placeholder="your@email.com" oninput="updatePreview()">
+          </div>
+          <div>
+            <div class="b-label">Phone</div>
+            <input class="b-input" id="b-phone" type="tel" placeholder="07700 000000" oninput="updatePreview()">
+          </div>
+        </div>
+        <div style="margin-bottom:12px;">
+          <div class="b-label">Location</div>
+          <input class="b-input" id="b-location" type="text" placeholder="London, UK" oninput="updatePreview()">
+        </div>
+        <div style="margin-bottom:16px;">
+          <div class="b-label">LinkedIn URL <span style="font-size:0.68rem; opacity:0.5; text-transform:none; letter-spacing:0;">(optional)</span></div>
+          <input class="b-input" id="b-linkedin" type="text" placeholder="linkedin.com/in/your-name" oninput="updatePreview()">
+        </div>
+        <div style="margin-bottom:16px;">
+          <div class="b-label">Professional Summary</div>
+          <textarea class="b-textarea" id="b-summary" placeholder="Write 3-4 sentences about your experience, expertise, and what you bring to employers..." oninput="updatePreview()"></textarea>
+        </div>
+        <button class="b-enhance-btn" onclick="enhanceSection('summary', 'b-summary')">✦ Enhance Summary with AI</button>
+      </div>
+
+      <!-- Experience -->
+      <div id="btab-experience" class="b-panel" style="padding:24px; display:none;">
+        <div id="exp-entries"></div>
+        <button class="b-add-btn" onclick="addExperience()">+ Add Role</button>
+      </div>
+
+      <!-- Skills -->
+      <div id="btab-skills" class="b-panel" style="padding:24px; display:none;">
+        <div style="margin-bottom:16px;">
+          <div class="b-label">Technical Skills</div>
+          <textarea class="b-textarea" id="b-skills-tech" placeholder="e.g. SQL, Python, Power BI, Excel, Tableau..." oninput="updatePreview()"></textarea>
+        </div>
+        <div style="margin-bottom:16px;">
+          <div class="b-label">Soft Skills & Other</div>
+          <textarea class="b-textarea" id="b-skills-soft" placeholder="e.g. Stakeholder Management, Project Leadership, Communication..." oninput="updatePreview()"></textarea>
+        </div>
+        <button class="b-enhance-btn" onclick="enhanceSection('skills', 'b-skills-tech')">✦ Enhance Skills with AI</button>
+      </div>
+
+      <!-- Education -->
+      <div id="btab-education" class="b-panel" style="padding:24px; display:none;">
+        <div style="margin-bottom:16px;">
+          <div class="b-label">Education & Qualifications</div>
+          <textarea class="b-textarea" id="b-education" placeholder="e.g.&#10;BSc Computer Science (2:1) | University of Manchester | 2020&#10;AWS Certified Developer | 2022" oninput="updatePreview()" style="min-height:160px;"></textarea>
+        </div>
+        <button class="b-enhance-btn" onclick="enhanceSection('education', 'b-education')">✦ Enhance Education with AI</button>
+      </div>
+
     </div>
-    <div class="fade-up">
-      <div class="builder-ui">
-        <div class="builder-tabs">
-          <div class="builder-tab active">Personal</div>
-          <div class="builder-tab">Experience</div>
-          <div class="builder-tab">Skills</div>
-          <div class="builder-tab">Education</div>
+
+    <!-- RIGHT: Preview -->
+    <div style="position:sticky; top:80px;">
+      <div style="background:var(--white); border-radius:var(--radius-lg); overflow:hidden; box-shadow:0 8px 32px rgba(0,0,0,0.3);">
+        <div style="padding:16px 20px; background:var(--paper); border-bottom:1px solid var(--rule); display:flex; align-items:center; justify-content:space-between;">
+          <div style="font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--ink-muted);">Live Preview</div>
+          <div style="display:flex; gap:8px;">
+            <button class="b-action-btn" onclick="copyBuilderCV()" id="builder-copy-btn">📋 Copy</button>
+            <button class="b-action-btn b-pro-btn" onclick="exportBuilderPDF()">⬇ PDF <span class="b-pro-tag">Pro</span></button>
+            <button class="b-action-btn b-pro-btn" onclick="exportBuilderDOCX()">⬇ DOCX <span class="b-pro-tag">Pro</span></button>
+          </div>
         </div>
-        <div class="form-mock">
-          <div class="form-row">
-            <div class="form-field">
-              <div class="form-label">First Name</div>
-              <input class="form-input" type="text" placeholder="James" readonly>
-            </div>
-            <div class="form-field">
-              <div class="form-label">Last Name</div>
-              <input class="form-input" type="text" placeholder="Richardson" readonly>
-            </div>
-          </div>
-          <div class="form-field">
-            <div class="form-label">Job Title</div>
-            <input class="form-input" type="text" placeholder="Senior Product Manager" readonly>
-          </div>
-          <div class="form-field">
-            <div class="form-label">Professional Summary</div>
-            <textarea class="form-textarea" placeholder="Results-driven Product Manager with 7+ years experience leading cross-functional teams..." readonly></textarea>
-          </div>
-          <button class="ai-enhance-btn">
-            ✦ Enhance with AI <span class="ai-pill">Pro</span>
-          </button>
-        </div>
+        <div id="cv-preview" style="padding:28px 32px; font-family:'DM Mono',monospace; font-size:0.72rem; line-height:1.8; color:var(--ink-soft); min-height:400px; max-height:600px; overflow-y:auto; white-space:pre-wrap; background:var(--white);"></div>
       </div>
+      <p style="text-align:center; font-size:0.75rem; color:rgba(255,255,255,0.35); margin-top:12px;">Copy is free. PDF & DOCX export requires Pro.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- Pro export modal -->
+<div id="builder-pro-modal" style="display:none; position:fixed; inset:0; background:rgba(15,17,23,0.7); z-index:200; align-items:center; justify-content:center; padding:20px;">
+  <div style="background:var(--white); border-radius:var(--radius-lg); padding:40px 36px; max-width:440px; width:100%; text-align:center; box-shadow:var(--shadow-lg);">
+    <div style="font-size:2rem; margin-bottom:12px;">🔒</div>
+    <div style="font-family:'Playfair Display',serif; font-size:1.4rem; font-weight:700; color:var(--ink); margin-bottom:10px;">Pro Export</div>
+    <p style="font-size:0.9rem; color:var(--ink-soft); margin-bottom:24px; line-height:1.6;">PDF and DOCX export is a Pro feature. Upgrade to export your CV in any format — or copy it free right now.</p>
+    <div style="display:flex; flex-direction:column; gap:10px;">
+      <a href="https://buy.stripe.com/cNi14n72RfH1aBa1HOfjG00" target="_blank" rel="noopener" style="padding:13px; background:var(--accent); color:var(--white); border-radius:8px; font-family:'DM Sans',sans-serif; font-size:0.9rem; font-weight:700; text-decoration:none; display:block;">Get Pro — £9/mo →</a>
+      <button onclick="document.getElementById('builder-pro-modal').style.display='none'; copyBuilderCV();" style="padding:13px; background:transparent; color:var(--ink-soft); border:1.5px solid var(--rule); border-radius:8px; font-family:'DM Sans',sans-serif; font-size:0.9rem; cursor:pointer;">Copy CV as Text Instead</button>
+      <button onclick="document.getElementById('builder-pro-modal').style.display='none';" style="padding:8px; background:transparent; color:var(--ink-muted); border:none; font-family:'DM Sans',sans-serif; font-size:0.82rem; cursor:pointer;">Cancel</button>
     </div>
   </div>
+</div>
+
 </section>
+
+<style>
+.b-tab { flex:1; padding:11px 8px; background:transparent; border:none; font-family:'DM Sans',sans-serif; font-size:0.8rem; font-weight:500; color:rgba(255,255,255,0.45); cursor:pointer; transition:all 0.2s; }
+.b-tab-active { color:var(--white); background:rgba(255,255,255,0.08); font-weight:700; border-bottom:2px solid var(--accent); }
+.b-label { font-size:0.68rem; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:rgba(255,255,255,0.45); margin-bottom:5px; }
+.b-input { width:100%; padding:9px 12px; background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.12); border-radius:6px; font-family:'DM Sans',sans-serif; font-size:0.85rem; color:var(--white); outline:none; transition:border-color 0.2s; }
+.b-input:focus { border-color:rgba(26,86,219,0.6); background:rgba(255,255,255,0.1); }
+.b-input::placeholder { color:rgba(255,255,255,0.3); }
+.b-textarea { width:100%; padding:9px 12px; background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.12); border-radius:6px; font-family:'DM Sans',sans-serif; font-size:0.85rem; color:var(--white); outline:none; resize:vertical; min-height:100px; line-height:1.6; transition:border-color 0.2s; }
+.b-textarea:focus { border-color:rgba(26,86,219,0.6); background:rgba(255,255,255,0.1); }
+.b-textarea::placeholder { color:rgba(255,255,255,0.3); }
+.b-enhance-btn { display:flex; align-items:center; gap:8px; background:var(--accent); color:var(--white); padding:9px 16px; border-radius:6px; font-size:0.82rem; font-weight:600; border:none; cursor:pointer; transition:background 0.2s; font-family:'DM Sans',sans-serif; }
+.b-enhance-btn:hover { background:#1548c0; }
+.b-enhance-btn:disabled { opacity:0.6; cursor:not-allowed; }
+.b-add-btn { width:100%; padding:10px; background:rgba(255,255,255,0.06); border:1.5px dashed rgba(255,255,255,0.2); border-radius:8px; color:rgba(255,255,255,0.5); font-family:'DM Sans',sans-serif; font-size:0.85rem; cursor:pointer; transition:all 0.2s; margin-top:12px; }
+.b-add-btn:hover { border-color:rgba(255,255,255,0.4); color:rgba(255,255,255,0.8); }
+.b-action-btn { padding:7px 12px; background:var(--paper); border:1px solid var(--rule); border-radius:6px; font-family:'DM Sans',sans-serif; font-size:0.75rem; font-weight:600; cursor:pointer; color:var(--ink-soft); transition:all 0.2s; display:flex; align-items:center; gap:4px; }
+.b-action-btn:hover { border-color:var(--accent); color:var(--accent); }
+.b-pro-btn { color:var(--ink-muted); }
+.b-pro-tag { background:var(--gold); color:#5a3800; font-size:0.62rem; font-weight:800; padding:1px 5px; border-radius:3px; }
+.exp-card { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:10px; padding:16px; margin-bottom:12px; }
+.exp-card-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+.exp-card-title { font-size:0.8rem; font-weight:700; color:rgba(255,255,255,0.7); }
+.exp-remove { background:none; border:none; color:rgba(255,255,255,0.3); cursor:pointer; font-size:1rem; padding:2px 6px; transition:color 0.2s; }
+.exp-remove:hover { color:var(--red,#c0392b); }
+@media (max-width:900px) { .builder-grid { grid-template-columns:1fr !important; } }
+</style>
+
+<script>
+// ── BUILDER STATE ──
+let experiences = [];
+let expCounter = 0;
+
+function showBuilderTab(tab) {
+  document.querySelectorAll('.b-tab').forEach(t => t.classList.remove('b-tab-active'));
+  document.querySelectorAll('.b-panel').forEach(p => p.style.display = 'none');
+  document.getElementById('btab-' + tab).style.display = 'block';
+  event.target.classList.add('b-tab-active');
+}
+
+function addExperience() {
+  const id = expCounter++;
+  experiences.push({ id, company:'', role:'', dates:'', bullets:'' });
+  renderExperienceCards();
+}
+
+function removeExperience(id) {
+  experiences = experiences.filter(e => e.id !== id);
+  renderExperienceCards();
+  updatePreview();
+}
+
+function renderExperienceCards() {
+  const container = document.getElementById('exp-entries');
+  container.innerHTML = experiences.map(exp => `
+    <div class="exp-card">
+      <div class="exp-card-header">
+        <div class="exp-card-title">Role ${experiences.indexOf(exp) + 1}</div>
+        <button class="exp-remove" onclick="removeExperience(${exp.id})">✕</button>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px;">
+        <div>
+          <div class="b-label">Job Title</div>
+          <input class="b-input" value="${exp.role}" placeholder="Senior Analyst" oninput="updateExp(${exp.id},'role',this.value)">
+        </div>
+        <div>
+          <div class="b-label">Company</div>
+          <input class="b-input" value="${exp.company}" placeholder="Company Name" oninput="updateExp(${exp.id},'company',this.value)">
+        </div>
+      </div>
+      <div style="margin-bottom:10px;">
+        <div class="b-label">Dates</div>
+        <input class="b-input" value="${exp.dates}" placeholder="Jan 2022 – Present" oninput="updateExp(${exp.id},'dates',this.value)">
+      </div>
+      <div style="margin-bottom:10px;">
+        <div class="b-label">Key Achievements & Responsibilities</div>
+        <textarea class="b-textarea" id="exp-bullets-${exp.id}" placeholder="Describe what you did and the impact you had..." oninput="updateExp(${exp.id},'bullets',this.value)">${exp.bullets}</textarea>
+      </div>
+      <button class="b-enhance-btn" onclick="enhanceSection('experience','exp-bullets-${exp.id}',${exp.id})">✦ Enhance with AI</button>
+    </div>
+  `).join('');
+}
+
+function updateExp(id, field, value) {
+  const exp = experiences.find(e => e.id === id);
+  if (exp) { exp[field] = value; updatePreview(); }
+}
+
+// ── UPDATE PREVIEW ──
+function updatePreview() {
+  const first = document.getElementById('b-firstname')?.value || '';
+  const last = document.getElementById('b-lastname')?.value || '';
+  const title = document.getElementById('b-jobtitle')?.value || '';
+  const email = document.getElementById('b-email')?.value || '';
+  const phone = document.getElementById('b-phone')?.value || '';
+  const location = document.getElementById('b-location')?.value || '';
+  const linkedin = document.getElementById('b-linkedin')?.value || '';
+  const summary = document.getElementById('b-summary')?.value || '';
+  const skillsTech = document.getElementById('b-skills-tech')?.value || '';
+  const skillsSoft = document.getElementById('b-skills-soft')?.value || '';
+  const education = document.getElementById('b-education')?.value || '';
+
+  const name = `${first} ${last}`.trim();
+  const contacts = [email, phone, location, linkedin].filter(Boolean).join(' | ');
+
+  let cv = '';
+  if (name) cv += `${name.toUpperCase()}\n`;
+  if (contacts) cv += `${contacts}\n`;
+  if (name || contacts) cv += `\n`;
+
+  if (title) cv += `TARGET ROLE: ${title}\n\n`;
+
+  if (summary) {
+    cv += `─────────────────────────────────────────────\nPROFESSIONAL PROFILE\n─────────────────────────────────────────────\n${summary}\n\n`;
+  }
+
+  if (experiences.length > 0) {
+    cv += `─────────────────────────────────────────────\nPROFESSIONAL EXPERIENCE\n─────────────────────────────────────────────\n`;
+    experiences.forEach(exp => {
+      if (exp.role || exp.company) {
+        cv += `${exp.role}${exp.company ? ' | ' + exp.company : ''}${exp.dates ? ' | ' + exp.dates : ''}\n`;
+        if (exp.bullets) cv += `${exp.bullets}\n`;
+        cv += '\n';
+      }
+    });
+  }
+
+  if (skillsTech || skillsSoft) {
+    cv += `─────────────────────────────────────────────\nSKILLS\n─────────────────────────────────────────────\n`;
+    if (skillsTech) cv += `Technical: ${skillsTech}\n`;
+    if (skillsSoft) cv += `Other: ${skillsSoft}\n`;
+    cv += '\n';
+  }
+
+  if (education) {
+    cv += `─────────────────────────────────────────────\nEDUCATION & QUALIFICATIONS\n─────────────────────────────────────────────\n${education}\n`;
+  }
+
+  const preview = document.getElementById('cv-preview');
+  if (preview) preview.textContent = cv || 'Start filling in your details to see your CV preview here...';
+}
+
+// ── AI ENHANCE ──
+async function enhanceSection(section, fieldId, expId) {
+  const field = document.getElementById(fieldId);
+  if (!field || !field.value.trim()) return;
+
+  const btn = field.closest('.b-panel, .exp-card')?.querySelector('.b-enhance-btn');
+  const originalText = btn?.innerHTML || '';
+  if (btn) { btn.innerHTML = '⏳ Enhancing…'; btn.disabled = true; }
+
+  const jobTitle = document.getElementById('b-jobtitle')?.value || '';
+
+  try {
+    const response = await fetch('/api/enhance', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ section, content: field.value, jobTitle })
+    });
+    const data = await response.json();
+    if (data.enhanced) {
+      field.value = data.enhanced;
+      if (expId !== undefined) updateExp(expId, 'bullets', data.enhanced);
+      updatePreview();
+      if (btn) { btn.innerHTML = '✓ Enhanced!'; btn.style.background = 'var(--green)'; }
+      setTimeout(() => { if (btn) { btn.innerHTML = originalText; btn.style.background = ''; btn.disabled = false; } }, 2500);
+    } else {
+      throw new Error(data.error || 'Enhancement failed');
+    }
+  } catch (err) {
+    if (btn) { btn.innerHTML = '⚠ Try again'; btn.disabled = false; }
+    setTimeout(() => { if (btn) { btn.innerHTML = originalText; btn.style.background = ''; } }, 2500);
+  }
+}
+
+// ── COPY ──
+function copyBuilderCV() {
+  const text = document.getElementById('cv-preview')?.textContent;
+  if (!text || text.includes('Start filling')) return;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('builder-copy-btn');
+    btn.textContent = '✓ Copied!';
+    setTimeout(() => { btn.textContent = '📋 Copy'; }, 2500);
+  });
+}
+
+// ── EXPORT (Pro gate) ──
+function exportBuilderPDF() {
+  document.getElementById('builder-pro-modal').style.display = 'flex';
+}
+function exportBuilderDOCX() {
+  document.getElementById('builder-pro-modal').style.display = 'flex';
+}
+
+// ── INIT ──
+addExperience();
+updatePreview();
+</script>
+
 
 <!-- PRICING -->
 <section id="pricing">
