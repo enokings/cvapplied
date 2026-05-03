@@ -1,4 +1,5 @@
 import pdfParse from 'pdf-parse/lib/pdf-parse.js';
+import mammoth from 'mammoth';
 
 export default async function handler(req, res) {
   // Only allow POST
@@ -36,20 +37,27 @@ export default async function handler(req, res) {
         } catch (e) {
           return res.status(400).json({ error: 'Could not extract text from PDF. Please use the Paste Text tab instead.' });
         }
+      } else if (fileType === 'docx' || fileType === 'doc') {
+        try {
+          const result = await mammoth.extractRawText({ buffer });
+          extractedText = result.value;
+        } catch (e) {
+          return res.status(400).json({ error: 'Could not extract text from Word document. Please use the Paste Text tab instead.' });
+        }
       } else {
-        // DOC/DOCX/TXT — decode as UTF-8 text
+        // TXT — decode as UTF-8
         extractedText = buffer.toString('utf-8')
           .replace(/[^\x20-\x7E\n\r\t£€]/g, ' ')
           .replace(/\s+/g, ' ')
           .trim();
       }
 
-      if (!extractedText || extractedText.length < 100) {
+      if (!extractedText || extractedText.trim().length < 100) {
         return res.status(400).json({ error: 'Could not extract enough text from this file. Please use the Paste Text tab instead.' });
       }
 
       // Inject extracted text into the prompt
-      finalPrompt = prompt.replace('__CV_TEXT__', extractedText);
+      finalPrompt = prompt.replace('__CV_TEXT__', extractedText.trim());
     }
 
     if (!finalPrompt || finalPrompt.length < 50) {
