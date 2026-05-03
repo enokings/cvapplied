@@ -93,7 +93,7 @@
   /* CV DISPLAY PANEL */
   .cv-panel {
     background: var(--white); border: 1px solid var(--rule);
-    border-radius: var(--radius-lg); overflow: hidden;
+    border-radius: var(--radius-lg); overflow: visible;
     display: none; margin-top: 8px;
   }
   .cv-panel.show { display: block; }
@@ -101,6 +101,7 @@
     padding: 20px 28px; border-bottom: 1px solid var(--rule);
     display: flex; align-items: center; justify-content: space-between;
     background: var(--paper); flex-wrap: wrap; gap: 12px;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   }
   .cv-panel-title { font-size: 0.82rem; font-weight: 700; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.06em; }
   .cv-panel-role { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--ink); }
@@ -123,15 +124,18 @@
   .btn-analyse:hover { border-color: var(--ink); color: var(--ink); }
   .cv-text-area {
     font-family: 'DM Mono', monospace; font-size: 0.85rem; line-height: 1.8;
-    color: var(--ink-soft); padding: 32px 36px; white-space: pre-wrap;
-    min-height: 1800px; overflow-y: auto; border: none; outline: none;
+    color: var(--ink-soft); padding: 36px 40px; white-space: pre-wrap;
+    height: auto; min-height: 1800px;
+    overflow: visible; border: none; outline: none;
     width: 100%; resize: none; background: var(--white);
+    border-radius: 0;
   }
   .cv-hint {
     padding: 14px 28px; background: var(--accent-soft);
     border-top: 1px solid var(--rule);
     font-size: 0.8rem; color: var(--accent); font-weight: 500;
     display: flex; align-items: center; gap: 8px;
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
   }
 
   /* BOTTOM CTA */
@@ -197,7 +201,7 @@
     <p>Use a template as your base, then run it through CVApplied's AI analyser for a full UK-specific score and rewrite suggestions.</p>
     <div class="cta-row">
       <a href="analyse.html" class="btn-white">✦ Analyse My CV Free</a>
-      <a href="index.html#waitlist" class="btn-ghost">Join Waitlist for Full Access</a>
+      <a href="https://buy.stripe.com/cNi14n72RfH1aBa1HOfjG00" target="_blank" rel="noopener" class="btn-ghost">Get Pro — £9/mo →</a>
     </div>
   </div>
 </div>
