@@ -75,8 +75,8 @@
 
   /* MAIN LAYOUT */
   .main {
-    max-width: 860px; margin: 0 auto;
-    padding: 100px 24px 80px;
+    max-width: 1160px; margin: 0 auto;
+    padding: 100px 32px 80px;
   }
 
   /* PAGE HEADER */
@@ -166,7 +166,7 @@
 
   /* TEXTAREA */
   .cv-textarea {
-    width: 100%; min-height: 220px;
+    width: 100%; min-height: 420px;
     border: 1.5px solid var(--rule); border-radius: var(--radius);
     padding: 16px; font-family: 'DM Mono', monospace;
     font-size: 0.82rem; color: var(--ink); line-height: 1.6;
@@ -177,7 +177,7 @@
   .cv-textarea::placeholder { color: var(--ink-muted); font-family: 'DM Sans', sans-serif; }
 
   .jd-textarea {
-    width: 100%; min-height: 120px;
+    width: 100%; min-height: 420px;
     border: 1.5px solid var(--rule); border-radius: var(--radius);
     padding: 16px; font-family: 'DM Sans', sans-serif;
     font-size: 0.88rem; color: var(--ink); line-height: 1.6;
@@ -269,7 +269,7 @@
 
   /* DIMENSION GRID */
   .dimensions-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr);
+    display: grid; grid-template-columns: repeat(4, 1fr);
     gap: 12px; margin-bottom: 20px;
   }
   .dimension-card {
@@ -462,6 +462,7 @@
     .dimensions-grid { grid-template-columns: repeat(2, 1fr); }
     .pro-features-grid { grid-template-columns: 1fr; }
     .pro-feature { border-right: none; }
+    .input-grid { grid-template-columns: 1fr !important; }
   }
   @media (max-width: 600px) {
     nav { padding: 0 16px; }
@@ -481,6 +482,7 @@
     .pro-cta-btn { min-width: unset; }
     .modal-box { padding: 28px 20px; }
     .page-header h1 { font-size: 1.8rem; }
+    .input-grid { grid-template-columns: 1fr !important; }
   }
 </style>
 </head>
@@ -541,56 +543,61 @@
       <div class="usage-text" id="usage-text"><strong>3 free analyses remaining</strong> — no sign-up needed</div>
     </div>
 
-    <!-- STEP 1: CV INPUT -->
-    <div class="card">
-      <div class="card-title">
-        <div class="step-dot">1</div>
-        Your CV
-      </div>
-      <div class="input-tabs">
-        <button class="input-tab active" onclick="switchTab('upload')">📄 Upload File</button>
-        <button class="input-tab" onclick="switchTab('paste')">✏️ Paste Text</button>
-      </div>
+    <!-- TWO-COLUMN INPUT GRID -->
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:20px;" class="input-grid">
 
-      <!-- Upload -->
-      <div id="upload-panel">
-        <div class="upload-zone" id="upload-zone" onclick="document.getElementById('cv-file').click()">
-          <input type="file" id="cv-file" accept=".pdf,.doc,.docx,.txt" style="display:none">
-          <div class="upload-icon" id="upload-icon">📄</div>
-          <h3 id="upload-title">Drop your CV here, or click to browse</h3>
-          <p id="upload-sub">PDF, DOC, DOCX or TXT</p>
-          <div class="fmt-pills">
-            <span class="fmt-pill">PDF</span>
-            <span class="fmt-pill">DOC</span>
-            <span class="fmt-pill">DOCX</span>
-            <span class="fmt-pill">TXT</span>
+      <!-- STEP 1: CV INPUT -->
+      <div class="card" style="margin-bottom:0;">
+        <div class="card-title">
+          <div class="step-dot">1</div>
+          Your CV
+        </div>
+        <div class="input-tabs">
+          <button class="input-tab active" onclick="switchTab('upload')">📄 Upload File</button>
+          <button class="input-tab" onclick="switchTab('paste')">✏️ Paste Text</button>
+        </div>
+
+        <!-- Upload -->
+        <div id="upload-panel">
+          <div class="upload-zone" id="upload-zone" onclick="document.getElementById('cv-file').click()">
+            <input type="file" id="cv-file" accept=".pdf,.doc,.docx,.txt" style="display:none">
+            <div class="upload-icon" id="upload-icon">📄</div>
+            <h3 id="upload-title">Drop your CV here, or click to browse</h3>
+            <p id="upload-sub">PDF, DOC, DOCX or TXT</p>
+            <div class="fmt-pills">
+              <span class="fmt-pill">PDF</span>
+              <span class="fmt-pill">DOC</span>
+              <span class="fmt-pill">DOCX</span>
+              <span class="fmt-pill">TXT</span>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Paste -->
-      <div id="paste-panel" style="display:none;">
-        <textarea class="cv-textarea" id="cv-text" placeholder="Paste your full CV text here...
+        <!-- Paste -->
+        <div id="paste-panel" style="display:none;">
+          <textarea class="cv-textarea" id="cv-text" placeholder="Paste your full CV text here...
 
-John Smith
-john.smith@email.com | 07700 900000 | London, UK
+YOUR FULL NAME
+your.name@email.com | 07700 000000 | London, UK
 
 PROFILE
 Results-driven professional with 8 years experience..."></textarea>
+        </div>
       </div>
-    </div>
 
-    <!-- STEP 2: JOB DESCRIPTION -->
-    <div class="card">
-      <div class="card-title">
-        <div class="step-dot">2</div>
-        Job Description
-        <span class="optional-label">Optional</span>
-      </div>
-      <p style="font-size:0.85rem; color:var(--ink-muted); margin-bottom:14px;">Paste the job description to get tailored keyword matching and role-specific feedback.</p>
-      <textarea class="jd-textarea" id="jd-text" placeholder="Paste the job description here for tailored analysis...
+      <!-- STEP 2: JOB DESCRIPTION -->
+      <div class="card" style="margin-bottom:0;">
+        <div class="card-title">
+          <div class="step-dot">2</div>
+          Job Description
+          <span class="optional-label">Optional</span>
+        </div>
+        <p style="font-size:0.85rem; color:var(--ink-muted); margin-bottom:14px;">Paste the job description to get tailored keyword matching and role-specific feedback.</p>
+        <textarea class="jd-textarea" id="jd-text" placeholder="Paste the job description here for tailored analysis...
 
 We are looking for a Senior Data Analyst to join our team..."></textarea>
+      </div>
+
     </div>
 
     <!-- ERROR -->
