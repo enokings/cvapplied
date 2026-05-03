@@ -1,3 +1,5 @@
+import pdfParse from 'pdf-parse/lib/pdf-parse.js';
+
 export default async function handler(req, res) {
   // Only allow POST
   if (req.method !== 'POST') {
@@ -19,10 +21,39 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { prompt } = req.body;
+    const { prompt, fileData, fileType } = req.body;
+    let finalPrompt = prompt;
 
-    if (!prompt || prompt.length < 50) {
-      return res.status(400).json({ error: 'Invalid request — prompt too short' });
+    // If a file was sent as base64, extract text server-side
+    if (fileData && fileType) {
+      const buffer = Buffer.from(fileData, 'base64');
+      let extractedText = '';
+
+      if (fileType === 'pdf') {
+        try {
+          const parsed = await pdfParse(buffer);
+          extractedText = parsed.text;
+        } catch (e) {
+          return res.status(400).json({ error: 'Could not extract text from PDF. Please use the Paste Text tab instead.' });
+        }
+      } else {
+        // DOC/DOCX/TXT — decode as UTF-8 text
+        extractedText = buffer.toString('utf-8')
+          .replace(/[^\x20-\x7E\n\r\t£€]/g, ' ')
+          .replace(/\s+/g, ' ')
+          .trim();
+      }
+
+      if (!extractedText || extractedText.length < 100) {
+        return res.status(400).json({ error: 'Could not extract enough text from this file. Please use the Paste Text tab instead.' });
+      }
+
+      // Inject extracted text into the prompt
+      finalPrompt = prompt.replace('__CV_TEXT__', extractedText);
+    }
+
+    if (!finalPrompt || finalPrompt.length < 50) {
+      return res.status(400).json({ error: 'Invalid request' });
     }
 
     const response = await fetch('https://api.anthropic.com/v1/messages', {
@@ -35,7 +66,7 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
         max_tokens: 4000,
-        messages: [{ role: 'user', content: prompt }]
+        messages: [{ role: 'user', content: finalPrompt }]
       })
     });
 
