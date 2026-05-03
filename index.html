@@ -581,6 +581,7 @@
     <a href="#templates">Templates</a>
     <a href="#features">Features</a>
     <a href="#pricing">Pricing</a>
+    <a href="analyse.html">Analyse CV</a>
     <a href="#waitlist" class="nav-cta">Join Waitlist</a>
   </div>
 </nav>
@@ -701,15 +702,16 @@
       <p class="section-sub" style="margin: 0 auto;">Get a full breakdown: ATS score, keyword gaps, structure issues, and rewrite suggestions — in under 30 seconds.</p>
     </div>
     <div class="upload-zone-wrapper fade-up">
-      <div class="upload-zone" onclick="handleUpload()">
-        <input type="file" accept=".pdf,.doc,.docx" id="cv-file">
-        <div class="upload-icon">📄</div>
-        <h3>Drop your CV here, or click to browse</h3>
-        <p>We'll analyse it instantly — no sign-up required</p>
-        <div class="upload-formats">
+      <div class="upload-zone" onclick="window.location.href='analyse.html'" style="cursor:pointer;">
+        <div class="upload-icon">✦</div>
+        <h3>Analyse My CV Free</h3>
+        <p>Upload your CV or paste text — no sign-up required</p>
+        <div class="upload-formats" style="margin-top:16px;">
           <span class="fmt-pill">PDF</span>
           <span class="fmt-pill">DOC</span>
           <span class="fmt-pill">DOCX</span>
+          <span class="fmt-pill">TXT</span>
+          <span class="fmt-pill">Paste Text</span>
         </div>
       </div>
       <p style="margin-top:16px; font-size:0.8rem; color:var(--ink-muted);">🔒 Your CV is never stored or shared. Analysed in-session only.</p>
@@ -1067,7 +1069,7 @@
       <div class="footer-col">
         <h4>Product</h4>
         <ul>
-          <li><a href="#">CV Analyser</a></li>
+          <li><a href="analyse.html">CV Analyser</a></li>
           <li><a href="#">CV Builder</a></li>
           <li><a href="#">Job Tailoring</a></li>
           <li><a href="#">Templates</a></li>
