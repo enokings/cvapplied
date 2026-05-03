@@ -428,15 +428,59 @@
   .pro-cta-btn { flex: 1; min-width: 220px; padding: 14px 24px; background: var(--accent); color: var(--white); border: none; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 700; cursor: pointer; text-align: center; text-decoration: none; transition: all 0.2s; display: block; box-shadow: 0 4px 14px rgba(26,86,219,0.3); }
   .pro-cta-btn:hover { background: #1548c0; transform: translateY(-1px); }
 
-  /* RESPONSIVE */
-  @media (max-width: 700px) {
+  /* ── USAGE LIMIT ── */
+  .usage-bar-wrap { display:flex; align-items:center; gap:10px; margin-bottom:16px; padding:12px 16px; background:var(--white); border:1px solid var(--rule); border-radius:var(--radius); }
+  .usage-dots { display:flex; gap:6px; }
+  .usage-dot { width:12px; height:12px; border-radius:50%; background:var(--rule); transition:background 0.3s; }
+  .usage-dot.used { background:var(--accent); }
+  .usage-dot.last { background:var(--amber); }
+  .usage-text { font-size:0.8rem; color:var(--ink-muted); }
+  .usage-text strong { color:var(--ink); }
+
+  /* ── MODALS ── */
+  .modal-overlay { display:none; position:fixed; inset:0; background:rgba(15,17,23,0.6); z-index:200; align-items:center; justify-content:center; padding:20px; }
+  .modal-overlay.show { display:flex; }
+  .modal-box { background:var(--white); border-radius:var(--radius-lg); padding:40px 36px; max-width:480px; width:100%; text-align:center; box-shadow:var(--shadow-lg); }
+  .modal-icon { font-size:2.5rem; margin-bottom:16px; }
+  .modal-title { font-family:'Playfair Display',serif; font-size:1.5rem; font-weight:700; color:var(--ink); margin-bottom:10px; }
+  .modal-sub { font-size:0.9rem; color:var(--ink-soft); margin-bottom:28px; line-height:1.6; }
+  .modal-actions { display:flex; flex-direction:column; gap:10px; }
+  .modal-btn-primary { padding:13px; background:var(--accent); color:var(--white); border:none; border-radius:8px; font-family:'DM Sans',sans-serif; font-size:0.9rem; font-weight:700; cursor:pointer; text-decoration:none; display:block; transition:background 0.2s; }
+  .modal-btn-primary:hover { background:#1548c0; }
+  .modal-btn-secondary { padding:13px; background:transparent; color:var(--ink-soft); border:1.5px solid var(--rule); border-radius:8px; font-family:'DM Sans',sans-serif; font-size:0.9rem; cursor:pointer; transition:all 0.2s; }
+  .modal-btn-secondary:hover { border-color:var(--ink); color:var(--ink); }
+  .modal-divider { font-size:0.75rem; color:var(--ink-muted); margin:4px 0; }
+  .code-input { width:100%; padding:13px 16px; border:1.5px solid var(--rule); border-radius:8px; font-family:'DM Mono',monospace; font-size:1rem; text-align:center; letter-spacing:0.1em; outline:none; text-transform:uppercase; transition:border-color 0.2s; margin-bottom:10px; }
+  .code-input:focus { border-color:var(--accent); }
+  .code-error { font-size:0.8rem; color:var(--red); margin-bottom:10px; display:none; }
+  .code-error.show { display:block; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
     nav { padding: 0 20px; }
-    .main { padding: 88px 16px 60px; }
-    .card { padding: 20px; }
+    .main { padding: 88px 20px 60px; }
+    .dimensions-grid { grid-template-columns: repeat(2, 1fr); }
+    .pro-features-grid { grid-template-columns: 1fr; }
+    .pro-feature { border-right: none; }
+  }
+  @media (max-width: 600px) {
+    nav { padding: 0 16px; }
+    .main { padding: 80px 12px 48px; }
+    .card { padding: 16px; }
     .dimensions-grid { grid-template-columns: repeat(2, 1fr); }
     .keywords-grid { grid-template-columns: 1fr; }
     .score-header { grid-template-columns: 1fr; text-align: center; }
     .score-circle { margin: 0 auto; }
+    .email-gate { padding: 24px 16px; }
+    .gate-title { font-size: 1.1rem; }
+    .gate-form { flex-direction: column; }
+    .gate-input { max-width: 100%; }
+    .pro-upsell-header { flex-wrap: wrap; }
+    .pro-price { margin-left: 0; }
+    .pro-cta-row { flex-direction: column; }
+    .pro-cta-btn { min-width: unset; }
+    .modal-box { padding: 28px 20px; }
+    .page-header h1 { font-size: 1.8rem; }
   }
 </style>
 </head>
@@ -446,6 +490,35 @@
   <a href="index.html" class="nav-logo">CV<span>Applied</span></a>
   <a href="index.html" class="nav-back">← Back to home</a>
 </nav>
+
+<!-- LIMIT REACHED MODAL -->
+<div class="modal-overlay" id="limit-modal">
+  <div class="modal-box">
+    <div class="modal-icon">📊</div>
+    <div class="modal-title">You've used your 3 free analyses</div>
+    <div class="modal-sub">Upgrade to CVApplied Pro for unlimited analyses, plus the CV Builder, job tailoring, and PDF exports.</div>
+    <div class="modal-actions">
+      <a href="https://buy.stripe.com/cNi14n72RfH1aBa1HOfjG00" target="_blank" rel="noopener" class="modal-btn-primary">Get Pro — £9/mo →</a>
+      <div class="modal-divider">or</div>
+      <button class="modal-btn-secondary" onclick="showCodeModal()">I have an access code</button>
+    </div>
+  </div>
+</div>
+
+<!-- ACCESS CODE MODAL -->
+<div class="modal-overlay" id="code-modal">
+  <div class="modal-box">
+    <div class="modal-icon">🔑</div>
+    <div class="modal-title">Enter your access code</div>
+    <div class="modal-sub">Enter the code from your CVApplied Pro confirmation email to unlock unlimited analyses.</div>
+    <input type="text" class="code-input" id="access-code-input" placeholder="XXXX-XXXX-XXXX" maxlength="14" oninput="formatCode(this)">
+    <div class="code-error" id="code-error">Invalid code. Please check and try again.</div>
+    <div class="modal-actions">
+      <button class="modal-btn-primary" onclick="verifyCode()">Unlock Pro Access</button>
+      <button class="modal-btn-secondary" onclick="closeCodeModal()">← Back</button>
+    </div>
+  </div>
+</div>
 
 <div class="main">
 
@@ -457,6 +530,16 @@
 
   <!-- INPUT SECTION -->
   <div id="input-section">
+
+    <!-- USAGE BAR -->
+    <div class="usage-bar-wrap" id="usage-bar">
+      <div class="usage-dots" id="usage-dots">
+        <div class="usage-dot" id="dot-1"></div>
+        <div class="usage-dot" id="dot-2"></div>
+        <div class="usage-dot" id="dot-3"></div>
+      </div>
+      <div class="usage-text" id="usage-text"><strong>3 free analyses remaining</strong> — no sign-up needed</div>
+    </div>
 
     <!-- STEP 1: CV INPUT -->
     <div class="card">
@@ -672,9 +755,576 @@ We are looking for a Senior Data Analyst to join our team..."></textarea>
 </div>
 
 <script>
+  // ── CONFIG ──
+  const CK_API_KEY = 'AIAMEjISW_Fv22iO-4lCsA';
+  const CK_FORM_ID = '9398094';
+  const STRIPE_MONTHLY = 'https://buy.stripe.com/cNi14n72RfH1aBa1HOfjG00';
+  const STRIPE_ANNUAL  = 'https://buy.stripe.com/6oU6oHaf366rbFe2LSfjG01';
+
   // ── STATE ──
   let cvFile = null;
   let activeTab = 'upload';
+
+  // ── USAGE LIMIT ──
+  const LIMIT = 3;
+
+  function getUsageData() {
+    try {
+      const d = JSON.parse(localStorage.getItem('cva_usage') || '{}');
+      return { count: d.count || 0, emails: d.emails || [], pro: d.pro || false };
+    } catch { return { count: 0, emails: [], pro: false }; }
+  }
+
+  function saveUsageData(d) {
+    localStorage.setItem('cva_usage', JSON.stringify(d));
+  }
+
+  function isPro() {
+    const d = getUsageData();
+    return d.pro === true;
+  }
+
+  function updateUsageBar() {
+    const d = getUsageData();
+    if (isPro()) {
+      document.getElementById('usage-bar').style.display = 'none';
+      return;
+    }
+    const used = d.count;
+    const remaining = Math.max(0, LIMIT - used);
+    for (let i = 1; i <= 3; i++) {
+      const dot = document.getElementById(`dot-${i}`);
+      if (i <= used) {
+        dot.classList.add(i === LIMIT ? 'last' : 'used');
+      } else {
+        dot.classList.remove('used', 'last');
+      }
+    }
+    const textEl = document.getElementById('usage-text');
+    if (remaining === 0) {
+      textEl.innerHTML = '<strong style="color:var(--amber)">0 free analyses left</strong> — upgrade for unlimited';
+    } else if (remaining === 1) {
+      textEl.innerHTML = '<strong style="color:var(--amber)">1 free analysis remaining</strong> — upgrade for unlimited';
+      document.getElementById('dot-3').classList.add('last');
+    } else {
+      textEl.innerHTML = `<strong>${remaining} free analyses remaining</strong> — no sign-up needed`;
+    }
+  }
+
+  function canAnalyse() {
+    if (isPro()) return true;
+    const d = getUsageData();
+    return d.count < LIMIT;
+  }
+
+  function incrementUsage() {
+    const d = getUsageData();
+    d.count = (d.count || 0) + 1;
+    saveUsageData(d);
+    updateUsageBar();
+  }
+
+  // ── MODALS ──
+  function showLimitModal() {
+    document.getElementById('limit-modal').classList.add('show');
+  }
+
+  function showCodeModal() {
+    document.getElementById('limit-modal').classList.remove('show');
+    document.getElementById('code-modal').classList.add('show');
+    document.getElementById('access-code-input').focus();
+  }
+
+  function closeCodeModal() {
+    document.getElementById('code-modal').classList.remove('show');
+    document.getElementById('limit-modal').classList.add('show');
+  }
+
+  function formatCode(input) {
+    let val = input.value.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
+    if (val.length > 4) val = val.slice(0,4) + '-' + val.slice(4);
+    if (val.length > 9) val = val.slice(0,9) + '-' + val.slice(9);
+    if (val.length > 14) val = val.slice(0,14);
+    input.value = val;
+  }
+
+  async function verifyCode() {
+    const code = document.getElementById('access-code-input').value.trim();
+    const errorEl = document.getElementById('code-error');
+    const btn = document.querySelector('#code-modal .modal-btn-primary');
+
+    if (!code) return;
+
+    // Loading state
+    btn.textContent = 'Verifying…';
+    btn.disabled = true;
+    errorEl.classList.remove('show');
+
+    try {
+      const response = await fetch('/api/verify-code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code })
+      });
+
+      const data = await response.json();
+
+      if (response.status === 429) {
+        errorEl.textContent = data.error || 'Too many attempts. Please wait and try again.';
+        errorEl.classList.add('show');
+        btn.textContent = 'Unlock Pro Access';
+        btn.disabled = false;
+        return;
+      }
+
+      if (data.valid && data.token) {
+        // Store server-issued token — not the code itself
+        const d = getUsageData();
+        d.pro = true;
+        d.token = data.token;
+        saveUsageData(d);
+        document.getElementById('code-modal').classList.remove('show');
+        updateUsageBar();
+        showProUnlocked();
+      } else {
+        errorEl.textContent = data.error || 'Invalid code. Please check and try again.';
+        errorEl.classList.add('show');
+        document.getElementById('access-code-input').style.borderColor = 'var(--red)';
+        setTimeout(() => {
+          document.getElementById('access-code-input').style.borderColor = '';
+        }, 3000);
+        btn.textContent = 'Unlock Pro Access';
+        btn.disabled = false;
+      }
+    } catch (err) {
+      errorEl.textContent = 'Network error. Please try again.';
+      errorEl.classList.add('show');
+      btn.textContent = 'Unlock Pro Access';
+      btn.disabled = false;
+    }
+  }
+
+  function showProUnlocked() {
+    const banner = document.createElement('div');
+    banner.style.cssText = 'position:fixed;top:72px;left:50%;transform:translateX(-50%);background:var(--green);color:white;padding:12px 24px;border-radius:8px;font-weight:600;font-size:0.9rem;z-index:300;box-shadow:0 4px 16px rgba(0,0,0,0.2)';
+    banner.textContent = '✓ Pro access unlocked — unlimited analyses enabled';
+    document.body.appendChild(banner);
+    setTimeout(() => banner.remove(), 4000);
+  }
+
+  // Close modals on overlay click
+  document.getElementById('limit-modal').addEventListener('click', (e) => {
+    if (e.target === document.getElementById('limit-modal')) document.getElementById('limit-modal').classList.remove('show');
+  });
+  document.getElementById('code-modal').addEventListener('click', (e) => {
+    if (e.target === document.getElementById('code-modal')) document.getElementById('code-modal').classList.remove('show');
+  });
+
+  // Enter key on code input
+  document.getElementById('access-code-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') verifyCode();
+  });
+
+  // ── TAB SWITCH ──
+  function switchTab(tab) {
+    activeTab = tab;
+    document.querySelectorAll('.input-tab').forEach((t, i) => {
+      t.classList.toggle('active', (i === 0 && tab === 'upload') || (i === 1 && tab === 'paste'));
+    });
+    document.getElementById('upload-panel').style.display = tab === 'upload' ? 'block' : 'none';
+    document.getElementById('paste-panel').style.display = tab === 'paste' ? 'block' : 'none';
+  }
+
+  // ── FILE UPLOAD ──
+  document.getElementById('cv-file').addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      cvFile = file;
+      const zone = document.getElementById('upload-zone');
+      zone.classList.add('has-file');
+      document.getElementById('upload-icon').textContent = '✅';
+      document.getElementById('upload-title').textContent = file.name;
+      document.getElementById('upload-sub').textContent = `${(file.size / 1024).toFixed(1)} KB — ready to analyse`;
+    }
+  });
+
+  // Drag and drop
+  const zone = document.getElementById('upload-zone');
+  zone.addEventListener('dragover', (e) => { e.preventDefault(); zone.classList.add('drag-over'); });
+  zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+  zone.addEventListener('drop', (e) => {
+    e.preventDefault(); zone.classList.remove('drag-over');
+    const file = e.dataTransfer.files[0];
+    if (file) {
+      cvFile = file;
+      zone.classList.add('has-file');
+      document.getElementById('upload-icon').textContent = '✅';
+      document.getElementById('upload-title').textContent = file.name;
+      document.getElementById('upload-sub').textContent = `${(file.size / 1024).toFixed(1)} KB — ready to analyse`;
+    }
+  });
+
+  // ── READ FILE AS BASE64 ──
+  async function readFileAsBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => resolve(e.target.result.split(',')[1]);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // ── READ FILE AS TEXT (TXT only) ──
+  async function readFileAsText(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        let text = e.target.result;
+        text = text.replace(/[^\x20-\x7E\n\r\t£€]/g, ' ').replace(/\s+/g, ' ').trim();
+        if (text.length < 50) reject(new Error('Could not extract text. Please use Paste Text instead.'));
+        else resolve(text);
+      };
+      reader.onerror = () => reject(new Error('File read failed'));
+      reader.readAsText(file, 'UTF-8');
+    });
+  }
+
+  // ── LOADING STEPS ANIMATION ──
+  function animateLoadingSteps() {
+    const steps = ['step-1','step-2','step-3','step-4','step-5'];
+    let i = 0;
+    const interval = setInterval(() => {
+      if (i > 0) {
+        document.getElementById(steps[i-1]).classList.remove('active');
+        document.getElementById(steps[i-1]).classList.add('done');
+        document.getElementById(steps[i-1]).querySelector('.loading-step-icon').textContent = '✓';
+      }
+      if (i < steps.length) {
+        document.getElementById(steps[i]).classList.add('active');
+        i++;
+      } else { clearInterval(interval); }
+    }, 1800);
+    return interval;
+  }
+
+  // ── MAIN ANALYSIS ──
+  async function runAnalysis() {
+    // Check usage limit
+    if (!canAnalyse()) {
+      showLimitModal();
+      return;
+    }
+
+    const jdText = document.getElementById('jd-text').value.trim();
+    let cvText = '';
+    let fileData = null;
+    let fileType = null;
+
+    if (activeTab === 'upload') {
+      if (!cvFile) { showError('Please upload a CV file before analysing.'); return; }
+      const ext = cvFile.name.split('.').pop().toLowerCase();
+      if (ext === 'txt') {
+        try { cvText = await readFileAsText(cvFile); }
+        catch (e) { showError(e.message); return; }
+      } else {
+        try {
+          fileData = await readFileAsBase64(cvFile);
+          fileType = ext;
+          cvText = '__CV_TEXT__';
+        } catch (e) { showError('Could not read file. Please try Paste Text.'); return; }
+      }
+    } else {
+      cvText = document.getElementById('cv-text').value.trim();
+      if (!cvText || cvText.length < 100) { showError('Please paste your CV text (minimum 100 characters).'); return; }
+    }
+
+    hideError();
+    document.getElementById('input-section').style.display = 'none';
+    document.getElementById('loading-state').classList.add('show');
+    const loadingInterval = animateLoadingSteps();
+
+    const hasJD = jdText.length > 50;
+    const prompt = `You are an expert UK CV analyst and career consultant with deep knowledge of UK hiring practices, ATS systems (Greenhouse, Workday, SAP SuccessFactors), and British recruitment standards.
+
+Analyse the following CV${hasJD ? ' against the provided job description' : ''} and return a comprehensive JSON report.
+
+CV TEXT:
+${cvText}
+
+${hasJD ? `JOB DESCRIPTION:\n${jdText}` : ''}
+
+Return ONLY a valid JSON object with this exact structure (no markdown, no backticks, just raw JSON):
+{
+  "overall_score": <number 0-100>,
+  "grade": <"Excellent"|"Good"|"Needs Work"|"Poor">,
+  "headline": <short punchy headline about the CV quality, max 8 words>,
+  "summary": <2-3 sentence honest summary of the CV's strengths and main issues, UK-focused>,
+  "dimensions": [
+    {"name": "ATS Compatibility", "score": <0-100>, "color": <"#1a7a4a"|"#d97706"|"#c0392b">},
+    {"name": "Impact Language", "score": <0-100>, "color": <"#1a7a4a"|"#d97706"|"#c0392b">},
+    {"name": "Structure & Layout", "score": <0-100>, "color": <"#1a7a4a"|"#d97706"|"#c0392b">},
+    {"name": "Quantified Achievements", "score": <0-100>, "color": <"#1a7a4a"|"#d97706"|"#c0392b">},
+    {"name": "Profile Summary", "score": <0-100>, "color": <"#1a7a4a"|"#d97706"|"#c0392b">},
+    {"name": "Work Experience", "score": <0-100>, "color": <"#1a7a4a"|"#d97706"|"#c0392b">},
+    {"name": "Skills Section", "score": <0-100>, "color": <"#1a7a4a"|"#d97706"|"#c0392b">},
+    {"name": "Education", "score": <0-100>, "color": <"#1a7a4a"|"#d97706"|"#c0392b">},
+    {"name": "Contact Information", "score": <0-100>, "color": <"#1a7a4a"|"#d97706"|"#c0392b">},
+    {"name": "British English", "score": <0-100>, "color": <"#1a7a4a"|"#d97706"|"#c0392b">},
+    {"name": "Length & Conciseness", "score": <0-100>, "color": <"#1a7a4a"|"#d97706"|"#c0392b">},
+    {"name": "Readability", "score": <0-100>, "color": <"#1a7a4a"|"#d97706"|"#c0392b">},
+    {"name": "Formatting Consistency", "score": <0-100>, "color": <"#1a7a4a"|"#d97706"|"#c0392b">},
+    {"name": ${hasJD ? '"Job Description Match"' : '"Industry Relevance"'}, "score": <0-100>, "color": <"#1a7a4a"|"#d97706"|"#c0392b">}
+  ],
+  "feedback": [
+    {"type": <"positive"|"warning"|"critical">, "category": <short category name>, "text": <detailed feedback, 1-2 sentences, UK-specific>},
+    ... (6-10 feedback items)
+  ],
+  "rewrites": [
+    {"before": <original weak bullet point or sentence>, "after": <improved UK version>},
+    {"before": <another weak line>, "after": <improved version>},
+    {"before": <another weak line>, "after": <improved version>}
+  ],
+  "keywords": {
+    "present": [<6-10 keywords found in CV>],
+    "missing": [<6-10 important missing keywords>]
+  }
+}
+
+Be honest and specific. Reference actual content from the CV. Use British English throughout.`;
+
+    try {
+      const response = await fetch('/api/analyse', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt, fileData, fileType })
+      });
+
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || 'Analysis failed');
+      const rawText = data.content?.[0]?.text || '';
+
+      let report;
+      try {
+        let cleaned = rawText.trim().replace(/```json\s*/gi, '').replace(/```\s*/g, '').trim();
+        const start = cleaned.indexOf('{');
+        const end = cleaned.lastIndexOf('}');
+        if (start === -1 || end === -1) throw new Error('No JSON found');
+        report = JSON.parse(cleaned.slice(start, end + 1));
+      } catch (e) {
+        console.error('Parse error:', e, rawText);
+        throw new Error('Could not parse analysis. Please try again.');
+      }
+
+      // Increment usage count
+      incrementUsage();
+
+      clearInterval(loadingInterval);
+      ['step-1','step-2','step-3','step-4','step-5'].forEach(id => {
+        const el = document.getElementById(id);
+        el.classList.remove('active');
+        el.classList.add('done');
+        el.querySelector('.loading-step-icon').textContent = '✓';
+      });
+
+      setTimeout(() => {
+        document.getElementById('loading-state').classList.remove('show');
+        renderReport(report);
+        document.getElementById('results-section').classList.add('show');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        gtag('event', 'cv_analysis_complete', { overall_score: report.overall_score });
+      }, 600);
+
+    } catch (err) {
+      clearInterval(loadingInterval);
+      document.getElementById('loading-state').classList.remove('show');
+      document.getElementById('input-section').style.display = 'block';
+      showError('Analysis failed: ' + err.message);
+    }
+  }
+
+  // ── RENDER REPORT ──
+  function renderReport(r) {
+    document.getElementById('overall-score').textContent = r.overall_score;
+    document.getElementById('score-headline').textContent = r.headline;
+    document.getElementById('score-summary').textContent = r.summary;
+
+    const gradeEl = document.getElementById('score-grade');
+    const gradeColors = {
+      'Excellent': { bg: '#e6f4ed', color: '#1a7a4a' },
+      'Good': { bg: '#e8effe', color: '#1a56db' },
+      'Needs Work': { bg: '#fef3c7', color: '#d97706' },
+      'Poor': { bg: '#fdf0ee', color: '#c0392b' }
+    };
+    const gc = gradeColors[r.grade] || gradeColors['Needs Work'];
+    gradeEl.style.background = gc.bg;
+    gradeEl.style.color = gc.color;
+    gradeEl.textContent = r.grade;
+
+    const dimGrid = document.getElementById('dimensions-grid');
+    dimGrid.innerHTML = '';
+    (r.dimensions || []).forEach(d => {
+      const scoreColor = d.color || (d.score >= 70 ? '#1a7a4a' : d.score >= 45 ? '#d97706' : '#c0392b');
+      dimGrid.innerHTML += `
+        <div class="dimension-card">
+          <div class="dimension-name">${d.name}</div>
+          <div class="dimension-bar-track">
+            <div class="dimension-bar-fill" style="width:${d.score}%; background:${scoreColor};"></div>
+          </div>
+          <div class="dimension-score-text" style="color:${scoreColor};">${d.score}/100</div>
+        </div>`;
+    });
+
+    const feedbackList = document.getElementById('feedback-list');
+    feedbackList.innerHTML = '';
+    (r.feedback || []).forEach(f => {
+      feedbackList.innerHTML += `
+        <div class="feedback-item ${f.type}">
+          <div class="feedback-item-header">
+            <span class="feedback-tag ${f.type}">${f.type === 'positive' ? '✓ Strength' : f.type === 'warning' ? '⚠ Improve' : '✗ Critical'}</span>
+            <strong style="font-size:0.85rem;">${f.category}</strong>
+          </div>
+          <p>${f.text}</p>
+        </div>`;
+    });
+
+    const rewritesList = document.getElementById('rewrites-list');
+    rewritesList.innerHTML = '';
+    if (r.rewrites && r.rewrites.length > 0) {
+      r.rewrites.forEach(rw => {
+        rewritesList.innerHTML += `
+          <div class="rewrite-item">
+            <div class="rewrite-before"><div class="rewrite-label">❌ Before</div><div class="rewrite-text">${rw.before}</div></div>
+            <div class="rewrite-after"><div class="rewrite-label">✓ After</div><div class="rewrite-text">${rw.after}</div></div>
+          </div>`;
+      });
+    } else {
+      document.getElementById('rewrites-section').style.display = 'none';
+    }
+
+    const kwGrid = document.getElementById('keywords-grid');
+    kwGrid.innerHTML = '';
+    if (r.keywords) {
+      const presentTags = (r.keywords.present || []).map(k => `<span class="keyword-tag present">${k}</span>`).join('');
+      const missingTags = (r.keywords.missing || []).map(k => `<span class="keyword-tag missing">${k}</span>`).join('');
+      kwGrid.innerHTML = `
+        <div class="keyword-group present"><h4>✓ Found in your CV</h4><div class="keyword-tags">${presentTags}</div></div>
+        <div class="keyword-group missing"><h4>✗ Missing keywords</h4><div class="keyword-tags">${missingTags}</div></div>`;
+    } else {
+      document.getElementById('keywords-section').style.display = 'none';
+    }
+
+    // Reset gate if already submitted this session
+    const gateSubmitted = sessionStorage.getItem('gate_submitted');
+    if (gateSubmitted) {
+      document.getElementById('gate-form').style.display = 'none';
+      document.getElementById('gate-success').classList.add('show');
+    }
+
+    // Update pro CTA buttons with correct Stripe links
+    document.querySelectorAll('.pro-cta-btn').forEach(btn => {
+      btn.setAttribute('href', STRIPE_MONTHLY);
+      btn.setAttribute('target', '_blank');
+      btn.setAttribute('rel', 'noopener');
+    });
+
+    setTimeout(() => {
+      document.querySelectorAll('.dimension-bar-fill').forEach(bar => {
+        const w = bar.style.width;
+        bar.style.width = '0';
+        setTimeout(() => { bar.style.width = w; }, 50);
+      });
+    }, 100);
+  }
+
+  // ── RESET ──
+  function resetAnalysis() {
+    document.getElementById('results-section').classList.remove('show');
+    document.getElementById('input-section').style.display = 'block';
+    document.getElementById('cv-text').value = '';
+    document.getElementById('jd-text').value = '';
+    cvFile = null;
+    const zone = document.getElementById('upload-zone');
+    zone.classList.remove('has-file');
+    document.getElementById('upload-icon').textContent = '📄';
+    document.getElementById('upload-title').textContent = 'Drop your CV here, or click to browse';
+    document.getElementById('upload-sub').textContent = 'PDF, DOC, DOCX or TXT';
+    document.getElementById('rewrites-section').style.display = 'block';
+    document.getElementById('keywords-section').style.display = 'block';
+    ['step-1','step-2','step-3','step-4','step-5'].forEach(id => {
+      const el = document.getElementById(id);
+      el.classList.remove('active', 'done');
+      const icons = ['📖','🎯','🔍','✍️','📊'];
+      el.querySelector('.loading-step-icon').textContent = icons[parseInt(id.split('-')[1])-1];
+    });
+    document.getElementById('step-1').classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ── GATE EMAIL SUBMIT (fixed) ──
+  async function submitGateEmail() {
+    const emailInput = document.getElementById('gate-email');
+    const btn = document.querySelector('.gate-btn');
+    const email = emailInput.value.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(email)) {
+      emailInput.style.background = 'rgba(255,80,80,0.2)';
+      emailInput.placeholder = 'Please enter a valid email';
+      setTimeout(() => { emailInput.style.background = ''; emailInput.placeholder = 'your@email.com'; }, 2000);
+      return;
+    }
+
+    const originalText = btn.textContent;
+    btn.textContent = 'Saving…';
+    btn.disabled = true;
+
+    try {
+      // Use our own proxy to avoid CORS on ConvertKit
+      const response = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, tag: 'cvapplied-analyser' })
+      });
+
+      // Show success regardless (ConvertKit CORS can be flaky from browser)
+      document.getElementById('gate-form').style.display = 'none';
+      document.getElementById('gate-success').classList.add('show');
+      sessionStorage.setItem('gate_submitted', '1');
+
+      // Track usage email
+      const d = getUsageData();
+      if (!d.emails.includes(email)) {
+        d.emails.push(email);
+        saveUsageData(d);
+      }
+
+      gtag('event', 'analyser_email_captured', { email_domain: email.split('@')[1] });
+
+    } catch (e) {
+      // Show success anyway — don't block UX on network error
+      document.getElementById('gate-form').style.display = 'none';
+      document.getElementById('gate-success').classList.add('show');
+      sessionStorage.setItem('gate_submitted', '1');
+    }
+  }
+
+  document.getElementById('gate-email')?.addEventListener('keydown', e => {
+    if (e.key === 'Enter') submitGateEmail();
+  });
+
+  // ── ERROR ──
+  function showError(msg) {
+    const el = document.getElementById('error-banner');
+    el.textContent = '⚠ ' + msg;
+    el.classList.add('show');
+  }
+  function hideError() {
+    document.getElementById('error-banner').classList.remove('show');
+  }
+
+  // ── INIT ──
+  updateUsageBar();
+</script>
 
   // ── TAB SWITCH ──
   function switchTab(tab) {
