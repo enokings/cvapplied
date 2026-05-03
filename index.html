@@ -1195,20 +1195,6 @@
     });
   });
 
-  // Upload handler
-  function handleUpload() {
-    const file = document.getElementById('cv-file').files[0];
-    if (file) {
-      const zone = document.querySelector('.upload-zone');
-      zone.style.borderColor = 'var(--green)';
-      zone.style.background = 'var(--green-soft)';
-      zone.querySelector('h3').textContent = `✓ ${file.name} uploaded`;
-      zone.querySelector('p').textContent = 'Analysis would begin here in the full product…';
-    }
-  }
-
-  document.getElementById('cv-file').addEventListener('change', handleUpload);
-
   // Nav scroll effect
   window.addEventListener('scroll', () => {
     const nav = document.querySelector('nav');
