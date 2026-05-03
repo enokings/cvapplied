@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CVApplied — UK Role-Based CV Templates</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MG5NEFRT2S"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MG5NEFRT2S');
+</script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #0f1117; --ink-soft: #3a3d4a; --ink-muted: #7a7f8e;
+    --paper: #fafaf8; --white: #ffffff; --accent: #1a56db;
+    --accent-soft: #e8effe; --rule: #e4e4e0; --gold: #c89b3c;
+    --green: #1a7a4a; --green-soft: #e6f4ed;
+    --shadow-sm: 0 1px 3px rgba(15,17,23,0.06);
+    --shadow-md: 0 4px 16px rgba(15,17,23,0.08);
+    --shadow-lg: 0 12px 40px rgba(15,17,23,0.10);
+    --radius: 10px; --radius-lg: 18px;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(250,250,248,0.92); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--rule); padding: 0 48px; height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.35rem; font-weight: 700; color: var(--ink); text-decoration: none; letter-spacing: -0.02em; }
+  .nav-logo span { color: var(--accent); }
+  .nav-right { display: flex; align-items: center; gap: 24px; }
+  .nav-back { font-size: 0.85rem; font-weight: 500; color: var(--ink-soft); text-decoration: none; transition: color 0.2s; }
+  .nav-back:hover { color: var(--ink); }
+  .nav-cta { background: var(--ink); color: var(--white); padding: 9px 20px; border-radius: 6px; font-weight: 600; font-size: 0.85rem; text-decoration: none; transition: background 0.2s; }
+  .nav-cta:hover { background: var(--accent); }
+
+  /* PAGE HEADER */
+  .page-header { text-align: center; padding: 110px 24px 56px; max-width: 700px; margin: 0 auto; }
+  .page-eyebrow { display: inline-flex; align-items: center; gap: 8px; background: var(--accent-soft); color: var(--accent); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 6px 14px; border-radius: 4px; margin-bottom: 20px; }
+  .page-eyebrow::before { content: ''; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; }
+  h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 700; line-height: 1.15; letter-spacing: -0.025em; margin-bottom: 14px; }
+  h1 em { font-style: normal; color: var(--accent); }
+  .page-sub { font-size: 1.05rem; color: var(--ink-soft); font-weight: 300; }
+
+  /* TEMPLATE GRID */
+  .templates-wrapper { max-width: 1200px; margin: 0 auto; padding: 0 24px 80px; }
+  .role-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 48px; }
+
+  /* ROLE CARD */
+  .role-card {
+    background: var(--white); border: 1px solid var(--rule);
+    border-radius: var(--radius-lg); overflow: hidden;
+    cursor: pointer; transition: all 0.25s;
+  }
+  .role-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-3px); border-color: var(--accent); }
+  .role-card.active { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+  .role-card-preview {
+    height: 130px; padding: 18px 18px 14px; position: relative;
+    background: #f5f6fa; border-bottom: 1px solid var(--rule);
+    overflow: hidden;
+  }
+  .role-card-bar { position: absolute; top: 0; left: 0; right: 0; height: 4px; }
+  .role-card-name-mock { height: 9px; border-radius: 4px; background: rgba(15,17,23,0.18); width: 55%; margin-bottom: 5px; margin-top: 10px; }
+  .role-card-title-mock { height: 6px; border-radius: 4px; background: rgba(15,17,23,0.1); width: 38%; margin-bottom: 14px; }
+  .role-card-lines { display: flex; flex-direction: column; gap: 5px; }
+  .role-card-line { height: 5px; background: var(--rule); border-radius: 3px; }
+  .role-card-line.full { width: 100%; }
+  .role-card-line.med { width: 78%; }
+  .role-card-line.short { width: 52%; }
+  .role-card-body { padding: 16px 18px 18px; }
+  .role-card-title { font-size: 0.95rem; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
+  .role-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 14px; }
+  .role-tag { font-size: 0.68rem; font-weight: 600; padding: 3px 8px; border-radius: 4px; background: var(--accent-soft); color: var(--accent); letter-spacing: 0.02em; }
+  .role-card-btn {
+    display: flex; align-items: center; justify-content: space-between;
+    width: 100%; padding: 10px 14px; border-radius: 8px;
+    background: var(--paper); border: 1.5px solid var(--rule);
+    font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 600;
+    color: var(--ink-soft); cursor: pointer; transition: all 0.2s;
+  }
+  .role-card-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+  .role-card.active .role-card-btn { background: var(--accent); border-color: var(--accent); color: var(--white); }
+
+  /* CV DISPLAY PANEL */
+  .cv-panel {
+    background: var(--white); border: 1px solid var(--rule);
+    border-radius: var(--radius-lg); overflow: hidden;
+    display: none; margin-top: 8px;
+  }
+  .cv-panel.show { display: block; }
+  .cv-panel-header {
+    padding: 20px 28px; border-bottom: 1px solid var(--rule);
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--paper); flex-wrap: wrap; gap: 12px;
+  }
+  .cv-panel-title { font-size: 0.82rem; font-weight: 700; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+  .cv-panel-role { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--ink); }
+  .cv-panel-actions { display: flex; gap: 10px; align-items: center; }
+  .btn-copy {
+    display: flex; align-items: center; gap: 7px;
+    padding: 9px 18px; background: var(--accent); color: var(--white);
+    border: none; border-radius: 7px; font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.2s;
+  }
+  .btn-copy:hover { background: #1548c0; }
+  .btn-copy.copied { background: var(--green); }
+  .btn-analyse {
+    display: flex; align-items: center; gap: 7px;
+    padding: 9px 18px; background: transparent; color: var(--ink-soft);
+    border: 1.5px solid var(--rule); border-radius: 7px;
+    font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 500;
+    cursor: pointer; transition: all 0.2s; text-decoration: none;
+  }
+  .btn-analyse:hover { border-color: var(--ink); color: var(--ink); }
+  .cv-text-area {
+    font-family: 'DM Mono', monospace; font-size: 0.8rem; line-height: 1.75;
+    color: var(--ink-soft); padding: 28px 32px; white-space: pre-wrap;
+    max-height: 600px; overflow-y: auto; border: none; outline: none;
+    width: 100%; resize: none; background: var(--white);
+  }
+  .cv-hint {
+    padding: 14px 28px; background: var(--accent-soft);
+    border-top: 1px solid var(--rule);
+    font-size: 0.8rem; color: var(--accent); font-weight: 500;
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  /* BOTTOM CTA */
+  .bottom-cta {
+    background: var(--ink); border-radius: var(--radius-lg);
+    padding: 48px; text-align: center; margin-top: 48px;
+  }
+  .bottom-cta h2 { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; color: var(--white); margin-bottom: 12px; }
+  .bottom-cta p { color: rgba(255,255,255,0.6); font-size: 0.95rem; margin-bottom: 28px; }
+  .cta-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn-white { padding: 13px 28px; background: var(--white); color: var(--accent); border: none; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 700; cursor: pointer; text-decoration: none; transition: all 0.2s; }
+  .btn-white:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(0,0,0,0.2); }
+  .btn-ghost { padding: 13px 28px; background: transparent; color: rgba(255,255,255,0.7); border: 1.5px solid rgba(255,255,255,0.2); border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 500; cursor: pointer; text-decoration: none; transition: all 0.2s; }
+  .btn-ghost:hover { border-color: rgba(255,255,255,0.5); color: var(--white); }
+
+  @media (max-width: 900px) {
+    nav { padding: 0 20px; }
+    .role-grid { grid-template-columns: 1fr 1fr; }
+    .cv-text-area { padding: 20px; font-size: 0.75rem; }
+    .cv-panel-header { padding: 16px 20px; }
+    .bottom-cta { padding: 32px 20px; }
+  }
+  @media (max-width: 600px) {
+    .role-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">CV<span>Applied</span></a>
+  <div class="nav-right">
+    <a href="index.html" class="nav-back">← Home</a>
+    <a href="analyse.html" class="nav-cta">Analyse My CV</a>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="page-eyebrow">UK Role-Based Templates</div>
+  <h1>Start with a CV built for <em>your role</em></h1>
+  <p class="page-sub">Every template is structured around what UK hiring managers in that sector actually want to see — with pre-filled example content you can copy and adapt.</p>
+</div>
+
+<div class="templates-wrapper">
+  <div class="role-grid" id="role-grid"></div>
+  <div class="cv-panel" id="cv-panel">
+    <div class="cv-panel-header">
+      <div>
+        <div class="cv-panel-title">CV Template</div>
+        <div class="cv-panel-role" id="panel-role-name"></div>
+      </div>
+      <div class="cv-panel-actions">
+        <a href="analyse.html" class="btn-analyse">✦ Analyse This CV</a>
+        <button class="btn-copy" id="copy-btn" onclick="copyCV()">📋 Copy Template</button>
+      </div>
+    </div>
+    <textarea class="cv-text-area" id="cv-text-display" readonly></textarea>
+    <div class="cv-hint">💡 Copy this template, paste it into a Word doc or Google Doc, then replace the placeholder text with your own details. Then analyse it with CVApplied.</div>
+  </div>
+
+  <div class="bottom-cta">
+    <h2>Ready to make your CV shine?</h2>
+    <p>Use a template as your base, then run it through CVApplied's AI analyser for a full UK-specific score and rewrite suggestions.</p>
+    <div class="cta-row">
+      <a href="analyse.html" class="btn-white">✦ Analyse My CV Free</a>
+      <a href="index.html#waitlist" class="btn-ghost">Join Waitlist for Full Access</a>
+    </div>
+  </div>
+</div>
+
+<script>
+const templates = [
+  {
+    id: 'pm',
+    title: 'Project Manager',
+    color: '#1a56db',
+    tags: ['APM', 'PRINCE2', 'Agile', 'PMP'],
+    cv: `JAMES RICHARDSON
+james.richardson@email.com | 07700 900123 | London, UK | linkedin.com/in/jamesrichardson
+
+─────────────────────────────────────────────
+PROFESSIONAL PROFILE
+─────────────────────────────────────────────
+Results-driven Project Manager with 8 years' experience delivering complex, multi-stakeholder programmes across financial services and technology sectors. PRINCE2 Practitioner and Certified Scrum Master with a track record of delivering projects on time and within budget. Skilled in cross-functional team leadership, risk management, and stakeholder communication at board level. Seeking a senior PM role within a forward-thinking UK organisation.
+
+─────────────────────────────────────────────
+CORE COMPETENCIES
+─────────────────────────────────────────────
+Project Lifecycle Management | PRINCE2 Practitioner | Agile / Scrum | Stakeholder Engagement | Risk & Issue Management | Budget Control (up to £5M) | MS Project | JIRA | Confluence | Change Management | Resource Planning | Benefits Realisation
+
+─────────────────────────────────────────────
+PROFESSIONAL EXPERIENCE
+─────────────────────────────────────────────
+Senior Project Manager | Barclays UK | London | Jan 2021 – Present
+• Delivered a £3.2M core banking migration programme 3 weeks ahead of schedule, reducing operational risk by 40%
+• Led a cross-functional team of 14 across IT, compliance, and operations to implement regulatory reporting changes under FCA guidelines
+• Managed full project lifecycle for 6 concurrent workstreams, maintaining 97% on-time delivery rate across the portfolio
+• Introduced Agile sprint methodology to a previously waterfall team, reducing change request backlog by 62%
+• Produced weekly board-level RAG status reports and presented at SteerCo for £8M transformation programme
+
+Project Manager | Capita plc | London | Mar 2018 – Dec 2020
+• Managed digital transformation project across 3 business units with a combined budget of £1.8M
+• Coordinated delivery of GDPR compliance programme, achieving sign-off 6 weeks ahead of regulatory deadline
+• Reduced project overhead costs by 18% through process optimisation and supplier renegotiation
+• Mentored 2 junior project coordinators, both of whom were promoted within 12 months
+
+Project Coordinator | Wipro UK | Manchester | Sep 2015 – Feb 2018
+• Supported delivery of NHS digital records system across 4 trusts, tracking £600K budget
+• Maintained project documentation, risk registers, and RAID logs for 3 simultaneous projects
+• Facilitated daily stand-ups and sprint retrospectives for Agile delivery teams
+
+─────────────────────────────────────────────
+EDUCATION & QUALIFICATIONS
+─────────────────────────────────────────────
+MSc Project Management | University of Manchester | 2015
+BSc Business Management (2:1) | University of Leeds | 2013
+
+PRINCE2 Practitioner | AXELOS | 2017 (renewed 2022)
+Certified Scrum Master (CSM) | Scrum Alliance | 2019
+APM Project Management Qualification (PMQ) | 2018
+
+─────────────────────────────────────────────
+TECHNICAL SKILLS
+─────────────────────────────────────────────
+MS Project | JIRA | Confluence | Smartsheet | Power BI | SharePoint | Trello | Miro | MS Office 365
+
+─────────────────────────────────────────────
+PROFESSIONAL MEMBERSHIPS
+─────────────────────────────────────────────
+Member, Association for Project Management (MAPM)
+`
+  },
+  {
+    id: 'swe',
+    title: 'Software Engineer',
+    color: '#1a7a4a',
+    tags: ['React', 'Python', 'AWS', 'Agile'],
+    cv: `PRIYA SHARMA
+priya.sharma@email.com | 07711 234567 | London, UK | github.com/priyasharma | linkedin.com/in/priyasharma
+
+─────────────────────────────────────────────
+PROFESSIONAL PROFILE
+─────────────────────────────────────────────
+Full-stack Software Engineer with 5 years' experience building scalable web applications in fast-paced startup and enterprise environments. Proficient in React, Python, and AWS. Passionate about clean code, test-driven development, and engineering solutions that directly impact user experience. Looking to join a product-led engineering team solving meaningful problems.
+
+─────────────────────────────────────────────
+TECHNICAL SKILLS
+─────────────────────────────────────────────
+Languages: Python, JavaScript (ES6+), TypeScript, SQL
+Frontend: React, Next.js, HTML5, CSS3, Tailwind CSS
+Backend: Node.js, FastAPI, Django, REST APIs, GraphQL
+Cloud & DevOps: AWS (EC2, S3, Lambda, RDS), Docker, Kubernetes, CI/CD (GitHub Actions)
+Databases: PostgreSQL, MySQL, MongoDB, Redis
+Testing: Jest, Pytest, Cypress, TDD
+Tools: Git, JIRA, Figma, Postman
+
+─────────────────────────────────────────────
+PROFESSIONAL EXPERIENCE
+─────────────────────────────────────────────
+Software Engineer (Mid-Level) | Monzo Bank | London | Feb 2022 – Present
+• Built and maintained microservices handling 2M+ daily transactions using Python and Go
+• Reduced API response times by 35% through query optimisation and Redis caching implementation
+• Led migration of legacy payment service to event-driven architecture using AWS SQS, improving reliability to 99.97% uptime
+• Shipped 14 A/B tested features end-to-end in React, contributing to a 12% increase in user activation rate
+• Mentored 2 junior engineers and conducted 30+ technical interviews
+
+Software Engineer | Deliveroo | London | Aug 2020 – Jan 2022
+• Developed customer-facing features for the Deliveroo web app used by 6M+ UK users
+• Implemented automated testing suite using Jest and Cypress, achieving 85% code coverage
+• Collaborated with product and design in 2-week Agile sprints to deliver features on time
+• Refactored order tracking module, reducing bug reports by 48%
+
+Junior Developer | Thoughtworks | Manchester | Sep 2018 – Jul 2020
+• Contributed to 3 client-facing projects across retail and logistics verticals
+• Gained experience across full SDLC from requirements through to deployment
+• Completed internal XP (Extreme Programming) training programme
+
+─────────────────────────────────────────────
+EDUCATION
+─────────────────────────────────────────────
+BSc Computer Science (First Class Honours) | University of Edinburgh | 2018
+
+AWS Certified Developer – Associate | 2022
+Google Professional Cloud Developer | 2023
+
+─────────────────────────────────────────────
+PROJECTS
+─────────────────────────────────────────────
+OpenBudget (github.com/priyasharma/openbudget)
+Personal finance tracker built with Next.js and PostgreSQL. 400+ GitHub stars. Featured in JavaScript Weekly newsletter.
+`
+  },
+  {
+    id: 'marketing',
+    title: 'Marketing Manager',
+    color: '#7c3aed',
+    tags: ['B2B', 'Digital', 'SEO', 'CRM'],
+    cv: `SOPHIE CHEN
+sophie.chen@email.com | 07733 456789 | London, UK | linkedin.com/in/sophiechen
+
+─────────────────────────────────────────────
+PROFESSIONAL PROFILE
+─────────────────────────────────────────────
+Data-driven Marketing Manager with 7 years' experience leading B2B and B2C campaigns across SaaS, retail, and professional services. Proven track record of growing organic traffic, reducing customer acquisition costs, and building high-performing marketing teams. HubSpot and Google Analytics certified. Adept at translating business objectives into measurable marketing programmes.
+
+─────────────────────────────────────────────
+CORE SKILLS
+─────────────────────────────────────────────
+Digital Marketing Strategy | SEO & Content Marketing | Paid Media (Google Ads, Meta) | Email Marketing | HubSpot CRM | Salesforce | Google Analytics 4 | Marketing Automation | Brand Management | Budget Management (£500K+) | Team Leadership | A/B Testing | Copywriting
+
+─────────────────────────────────────────────
+PROFESSIONAL EXPERIENCE
+─────────────────────────────────────────────
+Marketing Manager | Sage plc | London | Mar 2021 – Present
+• Grew organic search traffic by 142% over 18 months through SEO-led content strategy, generating £1.2M in attributed pipeline
+• Led rebranding of SMB product line, coordinating agency, design, and sales teams across 3 markets
+• Managed £480K annual marketing budget, reducing cost-per-lead by 31% through channel optimisation
+• Built and managed a team of 4 including a content writer, PPC specialist, and marketing executive
+• Delivered 6 integrated demand generation campaigns resulting in 2,300 MQLs in FY2023
+
+Digital Marketing Manager | Just Eat | London | Jan 2019 – Feb 2021
+• Managed £200K monthly Google Ads budget with average ROAS of 4.2x
+• Increased email open rates from 18% to 34% through segmentation and personalisation improvements
+• Launched loyalty programme email campaign reaching 1.4M subscribers, driving 22% repeat order uplift
+• Introduced UTM tracking framework across all channels, improving attribution accuracy by 60%
+
+Marketing Executive | Zoopla | London | Jun 2016 – Dec 2018
+• Supported campaign delivery across SEM, social, and display channels
+• Produced weekly performance reports and presented findings to Head of Marketing
+• Assisted with 3 product launch campaigns, each exceeding lead targets by at least 15%
+
+─────────────────────────────────────────────
+EDUCATION & QUALIFICATIONS
+─────────────────────────────────────────────
+BA Marketing (First Class Honours) | University of Bristol | 2016
+
+CIM Diploma in Professional Marketing | 2019
+Google Analytics 4 Certification | 2023
+HubSpot Inbound Marketing Certification | 2022
+Meta Blueprint Certification | 2021
+`
+  },
+  {
+    id: 'finance',
+    title: 'Finance & Accounting',
+    color: '#c89b3c',
+    tags: ['ACA', 'ACCA', 'CIMA', 'FP&A'],
+    cv: `MARCUS OKAFOR
+marcus.okafor@email.com | 07744 567890 | London, UK | linkedin.com/in/marcokafor
+
+─────────────────────────────────────────────
+PROFESSIONAL PROFILE
+─────────────────────────────────────────────
+Qualified ACA Chartered Accountant with 6 years' post-qualification experience in financial reporting, FP&A, and commercial finance within FTSE 250 and private equity-backed environments. Strong technical foundation in IFRS, UK GAAP, and group consolidation. Proven ability to deliver accurate management accounts, drive commercial insights, and partner effectively with senior stakeholders.
+
+─────────────────────────────────────────────
+CORE COMPETENCIES
+─────────────────────────────────────────────
+Financial Reporting (IFRS / UK GAAP) | Management Accounts | FP&A | Budgeting & Forecasting | Group Consolidation | Financial Modelling | Variance Analysis | Cash Flow Management | External Audit | SAP | Oracle | Advanced Excel (VBA) | Power BI | Stakeholder Partnering
+
+─────────────────────────────────────────────
+PROFESSIONAL EXPERIENCE
+─────────────────────────────────────────────
+Finance Manager | Tesco plc | Welwyn Garden City | Apr 2021 – Present
+• Produce monthly management accounts for £420M revenue business unit, providing commentary and variance analysis to CFO and Board
+• Lead the annual budgeting and quarterly reforecasting process across 5 business lines, coordinating inputs from 12 cost centre owners
+• Reduced month-end close from 8 to 5 days through process redesign and automation using Excel VBA
+• Delivered £1.8M cost saving by identifying overhead inefficiencies through detailed spend analysis
+• Business partnered with Commercial Director on new supplier negotiations, building financial models to assess contract options
+
+Senior Financial Analyst | Deloitte UK | London | Sep 2018 – Mar 2021
+• Prepared consolidated financial statements for group of 12 entities under IFRS 16 and IFRS 9
+• Supported external audit process, acting as key liaison between finance and audit teams
+• Built 3-statement financial models for M&A due diligence engagements
+• Managed 2 junior analysts, reviewing work and providing technical accounting guidance
+
+Trainee Accountant (ACA) | PwC | London | Sep 2015 – Aug 2018
+• Completed ACA training contract across audit, tax, and advisory rotations
+• Gained experience across retail, manufacturing, and financial services clients
+• Passed all 15 ACA examinations on first attempt
+
+─────────────────────────────────────────────
+EDUCATION & QUALIFICATIONS
+─────────────────────────────────────────────
+BSc Accounting & Finance (2:1) | London School of Economics | 2015
+
+ACA (Chartered Accountant) | ICAEW | Qualified 2018
+CIMA Certificate in Business Accounting | 2014
+
+─────────────────────────────────────────────
+TECHNICAL SKILLS
+─────────────────────────────────────────────
+SAP S/4HANA | Oracle Financials | Hyperion | Advanced Excel (VBA, Power Query) | Power BI | Tableau | Bloomberg Terminal
+`
+  },
+  {
+    id: 'data-analyst',
+    title: 'Data Analyst',
+    color: '#0891b2',
+    tags: ['SQL', 'Python', 'Power BI', 'Tableau'],
+    cv: `AISHA PATEL
+aisha.patel@email.com | 07755 678901 | Birmingham, UK | linkedin.com/in/aishapatel | github.com/aishapatel
+
+─────────────────────────────────────────────
+PROFESSIONAL PROFILE
+─────────────────────────────────────────────
+Analytically minded Data Analyst with 4 years' experience turning complex datasets into actionable business insights across retail, e-commerce, and logistics. Proficient in SQL, Python, and Power BI. Skilled at communicating findings clearly to both technical and non-technical audiences. Passionate about using data to drive decision-making and improve operational performance.
+
+─────────────────────────────────────────────
+TECHNICAL SKILLS
+─────────────────────────────────────────────
+Languages & Tools: SQL (PostgreSQL, MySQL, SQL Server), Python (Pandas, NumPy, Matplotlib, Seaborn), R
+BI & Visualisation: Power BI (DAX), Tableau, Looker, Google Data Studio
+Data Platforms: Google BigQuery, AWS Redshift, Snowflake, dbt
+Other: Excel (advanced), JIRA, Confluence, Git, A/B testing, Statistical analysis
+
+─────────────────────────────────────────────
+PROFESSIONAL EXPERIENCE
+─────────────────────────────────────────────
+Data Analyst | ASOS | London | Jun 2022 – Present
+• Built and maintained 12 Power BI dashboards tracking KPIs across marketing, trading, and customer retention, used daily by 40+ stakeholders
+• Identified £2.1M in revenue leakage through cohort analysis of customer return behaviour, leading to policy change
+• Reduced reporting time by 70% by automating weekly trading reports using Python and SQL stored procedures
+• Conducted A/B test analysis for 8 product recommendations experiments, influencing £4.5M in incremental revenue decisions
+• Partnered with marketing team to build customer segmentation model using K-means clustering in Python
+
+Junior Data Analyst | Next plc | Leicester | Aug 2020 – May 2022
+• Designed and built SQL queries against 50M+ row transactional database to support trading and buying teams
+• Produced weekly and monthly MI reports for commercial directors, tracking sales, margin, and stock performance
+• Supported implementation of Tableau dashboards, training 15 end users across 3 departments
+• Flagged £380K data quality issue in product catalogue through anomaly detection analysis
+
+─────────────────────────────────────────────
+EDUCATION
+─────────────────────────────────────────────
+BSc Mathematics and Statistics (2:1) | University of Nottingham | 2020
+
+Microsoft Power BI Data Analyst Associate (PL-300) | 2023
+Google Data Analytics Professional Certificate | 2021
+DataCamp Data Analyst with Python Track | 2021
+`
+  },
+  {
+    id: 'data-governance',
+    title: 'Data Governance Lead',
+    color: '#1e40af',
+    tags: ['DAMA', 'DCAM', 'Purview', 'GDPR'],
+    cv: `KINGSLEY IMONI
+kingsley.imoni@email.com | 07766 789012 | London, UK | linkedin.com/in/kingsleyimoni
+
+─────────────────────────────────────────────
+PROFESSIONAL PROFILE
+─────────────────────────────────────────────
+Experienced Data Governance Lead with 8 years' experience establishing and embedding enterprise data governance frameworks within financial services, insurance, and regulated industries. DAMA-certified with deep expertise in data policy, data quality management, metadata governance, and regulatory compliance (GDPR, BCBS 239, Solvency II). Proven ability to drive cultural change, secure stakeholder buy-in, and translate complex governance requirements into practical, business-owned controls.
+
+─────────────────────────────────────────────
+CORE COMPETENCIES
+─────────────────────────────────────────────
+Data Governance Frameworks (DAMA DMBOK / DCAM) | Data Policy & Standards | Data Quality Management | Metadata & Data Lineage | Business Glossary Development | Data Ownership & Stewardship | Microsoft Purview | Collibra | Regulatory Compliance (GDPR, BCBS 239, Solvency II) | Stakeholder Engagement | Data Literacy & Training | Risk & Controls | CDO Advisory
+
+─────────────────────────────────────────────
+PROFESSIONAL EXPERIENCE
+─────────────────────────────────────────────
+Data Governance Lead | Tindall Riley (Britannia P&I) | London | Jan 2024 – Present
+• Established enterprise data governance framework across three P&I associations (Britannia, Ren, Griffin), covering 8,000+ data fields in the BPMS system of record
+• Identified and documented 136 High Material Data Items for Britannia, completing full data dictionary coverage and initiating data owner sign-off programme
+• Conducted discovery sessions with actuarial, reserving, and IT leadership to map critical data lineage across the claims and reserving triangle process
+• Developed four-pillar DG change management strategy (Awareness, Desire, Knowledge, Ability) to drive cultural adoption across 3 business units
+• Produced formal data lineage project plan and stakeholder proposal endorsed by Chief Actuary
+• Established escalation pathway for critical data quality issues, previously non-existent in the organisation
+
+Senior Data Governance Analyst | Aviva plc | London | Mar 2020 – Dec 2023
+• Led deployment of Microsoft Purview across 4 business divisions, cataloguing 12,000+ data assets and establishing automated data classification
+• Designed and implemented enterprise business glossary with 650+ approved terms, reducing ambiguity in regulatory reporting
+• Managed GDPR Article 30 records of processing activities, overseeing annual review cycle for 180 processing activities
+• Chaired monthly Data Governance Forum with 15 data stewards across actuarial, finance, and IT
+• Delivered BCBS 239 compliance programme, achieving satisfactory rating in PRA review
+• Reduced critical data quality incidents by 44% through implementation of DQ scorecards and SLA framework
+
+Data Governance Analyst | Lloyds Banking Group | London | Sep 2016 – Feb 2020
+• Supported CDO office in rollout of enterprise data governance operating model across Retail and Commercial banking divisions
+• Built and maintained data lineage documentation for 6 critical regulatory reports (COREP, FinRep, LCR)
+• Coordinated data owner and data steward network of 60+ individuals, managing training and certification programme
+• Contributed to Collibra implementation, configuring workflows and business glossary module
+
+─────────────────────────────────────────────
+EDUCATION & QUALIFICATIONS
+─────────────────────────────────────────────
+BSc Information Management (2:1) | King's College London | 2016
+
+CDMP – Certified Data Management Professional (DAMA International) | 2021
+DCAM Practitioner | EDM Council | 2022
+BCS Certificate in Data Management Essentials | 2018
+Microsoft Purview Data Governance | Microsoft Learn | 2023
+
+─────────────────────────────────────────────
+TECHNICAL & TOOL SKILLS
+─────────────────────────────────────────────
+Microsoft Purview | Collibra | Informatica | Atlan | SQL | Power BI | SharePoint | ServiceNow | Excel (Advanced) | Visio | Confluence
+`
+  },
+  {
+    id: 'data-management',
+    title: 'Data Management',
+    color: '#0f766e',
+    tags: ['MDM', 'Data Quality', 'Lineage', 'ETL'],
+    cv: `RACHEL ADEYEMI
+rachel.adeyemi@email.com | 07777 890123 | Manchester, UK | linkedin.com/in/racheladeyemi
+
+─────────────────────────────────────────────
+PROFESSIONAL PROFILE
+─────────────────────────────────────────────
+Detail-oriented Data Management professional with 6 years' experience across Master Data Management (MDM), data quality, ETL pipeline development, and data architecture within retail and utilities sectors. Adept at designing and implementing data quality frameworks, managing complex data migration projects, and ensuring data integrity across enterprise systems. Collaborative communicator who bridges technical and business teams effectively.
+
+─────────────────────────────────────────────
+CORE COMPETENCIES
+─────────────────────────────────────────────
+Master Data Management (MDM) | Data Quality Management | Data Lineage & Cataloguing | ETL Development | Data Migration | Data Architecture | SQL | Python | Informatica PowerCenter | Talend | Azure Data Factory | Snowflake | Data Profiling | Root Cause Analysis | Business Analysis | Data Standards
+
+─────────────────────────────────────────────
+PROFESSIONAL EXPERIENCE
+─────────────────────────────────────────────
+Senior Data Management Analyst | Electricity North West | Manchester | Apr 2021 – Present
+• Designed and implemented enterprise MDM solution for 2.4M customer records, reducing duplicate records by 91% and improving billing accuracy
+• Developed automated data quality monitoring framework using Python and SQL, tracking 140 DQ rules across 8 operational systems
+• Led data migration for SAP S/4HANA implementation, successfully migrating 18M records with 99.7% accuracy rate
+• Produced end-to-end data lineage documentation for 4 critical regulatory datasets (Ofgem reporting)
+• Established data quality scorecard reported monthly to CIO, driving accountability across 6 data-owning teams
+• Reduced data-related incident tickets by 38% over 12 months through root cause analysis and upstream remediation
+
+Data Management Analyst | Marks & Spencer | London | Feb 2018 – Mar 2021
+• Managed product master data across 85,000 SKUs, maintaining accuracy standards for e-commerce, ERP, and POS systems
+• Built and maintained Talend ETL pipelines moving data between Oracle ERP, Salesforce, and data warehouse
+• Conducted data profiling and cleansing for 3 system migrations, identifying 120K records requiring remediation
+• Documented data dictionary and data flow diagrams for product, supplier, and customer data domains
+• Supported annual data audit process, preparing evidence packs for internal and external reviewers
+
+Junior Data Analyst | Experian UK | Nottingham | Jul 2016 – Jan 2018
+• Performed data quality checks on bureau data feeds from 300+ financial institutions
+• Wrote SQL queries to investigate data anomalies and produced exception reports for client services team
+• Assisted in documenting data transformation rules for 2 client onboarding projects
+
+─────────────────────────────────────────────
+EDUCATION & QUALIFICATIONS
+─────────────────────────────────────────────
+BSc Data Science (2:1) | University of Manchester | 2016
+
+CDMP Associate – Certified Data Management Professional | DAMA International | 2020
+Informatica Intelligent Data Management Cloud Certification | 2022
+Microsoft Azure Data Engineer Associate (DP-203) | 2023
+
+─────────────────────────────────────────────
+TECHNICAL SKILLS
+─────────────────────────────────────────────
+SQL (SQL Server, PostgreSQL, Oracle) | Python (Pandas, PySpark) | Informatica PowerCenter | Talend | Azure Data Factory | Snowflake | dbt | Power BI | Collibra | Excel (Advanced) | Visio | JIRA
+`
+  }
+];
+
+// ── RENDER CARDS ──
+function renderCards() {
+  const grid = document.getElementById('role-grid');
+  grid.innerHTML = templates.map(t => `
+    <div class="role-card" id="card-${t.id}" onclick="selectTemplate('${t.id}')">
+      <div class="role-card-preview">
+        <div class="role-card-bar" style="background:${t.color}"></div>
+        <div class="role-card-name-mock"></div>
+        <div class="role-card-title-mock"></div>
+        <div class="role-card-lines">
+          <div class="role-card-line full"></div>
+          <div class="role-card-line med"></div>
+          <div class="role-card-line short"></div>
+          <div class="role-card-line full"></div>
+          <div class="role-card-line med"></div>
+        </div>
+      </div>
+      <div class="role-card-body">
+        <div class="role-card-title">${t.title}</div>
+        <div class="role-tags">${t.tags.map(tag => `<span class="role-tag">${tag}</span>`).join('')}</div>
+        <button class="role-card-btn">
+          <span>View Template</span>
+          <span>→</span>
+        </button>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ── SELECT TEMPLATE ──
+function selectTemplate(id) {
+  const template = templates.find(t => t.id === id);
+  if (!template) return;
+
+  // Update card states
+  document.querySelectorAll('.role-card').forEach(c => c.classList.remove('active'));
+  document.getElementById(`card-${id}`).classList.add('active');
+
+  // Update panel
+  document.getElementById('panel-role-name').textContent = template.title + ' CV Template';
+  document.getElementById('cv-text-display').value = template.cv;
+  document.getElementById('copy-btn').textContent = '📋 Copy Template';
+  document.getElementById('copy-btn').classList.remove('copied');
+
+  // Show panel
+  const panel = document.getElementById('cv-panel');
+  panel.classList.add('show');
+
+  // Scroll to panel smoothly
+  setTimeout(() => {
+    panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 100);
+
+  // GA event
+  gtag('event', 'template_viewed', { template_role: id });
+}
+
+// ── COPY CV ──
+function copyCV() {
+  const text = document.getElementById('cv-text-display').value;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copy-btn');
+    btn.textContent = '✓ Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = '📋 Copy Template';
+      btn.classList.remove('copied');
+    }, 2500);
+    gtag('event', 'template_copied', { template_role: document.getElementById('panel-role-name').textContent });
+  }).catch(() => {
+    // Fallback for older browsers
+    const textarea = document.getElementById('cv-text-display');
+    textarea.select();
+    document.execCommand('copy');
+    const btn = document.getElementById('copy-btn');
+    btn.textContent = '✓ Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '📋 Copy Template'; btn.classList.remove('copied'); }, 2500);
+  });
+}
+
+// ── CHECK URL PARAM ──
+// Allow direct linking e.g. templates.html?role=data-governance
+function checkUrlParam() {
+  const params = new URLSearchParams(window.location.search);
+  const role = params.get('role');
+  if (role && templates.find(t => t.id === role)) {
+    selectTemplate(role);
+  }
+}
+
+renderCards();
+checkUrlParam();
+</script>
+</body>
+</html>
