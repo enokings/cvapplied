@@ -589,14 +589,22 @@ We are looking for a Senior Data Analyst to join our team..."></textarea>
     }
   });
 
-  // ── READ FILE AS TEXT ──
+  // ── READ FILE AS BASE64 ──
+  async function readFileAsBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => resolve(e.target.result.split(',')[1]);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // ── READ FILE AS TEXT (for TXT files) ──
   async function readFileAsText(file) {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
-      // For PDFs and binary formats, read as text best-effort
       reader.onload = (e) => {
         let text = e.target.result;
-        // Strip non-printable characters that come from binary PDF reading
         text = text.replace(/[^\x20-\x7E\n\r\t£€]/g, ' ').replace(/\s+/g, ' ').trim();
         if (text.length < 50) {
           reject(new Error('Could not extract text from this file. Please use the "Paste Text" tab instead.'));
@@ -632,19 +640,32 @@ We are looking for a Senior Data Analyst to join our team..."></textarea>
   // ── MAIN ANALYSIS ──
   async function runAnalysis() {
     const jdText = document.getElementById('jd-text').value.trim();
-    let cvText = '';
 
     // Get CV content
+    let cvText = '';
+    let fileData = null;
+    let fileType = null;
+
     if (activeTab === 'upload') {
       if (!cvFile) {
         showError('Please upload a CV file before analysing.');
         return;
       }
-      try {
-        cvText = await readFileAsText(cvFile);
-      } catch (e) {
-        showError('Could not read the file. Please try pasting your CV as text instead.');
-        return;
+      const ext = cvFile.name.split('.').pop().toLowerCase();
+      if (ext === 'txt') {
+        // TXT can be read directly
+        try { cvText = await readFileAsText(cvFile); }
+        catch (e) { showError(e.message); return; }
+      } else {
+        // PDF/DOC/DOCX — send as base64 for server-side extraction
+        try {
+          fileData = await readFileAsBase64(cvFile);
+          fileType = ext;
+          cvText = '__CV_TEXT__'; // placeholder replaced server-side
+        } catch (e) {
+          showError('Could not read file. Please try the Paste Text tab.');
+          return;
+        }
       }
     } else {
       cvText = document.getElementById('cv-text').value.trim();
@@ -715,7 +736,7 @@ Be honest and specific. Reference actual content from the CV. Use British Englis
       const response = await fetch('/api/analyse', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt })
+        body: JSON.stringify({ prompt, fileData, fileType })
       });
 
       const data = await response.json();
