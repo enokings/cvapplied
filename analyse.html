@@ -1331,7 +1331,6 @@ Be honest and specific. Reference actual content from the CV. Use British Englis
 
   // ── INIT ──
   updateUsageBar();
-</script>
 
   // ── TAB SWITCH ──
   function switchTab(tab) {
@@ -1349,22 +1348,6 @@ Be honest and specific. Reference actual content from the CV. Use British Englis
     if (file) {
       cvFile = file;
       const zone = document.getElementById('upload-zone');
-      zone.classList.add('has-file');
-      document.getElementById('upload-icon').textContent = '✅';
-      document.getElementById('upload-title').textContent = file.name;
-      document.getElementById('upload-sub').textContent = `${(file.size / 1024).toFixed(1)} KB — ready to analyse`;
-    }
-  });
-
-  // Drag and drop
-  const zone = document.getElementById('upload-zone');
-  zone.addEventListener('dragover', (e) => { e.preventDefault(); zone.classList.add('drag-over'); });
-  zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
-  zone.addEventListener('drop', (e) => {
-    e.preventDefault(); zone.classList.remove('drag-over');
-    const file = e.dataTransfer.files[0];
-    if (file) {
-      cvFile = file;
       zone.classList.add('has-file');
       document.getElementById('upload-icon').textContent = '✅';
       document.getElementById('upload-title').textContent = file.name;
