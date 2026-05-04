@@ -613,8 +613,11 @@ ${jdText}`;
   // ── ANALYSE TAILORED ──
   function analyseTailored() {
     const text = document.getElementById('tailored-cv-display').value;
-    sessionStorage.setItem('tailor_cv_to_analyse', text);
-    window.location.href = 'analyse.html?from=tailor';
+    if (!text) return;
+    // Use localStorage (not sessionStorage) so the new tab can read it
+    localStorage.setItem('cva_tailor_handoff', JSON.stringify({ text, ts: Date.now() }));
+    window.open('analyse.html?from=tailor', '_blank');
+    gtag('event', 'analyse_tailored_cv');
   }
 
   // ── RESET ──
@@ -646,44 +649,59 @@ ${jdText}`;
     if (!cvText) return;
     const btn = document.getElementById('docx-download-btn');
     const originalLabel = btn.innerHTML;
+
+    function resetBtn() { btn.innerHTML = originalLabel; btn.style.background = ''; btn.disabled = false; }
+    function showExportError(msg) {
+      const errEl = document.getElementById('tailor-error');
+      errEl.textContent = '⚠ ' + msg + ' — use "Save as PDF" as an alternative.';
+      errEl.classList.add('show');
+      setTimeout(() => errEl.classList.remove('show'), 8000);
+    }
+
     btn.innerHTML = '⏳ Generating...'; btn.disabled = true;
+
+    // Timeout safety — reset button after 20s regardless
+    const safetyTimer = setTimeout(() => {
+      resetBtn();
+      showExportError('DOCX generation timed out. Please try again.');
+    }, 20000);
+
     try {
+      const controller = new AbortController();
+      const fetchTimeout = setTimeout(() => controller.abort(), 18000);
+
       const response = await fetch('/api/export', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ cvText, token: d.token, name: 'tailored-cv' })
+        body: JSON.stringify({ cvText, token: d.token, name: 'tailored-cv' }),
+        signal: controller.signal
       });
+      clearTimeout(fetchTimeout);
+
       if (!response.ok) {
         let errMsg = 'Export failed';
-        try {
-          const errData = await response.json();
-          errMsg = errData.error || errMsg;
-          if (response.status === 403) {
-            // Token issue — re-verify
-            const rr = await fetch('/api/verify-code', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ code: d.code || '' })
-            });
-          }
-        } catch {}
+        try { const e = await response.json(); errMsg = e.error || errMsg; } catch {}
         throw new Error(errMsg);
       }
+
       const blob = await response.blob();
+      if (blob.size < 100) throw new Error('File was empty — please try again.');
+
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url; a.download = 'tailored-cv-cvapplied.docx';
       document.body.appendChild(a); a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
+
+      clearTimeout(safetyTimer);
       btn.innerHTML = '✓ Downloaded!'; btn.style.background = 'var(--green)';
-      setTimeout(() => { btn.innerHTML = originalLabel; btn.style.background = ''; btn.disabled = false; }, 2500);
+      setTimeout(resetBtn, 2500);
     } catch (err) {
-      btn.innerHTML = originalLabel; btn.disabled = false;
-      const errEl = document.getElementById('tailor-error');
-      errEl.textContent = '⚠ DOCX export failed: ' + err.message + '. Try the "Save as PDF" option instead.';
-      errEl.classList.add('show');
-      setTimeout(() => errEl.classList.remove('show'), 7000);
+      clearTimeout(safetyTimer);
+      resetBtn();
+      const msg = err.name === 'AbortError' ? 'Request timed out' : err.message;
+      showExportError('DOCX export failed: ' + msg);
     }
   }
 
