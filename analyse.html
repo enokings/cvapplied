@@ -1489,17 +1489,15 @@ Be honest and specific. Reference actual content from the CV. Use British Englis
       if (ext === 'txt') {
         try { jdText = await readFileAsText(jdFile); } catch {}
       } else {
-        // Send as base64 for server-side extraction — reuse existing mechanism
         try {
           const jdBase64 = await readFileAsBase64(jdFile);
-          // Store for prompt injection — extract via a quick server call
-          const jdResp = await fetch('/api/analyse', {
+          const jdResp = await fetch('/api/extract', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt: 'Extract and return ONLY the plain text content of this document, no commentary:', fileData: jdBase64, fileType: ext })
+            body: JSON.stringify({ fileData: jdBase64, fileType: ext })
           });
           const jdData = await jdResp.json();
-          jdText = jdData.content?.[0]?.text || '';
+          jdText = jdData.text || '';
         } catch { jdText = ''; }
       }
     } else {
