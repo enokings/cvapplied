@@ -554,20 +554,58 @@
   }
   .fade-up.visible { opacity: 1; transform: translateY(0); }
 
+  /* ── HAMBURGER MENU ── */
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 6px; border: none; background: transparent; }
+  .hamburger span { display: block; width: 24px; height: 2px; background: var(--ink); border-radius: 2px; transition: all 0.3s; }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .mobile-drawer {
+    display: none; position: fixed; top: 64px; left: 0; right: 0; bottom: 0;
+    background: var(--white); z-index: 99; padding: 24px;
+    flex-direction: column; gap: 0; overflow-y: auto;
+    border-top: 1px solid var(--rule);
+  }
+  .mobile-drawer.open { display: flex; }
+  .mobile-drawer a {
+    display: block; padding: 16px 0; font-size: 1rem; font-weight: 500;
+    color: var(--ink-soft); text-decoration: none; border-bottom: 1px solid var(--rule);
+    transition: color 0.2s;
+  }
+  .mobile-drawer a:hover { color: var(--ink); }
+  .mobile-drawer a.mobile-cta {
+    margin-top: 20px; background: var(--accent); color: var(--white) !important;
+    padding: 14px 24px; border-radius: 8px; text-align: center;
+    font-weight: 700; border-bottom: none;
+  }
+  .mobile-drawer a.mobile-pro {
+    margin-top: 10px; background: var(--ink); color: var(--white) !important;
+    padding: 14px 24px; border-radius: 8px; text-align: center;
+    font-weight: 700; border-bottom: none;
+  }
+
   /* ── RESPONSIVE ── */
   @media (max-width: 900px) {
     nav { padding: 0 24px; }
     .nav-links { display: none; }
+    .hamburger { display: flex; }
     .hero { grid-template-columns: 1fr; gap: 48px; padding: 112px 24px 72px; }
     .hero-visual { display: none; }
     section { padding: 64px 24px; }
     .steps, .features-grid, .pricing-grid, .testimonials-grid, .templates-grid { grid-template-columns: 1fr; }
-    .builder-inner { grid-template-columns: 1fr; }
+    .builder-grid { grid-template-columns: 1fr !important; }
     .footer-grid { grid-template-columns: 1fr 1fr; }
     .form-row { grid-template-columns: 1fr; }
     .steps::before { display: none; }
     .cta-section { padding: 64px 24px; }
     footer { padding: 48px 24px 24px; }
+  }
+  @media (max-width: 600px) {
+    nav { padding: 0 16px; }
+    .hero { padding: 96px 16px 64px; }
+    section { padding: 48px 16px; }
+    .footer-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -585,7 +623,22 @@
     <a href="tailor.html">Tailor CV</a>
     <a href="analyse.html" class="nav-cta">Analyse My CV Free</a>
   </div>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<!-- MOBILE DRAWER -->
+<div class="mobile-drawer" id="mobile-drawer">
+  <a href="#how" onclick="closeMenu()">How It Works</a>
+  <a href="#templates" onclick="closeMenu()">Templates</a>
+  <a href="#features" onclick="closeMenu()">Features</a>
+  <a href="#pricing" onclick="closeMenu()">Pricing</a>
+  <a href="analyse.html" onclick="closeMenu()">Analyse CV</a>
+  <a href="tailor.html" onclick="closeMenu()">Tailor CV</a>
+  <a href="analyse.html" class="mobile-cta" onclick="closeMenu()">✦ Analyse My CV Free</a>
+  <a href="https://buy.stripe.com/cNi14n72RfH1aBa1HOfjG00" target="_blank" rel="noopener" class="mobile-pro" onclick="closeMenu()">Get Pro — £9/mo →</a>
+</div>
 
 <!-- HERO -->
 <div class="hero">
@@ -1473,7 +1526,7 @@ function setBilling(type) {
     <p style="color:rgba(255,255,255,0.75); font-size:1.05rem;">Analyse your CV free — no sign-up required. Upgrade to Pro for the full toolkit.</p>
     <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:28px;">
       <a href="analyse.html" class="cta-btn-white">✦ Analyse My CV Free →</a>
-      <a href="https://buy.stripe.com/cNi14n72RfH1aBa1HOfjG00" style="display:inline-flex; align-items:center; padding:14px 28px; border:1.5px solid rgba(255,255,255,0.3); border-radius:8px; color:rgba(255,255,255,0.8); font-size:0.95rem; font-weight:600; text-decoration:none; transition:all 0.2s;">Get Pro — £9/mo</a>
+      <a href="https://buy.stripe.com/cNi14n72RfH1aBa1HOfjG00" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; padding:14px 28px; border:1.5px solid rgba(255,255,255,0.3); border-radius:8px; color:rgba(255,255,255,0.8); font-size:0.95rem; font-weight:600; text-decoration:none; transition:all 0.2s;">Get Pro — £9/mo</a>
     </div>
     <p style="margin-top:16px; font-size:0.78rem; color:rgba(255,255,255,0.4);">Cancel any time</p>
   </div>
@@ -1492,10 +1545,8 @@ function setBilling(type) {
         <ul>
           <li><a href="analyse.html">CV Analyser</a></li>
           <li><a href="tailor.html">Job Tailoring</a></li>
-          <li><a href="#">CV Builder</a></li>
-          <li><a href="#">Job Tailoring</a></li>
+          <li><a href="#builder">CV Builder</a></li>
           <li><a href="templates.html">Templates</a></li>
-          <li><a href="#">LinkedIn Optimiser</a></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -1511,15 +1562,18 @@ function setBilling(type) {
         <h4>Support</h4>
         <ul>
           <li><a href="#">Help Centre</a></li>
-          <li><a href="#">Pricing</a></li>
-          <li><a href="#">Privacy Policy</a></li>
-          <li><a href="#">Terms of Use</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="terms.html">Terms of Service</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
       <p>© 2026 CVApplied. All rights reserved.</p>
-      <p>Made for UK job seekers 🇬🇧</p>
+      <div style="display:flex; gap:16px;">
+        <a href="privacy.html" style="font-size:0.8rem; color:rgba(255,255,255,0.3); text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='rgba(255,255,255,0.6)'" onmouseout="this.style.color='rgba(255,255,255,0.3)'">Privacy Policy</a>
+        <a href="terms.html" style="font-size:0.8rem; color:rgba(255,255,255,0.3); text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='rgba(255,255,255,0.6)'" onmouseout="this.style.color='rgba(255,255,255,0.3)'">Terms of Service</a>
+      </div>
     </div>
   </div>
 </footer>
@@ -1616,6 +1670,22 @@ function setBilling(type) {
       tab.classList.add('active');
     });
   });
+
+  // ── HAMBURGER MENU ──
+  function toggleMenu() {
+    const drawer = document.getElementById('mobile-drawer');
+    const btn = document.getElementById('hamburger');
+    drawer.classList.toggle('open');
+    btn.classList.toggle('open');
+    document.body.style.overflow = drawer.classList.contains('open') ? 'hidden' : '';
+  }
+  function closeMenu() {
+    document.getElementById('mobile-drawer').classList.remove('open');
+    document.getElementById('hamburger').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  // Close on scroll
+  window.addEventListener('scroll', () => closeMenu(), { passive: true });
 
   // Nav scroll effect
   window.addEventListener('scroll', () => {
