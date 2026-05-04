@@ -1058,6 +1058,9 @@ We are looking for a Senior Data Analyst to join our team..."></textarea>
     return interval;
   }
 
+  // Flag set when CV arrives from the tailor tool
+  let isTailoredCV = false;
+
   // ── MAIN ANALYSIS ──
   async function runAnalysis() {
     // Check usage limit
@@ -1095,7 +1098,8 @@ We are looking for a Senior Data Analyst to join our team..."></textarea>
     const loadingInterval = animateLoadingSteps();
 
     const hasJD = jdText.length > 50;
-    const prompt = `You are an expert UK CV analyst and career consultant with deep knowledge of UK hiring practices, ATS systems (Greenhouse, Workday, SAP SuccessFactors), and British recruitment standards.
+    const tailoredNote = isTailoredCV ? '\n\nIMPORTANT CONTEXT: This CV has already been tailored and optimised using an AI job-tailoring tool. It has been keyword-matched to a specific job description, had repetition removed, skills deduplicated, and length trimmed. Do NOT suggest adding sections that are already present (e.g. Core Competencies, skills lists). Focus feedback on genuinely remaining issues only — do not flag things the tailoring process was designed to fix.' : '';
+    const prompt = `You are an expert UK CV analyst and career consultant with deep knowledge of UK hiring practices, ATS systems (Greenhouse, Workday, SAP SuccessFactors), and British recruitment standards.${tailoredNote}
 
 Analyse the following CV${hasJD ? ' against the provided job description' : ''} and return a comprehensive JSON report.
 
@@ -1419,6 +1423,7 @@ Be honest and specific. Reference actual content from the CV. Use British Englis
     const textarea = document.getElementById('cv-text');
     if (textarea) textarea.value = cvText;
 
+    isTailoredCV = true;
     setTimeout(() => { runAnalysis(); }, 300);
   })();
 
