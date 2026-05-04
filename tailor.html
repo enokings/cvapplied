@@ -271,7 +271,8 @@
     <div class="action-row">
       <button class="btn-secondary" onclick="resetTailoring()">← Tailor Another CV</button>
       <button class="btn-primary" onclick="copyTailoredCV()" id="copy-tailored-btn">📋 Copy Tailored CV</button>
-      <button class="btn-primary" onclick="downloadTailoredDOCX()" style="background:var(--ink);">⬇ Download DOCX</button>
+      <button class="btn-primary" id="docx-download-btn" onclick="downloadTailoredDOCX()" style="background:var(--ink);">⬇ Download DOCX</button>
+      <button class="btn-primary" id="pdf-download-btn" onclick="printTailoredPDF()" style="background:#5a4fcf;">🖨 Save as PDF</button>
       <button class="btn-primary" onclick="analyseTailored()" style="background:var(--green);">✦ Analyse Tailored CV</button>
     </div>
 
@@ -643,15 +644,31 @@ ${jdText}`;
     if (!d.pro) { window.location.href = 'https://buy.stripe.com/cNi14n72RfH1aBa1HOfjG00'; return; }
     const cvText = document.getElementById('tailored-cv-display').value;
     if (!cvText) return;
-    const btn = document.querySelector('[onclick="downloadTailoredDOCX()"]');
-    if (btn) { btn.textContent = '⏳ Generating…'; btn.disabled = true; }
+    const btn = document.getElementById('docx-download-btn');
+    const originalLabel = btn.innerHTML;
+    btn.innerHTML = '⏳ Generating...'; btn.disabled = true;
     try {
       const response = await fetch('/api/export', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ cvText, token: d.token, name: 'tailored-cv' })
       });
-      if (!response.ok) throw new Error('Export failed');
+      if (!response.ok) {
+        let errMsg = 'Export failed';
+        try {
+          const errData = await response.json();
+          errMsg = errData.error || errMsg;
+          if (response.status === 403) {
+            // Token issue — re-verify
+            const rr = await fetch('/api/verify-code', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ code: d.code || '' })
+            });
+          }
+        } catch {}
+        throw new Error(errMsg);
+      }
       const blob = await response.blob();
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -659,11 +676,37 @@ ${jdText}`;
       document.body.appendChild(a); a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      if (btn) { btn.textContent = '⬇ Download DOCX'; btn.disabled = false; }
-    } catch {
-      alert('DOCX export failed. Please try again.');
-      if (btn) { btn.textContent = '⬇ Download DOCX'; btn.disabled = false; }
+      btn.innerHTML = '✓ Downloaded!'; btn.style.background = 'var(--green)';
+      setTimeout(() => { btn.innerHTML = originalLabel; btn.style.background = ''; btn.disabled = false; }, 2500);
+    } catch (err) {
+      btn.innerHTML = originalLabel; btn.disabled = false;
+      const errEl = document.getElementById('tailor-error');
+      errEl.textContent = '⚠ DOCX export failed: ' + err.message + '. Try the "Save as PDF" option instead.';
+      errEl.classList.add('show');
+      setTimeout(() => errEl.classList.remove('show'), 7000);
     }
+  }
+
+  // ── SAVE AS PDF ──
+  function printTailoredPDF() {
+    const d = JSON.parse(localStorage.getItem('cva_usage') || '{}');
+    if (!d.pro) { window.location.href = 'https://buy.stripe.com/cNi14n72RfH1aBa1HOfjG00'; return; }
+    const cvText = document.getElementById('tailored-cv-display').value;
+    if (!cvText) return;
+
+    const printWin = window.open('', '_blank');
+    printWin.document.write(`<!DOCTYPE html><html><head>
+      <title>Tailored CV — CVApplied</title>
+      <style>
+        body { font-family: Calibri, 'Segoe UI', sans-serif; font-size: 11pt; line-height: 1.5; color: #0f1117; margin: 0.8in 0.9in; }
+        pre { white-space: pre-wrap; word-wrap: break-word; font-family: inherit; font-size: inherit; margin: 0; }
+        @media print { @page { margin: 0.8in 0.9in; } body { margin: 0; } }
+      </style>
+    </head><body><pre>${cvText.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</pre>
+    <script>window.onload=function(){window.print();}<\/script>
+    </body></html>`);
+    printWin.document.close();
+    gtag('event', 'cv_pdf_export');
   }
 
   // ── INIT ──
