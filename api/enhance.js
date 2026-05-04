@@ -16,10 +16,21 @@ export default async function handler(req, res) {
   if (!content || content.trim().length < 10) return res.status(400).json({ error: 'Content too short' });
 
   const prompts = {
-    summary: `You are an expert UK CV writer. Rewrite this professional summary for a ${jobTitle || 'professional'} to be punchy, ATS-optimised, and compelling for UK recruiters. Use British English. Keep it to 3-4 sentences. Return ONLY the rewritten summary, no preamble:\n\n${content}`,
-    experience: `You are an expert UK CV writer. Rewrite these job experience bullet points for a ${jobTitle || 'professional'} using strong UK action verbs, quantified impact where possible, and British English. Each bullet should start with a past-tense action verb. Return ONLY the rewritten bullets, one per line, starting each with •:\n\n${content}`,
-    skills: `You are an expert UK CV writer. Organise and improve this skills list for a ${jobTitle || 'professional'} to be ATS-optimised for UK job applications. Group related skills logically. Return ONLY the improved skills list in British English:\n\n${content}`,
-    education: `You are an expert UK CV writer. Format and improve this education section for UK CV standards. Include degree classification format (e.g. 2:1), institution, and year. Use British English. Return ONLY the formatted education section:\n\n${content}`
+    summary: `You are an expert UK CV writer. Rewrite this professional summary for a ${jobTitle || 'professional'} to be punchy, ATS-optimised, and compelling for UK recruiters. Use British English. Keep it to 3-4 sentences. Return ONLY the rewritten summary as plain text — no bullet points, no headers, no markdown formatting, no preamble:
+
+${content}`,
+
+    experience: `You are an expert UK CV writer. Rewrite these job experience bullet points for a ${jobTitle || 'professional'} using strong UK action verbs, quantified impact where possible, and British English. Return ONLY the bullet points as plain text. Start each bullet with • on a new line. No headers, no markdown, no preamble:
+
+${content}`,
+
+    skills: `You are an expert UK CV writer. Organise and improve this skills list for a ${jobTitle || 'professional'} for UK CV standards. Return ONLY a clean, comma-separated or line-by-line list of skills grouped into short labelled sections like "Technical: SQL, Python, Power BI" and "Soft Skills: Stakeholder Management, Communication". No markdown bold, no asterisks, no preamble — plain text only:
+
+${content}`,
+
+    education: `You are an expert UK CV writer. Format and improve this education section for UK CV standards. Use format: Degree (Classification) | Institution | Year. One entry per line. Return ONLY the formatted education as plain text — no markdown, no headers, no preamble:
+
+${content}`
   };
 
   const prompt = prompts[section] || prompts.experience;
