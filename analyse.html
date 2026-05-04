@@ -593,7 +593,17 @@ Results-driven professional with 8 years experience..."></textarea>
           <span class="optional-label">Optional</span>
         </div>
         <p style="font-size:0.85rem; color:var(--ink-muted); margin-bottom:14px;">Paste the job description to get tailored keyword matching and role-specific feedback.</p>
-        <textarea class="jd-textarea" id="jd-text" placeholder="Paste the job description here for tailored analysis...
+        <!-- Target role input -->
+        <div style="margin-bottom:14px;">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+            <label style="font-size:0.8rem; font-weight:600; color:var(--ink-soft);">Target Role</label>
+            <span style="font-size:0.68rem; background:var(--accent-soft); color:var(--accent); padding:2px 7px; border-radius:4px; font-weight:600;">Recommended</span>
+          </div>
+          <input type="text" id="target-role" style="background:var(--paper); border:1.5px solid var(--rule); border-radius:8px; padding:10px 14px; font-family:'DM Sans',sans-serif; font-size:0.88rem; color:var(--ink); width:100%; outline:none; transition:border-color 0.2s; box-sizing:border-box;" placeholder="e.g. Data Governance Lead, Senior Project Manager, Software Engineer..." onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--rule)'">
+          <p style="font-size:0.75rem; color:var(--ink-muted); margin-top:5px;">Used to tailor keyword analysis when no job description is provided.</p>
+        </div>
+
+        <textarea class="jd-textarea" id="jd-text" placeholder="Paste the job description here for even more targeted analysis (optional)...
 
 We are looking for a Senior Data Analyst to join our team..."></textarea>
       </div>
@@ -673,7 +683,7 @@ We are looking for a Senior Data Analyst to join our team..."></textarea>
         <div class="email-gate-inner">
           <div class="gate-eyebrow">✦ Save Your Report</div>
           <h3 class="gate-title">Get your full report by email — and be first to access Pro features</h3>
-          <p class="gate-sub">We'll email you your CV score, plus early access when the CV Builder and Export features launch.</p>
+          <p class="gate-sub">We'll email you your full CV report — including your score, feedback, and rewrite suggestions — straight to your inbox.</p>
           <div class="gate-form" id="gate-form">
             <input type="email" class="gate-input" id="gate-email" placeholder="your@email.com" autocomplete="email">
             <button class="gate-btn" onclick="submitGateEmail()">Send My Report →</button>
@@ -749,10 +759,16 @@ We are looking for a Senior Data Analyst to join our team..."></textarea>
           </div>
         </div>
         <div class="pro-cta-row">
-          <a href="https://buy.stripe.com/cNi14n72RfH1aBa1HOfjG00" class="pro-cta-btn" id="pro-cta-btn">Get CVApplied Pro — £9/mo →</a>
+          <a href="https://buy.stripe.com/cNi14n72RfH1aBa1HOfjG00" target="_blank" rel="noopener" class="pro-cta-btn" id="pro-cta-btn">Get CVApplied Pro — £9/mo →</a>
           <button class="btn-secondary" onclick="resetAnalysis()" style="min-width:180px;">← Analyse Another CV</button>
         </div>
-        <p style="text-align:center; font-size:0.78rem; color:var(--ink-muted); margin-top:12px;">7-day free trial · Cancel any time · No commitment</p>
+        <p style="text-align:center; font-size:0.78rem; color:var(--ink-muted); margin-top:12px;">Cancel any time</p>
+      </div>
+
+      <!-- Quick actions for Pro users -->
+      <div id="pro-quick-actions" style="display:none; margin-top:16px; display:flex; gap:12px; flex-wrap:wrap;">
+        <a href="tailor.html" class="btn-primary" style="flex:1; min-width:180px; text-decoration:none; justify-content:center;">🎯 Tailor to a Job →</a>
+        <button class="btn-secondary" onclick="exportAnalysisPDF()" style="flex:1; min-width:180px;">⬇ Export Report PDF</button>
       </div>
 
     </div>
@@ -1125,6 +1141,9 @@ Be honest and specific. Reference actual content from the CV. Use British Englis
       // Increment usage count
       incrementUsage();
 
+      // Store CV text for PDF export
+      sessionStorage.setItem('last_cv_text', cvText === '__CV_TEXT__' ? '' : cvText);
+
       clearInterval(loadingInterval);
       ['step-1','step-2','step-3','step-4','step-5'].forEach(id => {
         const el = document.getElementById(id);
@@ -1233,6 +1252,12 @@ Be honest and specific. Reference actual content from the CV. Use British Englis
       btn.setAttribute('target', '_blank');
       btn.setAttribute('rel', 'noopener');
     });
+
+    // Show quick actions for Pro users
+    if (isPro()) {
+      const qa = document.getElementById('pro-quick-actions');
+      if (qa) qa.style.display = 'flex';
+    }
 
     setTimeout(() => {
       document.querySelectorAll('.dimension-bar-fill').forEach(bar => {
@@ -1406,6 +1431,7 @@ Be honest and specific. Reference actual content from the CV. Use British Englis
   // ── MAIN ANALYSIS ──
   async function runAnalysis() {
     const jdText = document.getElementById('jd-text').value.trim();
+    const targetRole = document.getElementById('target-role')?.value.trim() || '';
 
     // Get CV content
     let cvText = '';
@@ -1450,14 +1476,16 @@ Be honest and specific. Reference actual content from the CV. Use British Englis
 
     // Build prompt
     const hasJD = jdText.length > 50;
+    const hasTargetRole = targetRole.length > 2;
+    const roleContext = hasJD ? ' against the provided job description' : hasTargetRole ? ` for a ${targetRole} role` : '';
     const prompt = `You are an expert UK CV analyst and career consultant with deep knowledge of UK hiring practices, ATS systems (Greenhouse, Workday, SAP SuccessFactors), and British recruitment standards.
 
-Analyse the following CV${hasJD ? ' against the provided job description' : ''} and return a comprehensive JSON report.
+Analyse the following CV${roleContext} and return a comprehensive JSON report.
 
 CV TEXT:
 ${cvText}
 
-${hasJD ? `JOB DESCRIPTION:\n${jdText}` : ''}
+${hasJD ? `JOB DESCRIPTION:\n${jdText}` : hasTargetRole ? `TARGET ROLE: ${targetRole}` : ''}
 
 Return ONLY a valid JSON object with this exact structure (no markdown, no backticks, just raw JSON):
 {
@@ -1479,7 +1507,7 @@ Return ONLY a valid JSON object with this exact structure (no markdown, no backt
     {"name": "Length & Conciseness", "score": <0-100>, "color": <"#1a7a4a"|"#d97706"|"#c0392b">},
     {"name": "Readability", "score": <0-100>, "color": <"#1a7a4a"|"#d97706"|"#c0392b">},
     {"name": "Formatting Consistency", "score": <0-100>, "color": <"#1a7a4a"|"#d97706"|"#c0392b">},
-    {"name": ${hasJD ? '"Job Description Match"' : '"Industry Relevance"'}, "score": <0-100>, "color": <"#1a7a4a"|"#d97706"|"#c0392b">}
+    {"name": ${hasJD ? '"Job Description Match"' : hasTargetRole ? `"${targetRole} Role Fit"` : '"Industry Relevance"'}, "score": <0-100>, "color": <"#1a7a4a"|"#d97706"|"#c0392b">}
   ],
   "feedback": [
     {"type": <"positive"|"warning"|"critical">, "category": <short category name>, "text": <detailed feedback, 1-2 sentences, UK-specific where relevant>},
@@ -1492,7 +1520,7 @@ Return ONLY a valid JSON object with this exact structure (no markdown, no backt
   ],
   "keywords": {
     "present": [<array of 6-10 relevant keywords/skills found in the CV>],
-    "missing": [<array of 6-10 important keywords missing from the CV${hasJD ? ', based on the job description' : ', based on the apparent target role'}>]
+    "missing": [<array of 6-10 important keywords missing${hasJD ? ' based on the job description' : hasTargetRole ? ` for a ${targetRole} role in the UK job market` : ' based on the apparent target role'}>]
   }
 }
 
@@ -1724,6 +1752,35 @@ Be honest and specific. Reference actual content from the CV. Use British Englis
   document.getElementById('gate-email')?.addEventListener('keydown', e => {
     if (e.key === 'Enter') submitGateEmail();
   });
+
+  // ── EXPORT PDF ──
+  function exportAnalysisPDF() {
+    const d = JSON.parse(localStorage.getItem('cva_usage') || '{}');
+    if (!d.pro) { document.querySelector('.pro-cta-btn')?.scrollIntoView({ behavior: 'smooth' }); return; }
+    const cvText = sessionStorage.getItem('last_cv_text') || '';
+    if (!cvText) { alert('Please re-analyse your CV to export.'); return; }
+    printCV(cvText, 'cv-cvapplied');
+  }
+
+  function printCV(cvText, filename) {
+    const lines = cvText.split('\n');
+    let html = '';
+    for (const line of lines) {
+      const t = line.trim();
+      if (!t) { html += '<br>'; continue; }
+      if (t.startsWith('─')) { html += '<hr>'; continue; }
+      if (t === t.toUpperCase() && t.length > 3 && !t.includes('@') && !t.includes('|')) {
+        html += !html ? '<h1>'+t+'</h1>' : '<h2>'+t+'</h2>';
+      } else if (t.startsWith('•') || t.startsWith('-')) {
+        html += '<li>'+t.slice(1).trim()+'</li>';
+      } else {
+        html += '<p>'+t+'</p>';
+      }
+    }
+    const w = window.open('', '_blank');
+    w.document.write('<!DOCTYPE html><html><head><title>'+filename+'</title><style>*{margin:0;padding:0;box-sizing:border-box;}body{font-family:Times New Roman,serif;font-size:11pt;color:#1a1a1a;padding:28px 36px;max-width:800px;margin:0 auto;}h1{font-size:18pt;font-weight:700;margin-bottom:4px;}h2{font-size:10pt;font-weight:700;color:#1a56db;text-transform:uppercase;letter-spacing:0.1em;margin:14px 0 6px;}p{font-size:10.5pt;line-height:1.5;margin-bottom:3px;}li{font-size:10.5pt;line-height:1.5;margin-left:16px;margin-bottom:2px;}hr{border:none;border-top:1px solid #c0c4d0;margin:8px 0 4px;}@media print{body{padding:0;}}</style></head><body>'+html+'<scri'+'pt>window.onload=()=>{window.print();}<\/scri'+'pt></body></html>');
+    w.document.close();
+  }
 
   // ── ERROR ──
   function showError(msg) {
