@@ -582,6 +582,7 @@
     <a href="#features">Features</a>
     <a href="#pricing">Pricing</a>
     <a href="analyse.html">Analyse CV</a>
+    <a href="tailor.html">Tailor CV</a>
     <a href="analyse.html" class="nav-cta">Analyse My CV Free</a>
   </div>
 </nav>
@@ -1205,10 +1206,71 @@ function copyBuilderCV() {
 
 // ── EXPORT (Pro gate) ──
 function exportBuilderPDF() {
-  document.getElementById('builder-pro-modal').style.display = 'flex';
+  const d = JSON.parse(localStorage.getItem('cva_usage') || '{}');
+  if (!d.pro) { document.getElementById('builder-pro-modal').style.display = 'flex'; return; }
+  const text = document.getElementById('cv-preview')?.textContent;
+  if (!text || text.includes('Start filling')) { alert('Please fill in your CV details first.'); return; }
+  const first = document.getElementById('b-firstname')?.value || '';
+  const last = document.getElementById('b-lastname')?.value || '';
+  const filename = (first + '-' + last).toLowerCase().replace(/\s+/g,'-') || 'cv';
+  builderPrintCV(text, filename);
 }
 function exportBuilderDOCX() {
-  document.getElementById('builder-pro-modal').style.display = 'flex';
+  const d = JSON.parse(localStorage.getItem('cva_usage') || '{}');
+  if (!d.pro) { document.getElementById('builder-pro-modal').style.display = 'flex'; return; }
+  const text = document.getElementById('cv-preview')?.textContent;
+  if (!text || text.includes('Start filling')) { alert('Please fill in your CV details first.'); return; }
+  const first = document.getElementById('b-firstname')?.value || '';
+  const last = document.getElementById('b-lastname')?.value || '';
+  const name = (first + ' ' + last).trim() || 'cv';
+  downloadDOCX(text, name, d.token);
+}
+
+async function downloadDOCX(cvText, name, token) {
+  const btn = document.querySelector('[onclick="exportBuilderDOCX()"]');
+  if (btn) { btn.textContent = '⏳ Generating…'; btn.disabled = true; }
+  try {
+    const response = await fetch('/api/export', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ cvText, token, name })
+    });
+    if (response.status === 403) {
+      document.getElementById('builder-pro-modal').style.display = 'flex';
+      return;
+    }
+    if (!response.ok) throw new Error('Export failed');
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = name.toLowerCase().replace(/\s+/g,'-') + '-cvapplied.docx';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    if (btn) { btn.innerHTML = '⬇ DOCX <span class="b-pro-tag">Pro</span>'; btn.disabled = false; }
+  } catch (err) {
+    alert('DOCX export failed. Please try again.');
+    if (btn) { btn.innerHTML = '⬇ DOCX <span class="b-pro-tag">Pro</span>'; btn.disabled = false; }
+  }
+}
+function builderPrintCV(cvText, filename) {
+  const lines = cvText.split('\n');
+  let html = '';
+  for (const line of lines) {
+    const t = line.trim();
+    if (!t) { html += '<br>'; continue; }
+    if (t.startsWith('─')) { html += '<hr>'; continue; }
+    if (t === t.toUpperCase() && t.length > 3 && !t.includes('@') && !t.includes('|')) {
+      html += !html ? '<h1>'+t+'</h1>' : '<h2>'+t+'</h2>';
+    } else if (t.startsWith('•') || t.startsWith('-')) {
+      html += '<li>'+t.slice(1).trim()+'</li>';
+    } else { html += '<p>'+t+'</p>'; }
+  }
+  const w = window.open('', '_blank');
+  w.document.write('<!DOCTYPE html><html><head><title>'+filename+'</title><style>*{margin:0;padding:0;box-sizing:border-box;}body{font-family:Times New Roman,serif;font-size:11pt;color:#1a1a1a;padding:28px 36px;max-width:800px;margin:0 auto;}h1{font-size:18pt;font-weight:700;margin-bottom:4px;}h2{font-size:10pt;font-weight:700;color:#1a56db;text-transform:uppercase;letter-spacing:0.1em;margin:14px 0 6px;}p{font-size:10.5pt;line-height:1.5;margin-bottom:3px;}li{font-size:10.5pt;line-height:1.5;margin-left:16px;margin-bottom:2px;}hr{border:none;border-top:1px solid #c0c4d0;margin:8px 0 4px;}@media print{body{padding:0;}}</style></head><body>'+html+'<scri'+'pt>window.onload=function(){window.print();}<\/scri'+'pt></body></html>');
+  w.document.close();
 }
 
 // ── INIT ──
@@ -1286,7 +1348,7 @@ function setBilling(type) {
   document.getElementById('toggle-annual').style.cssText = `padding:8px 20px;border-radius:24px;border:none;font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:${isAnnual?600:500};cursor:pointer;background:${isAnnual?'white':'transparent'};color:${isAnnual?'var(--ink)':'var(--ink-muted)'};box-shadow:${isAnnual?'0 1px 3px rgba(15,17,23,0.06)':'none'};transition:all 0.2s;`;
   if (isAnnual) {
     document.getElementById('pro-price').innerHTML = '<sup>£</sup>89<sub>/yr</sub>';
-    document.getElementById('pro-desc').textContent = 'Best value — save £19 vs monthly. Full Pro access for a full year.';
+    document.getElementById('pro-desc').textContent = 'Best value — save £19 vs paying monthly.';
     document.getElementById('pro-btn').href = 'https://buy.stripe.com/6oU6oHaf366rbFe2LSfjG01';
     document.getElementById('career-price').innerHTML = '<sup>£</sup>179<sub>/yr</sub>';
     document.getElementById('career-btn').href = 'https://buy.stripe.com/6oU6oHaf366rbFe2LSfjG01';
@@ -1354,7 +1416,7 @@ function setBilling(type) {
       <a href="analyse.html" class="cta-btn-white">✦ Analyse My CV Free →</a>
       <a href="https://buy.stripe.com/cNi14n72RfH1aBa1HOfjG00" style="display:inline-flex; align-items:center; padding:14px 28px; border:1.5px solid rgba(255,255,255,0.3); border-radius:8px; color:rgba(255,255,255,0.8); font-size:0.95rem; font-weight:600; text-decoration:none; transition:all 0.2s;">Get Pro — £9/mo</a>
     </div>
-    <p style="margin-top:16px; font-size:0.78rem; color:rgba(255,255,255,0.4);">7-day free trial · Cancel any time</p>
+    <p style="margin-top:16px; font-size:0.78rem; color:rgba(255,255,255,0.4);">Cancel any time</p>
   </div>
 </section>
 
@@ -1370,6 +1432,7 @@ function setBilling(type) {
         <h4>Product</h4>
         <ul>
           <li><a href="analyse.html">CV Analyser</a></li>
+          <li><a href="tailor.html">Job Tailoring</a></li>
           <li><a href="#">CV Builder</a></li>
           <li><a href="#">Job Tailoring</a></li>
           <li><a href="templates.html">Templates</a></li>
