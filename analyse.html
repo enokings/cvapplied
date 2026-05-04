@@ -429,13 +429,16 @@
   .pro-cta-btn:hover { background: #1548c0; transform: translateY(-1px); }
 
   /* ── USAGE LIMIT ── */
-  .usage-bar-wrap { display:flex; align-items:center; gap:10px; margin-bottom:16px; padding:12px 16px; background:var(--white); border:1px solid var(--rule); border-radius:var(--radius); }
+  .usage-bar-wrap { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:16px; padding:12px 18px; background:var(--white); border:1px solid var(--rule); border-radius:var(--radius); flex-wrap:wrap; }
+  .usage-left { display:flex; align-items:center; gap:10px; }
   .usage-dots { display:flex; gap:6px; }
-  .usage-dot { width:12px; height:12px; border-radius:50%; background:var(--rule); transition:background 0.3s; }
+  .usage-dot { width:14px; height:14px; border-radius:50%; background:var(--rule); transition:background 0.3s; }
   .usage-dot.used { background:var(--accent); }
   .usage-dot.last { background:var(--amber); }
-  .usage-text { font-size:0.8rem; color:var(--ink-muted); }
+  .usage-text { font-size:0.85rem; color:var(--ink-muted); }
   .usage-text strong { color:var(--ink); }
+  .usage-upgrade-btn { font-size:0.75rem; font-weight:700; color:var(--accent); background:var(--accent-soft); border:none; border-radius:20px; padding:4px 12px; cursor:pointer; white-space:nowrap; text-decoration:none; display:none; }
+  .usage-upgrade-btn.show { display:inline-block; }
 
   /* ── MODALS ── */
   .modal-overlay { display:none; position:fixed; inset:0; background:rgba(15,17,23,0.6); z-index:200; align-items:center; justify-content:center; padding:20px; }
@@ -535,12 +538,15 @@
 
     <!-- USAGE BAR -->
     <div class="usage-bar-wrap" id="usage-bar">
-      <div class="usage-dots" id="usage-dots">
-        <div class="usage-dot" id="dot-1"></div>
-        <div class="usage-dot" id="dot-2"></div>
-        <div class="usage-dot" id="dot-3"></div>
+      <div class="usage-left">
+        <div class="usage-dots" id="usage-dots">
+          <div class="usage-dot" id="dot-1"></div>
+          <div class="usage-dot" id="dot-2"></div>
+          <div class="usage-dot" id="dot-3"></div>
+        </div>
+        <div class="usage-text" id="usage-text"><strong>3 free analyses remaining</strong> — no sign-up needed</div>
       </div>
-      <div class="usage-text" id="usage-text"><strong>3 free analyses remaining</strong> — no sign-up needed</div>
+      <a href="https://buy.stripe.com/cNi14n72RfH1aBa1HOfjG00" target="_blank" rel="noopener" class="usage-upgrade-btn" id="usage-upgrade-btn">Upgrade to Pro →</a>
     </div>
 
     <!-- TWO-COLUMN INPUT GRID -->
@@ -592,20 +598,40 @@ Results-driven professional with 8 years experience..."></textarea>
           Job Description
           <span class="optional-label">Optional</span>
         </div>
-        <p style="font-size:0.85rem; color:var(--ink-muted); margin-bottom:14px;">Paste the job description to get tailored keyword matching and role-specific feedback.</p>
-        <!-- Target role input -->
+
+        <!-- Target role -->
         <div style="margin-bottom:14px;">
           <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
             <label style="font-size:0.8rem; font-weight:600; color:var(--ink-soft);">Target Role</label>
             <span style="font-size:0.68rem; background:var(--accent-soft); color:var(--accent); padding:2px 7px; border-radius:4px; font-weight:600;">Recommended</span>
           </div>
-          <input type="text" id="target-role" style="background:var(--paper); border:1.5px solid var(--rule); border-radius:8px; padding:10px 14px; font-family:'DM Sans',sans-serif; font-size:0.88rem; color:var(--ink); width:100%; outline:none; transition:border-color 0.2s; box-sizing:border-box;" placeholder="e.g. Data Governance Lead, Senior Project Manager, Software Engineer..." onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--rule)'">
-          <p style="font-size:0.75rem; color:var(--ink-muted); margin-top:5px;">Used to tailor keyword analysis when no job description is provided.</p>
+          <input type="text" id="target-role" style="background:var(--paper); border:1.5px solid var(--rule); border-radius:8px; padding:10px 14px; font-family:'DM Sans',sans-serif; font-size:0.88rem; color:var(--ink); width:100%; outline:none; transition:border-color 0.2s; box-sizing:border-box;" placeholder="e.g. Data Governance Lead, Senior Project Manager..." onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--rule)'">
+          <p style="font-size:0.75rem; color:var(--ink-muted); margin-top:5px;">Used for targeted keyword analysis when no JD is provided.</p>
         </div>
 
-        <textarea class="jd-textarea" id="jd-text" placeholder="Paste the job description here for even more targeted analysis (optional)...
+        <!-- JD input tabs -->
+        <div class="input-tabs" style="margin-bottom:14px;">
+          <button class="input-tab active" id="jd-tab-paste" onclick="switchJDTab('paste')">✏️ Paste JD</button>
+          <button class="input-tab" id="jd-tab-upload" onclick="switchJDTab('upload')">📄 Upload JD</button>
+        </div>
+
+        <!-- Paste -->
+        <div id="jd-paste-panel">
+          <textarea class="jd-textarea" id="jd-text" placeholder="Paste the job description here for tailored keyword analysis...
 
 We are looking for a Senior Data Analyst to join our team..."></textarea>
+        </div>
+
+        <!-- Upload -->
+        <div id="jd-upload-panel" style="display:none;">
+          <div class="upload-zone" id="jd-upload-zone" onclick="document.getElementById('jd-file').click()" style="padding:28px 20px;">
+            <input type="file" id="jd-file" accept=".pdf,.doc,.docx,.txt" style="display:none">
+            <div class="upload-icon" id="jd-upload-icon" style="font-size:1.5rem; margin-bottom:8px;">📄</div>
+            <h3 id="jd-upload-title" style="font-size:0.9rem; margin-bottom:4px;">Drop JD file here or click to browse</h3>
+            <p id="jd-upload-sub" style="font-size:0.78rem;">TXT, DOC, DOCX or PDF</p>
+          </div>
+        </div>
+
       </div>
 
     </div>
@@ -682,7 +708,7 @@ We are looking for a Senior Data Analyst to join our team..."></textarea>
       <div class="email-gate" id="email-gate">
         <div class="email-gate-inner">
           <div class="gate-eyebrow">✦ Save Your Report</div>
-          <h3 class="gate-title">Get your full report by email — and be first to access Pro features</h3>
+          <h3 class="gate-title">Save your report — and unlock Pro features with CVApplied</h3>
           <p class="gate-sub">We'll email you your full CV report — including your score, feedback, and rewrite suggestions — straight to your inbox.</p>
           <div class="gate-form" id="gate-form">
             <input type="email" class="gate-input" id="gate-email" placeholder="your@email.com" autocomplete="email">
@@ -817,20 +843,22 @@ We are looking for a Senior Data Analyst to join our team..."></textarea>
     const remaining = Math.max(0, LIMIT - used);
     for (let i = 1; i <= 3; i++) {
       const dot = document.getElementById(`dot-${i}`);
-      if (i <= used) {
-        dot.classList.add(i === LIMIT ? 'last' : 'used');
-      } else {
-        dot.classList.remove('used', 'last');
-      }
+      dot.classList.remove('used', 'last');
+      if (i <= used) dot.classList.add(i === LIMIT ? 'last' : 'used');
     }
     const textEl = document.getElementById('usage-text');
+    const upgradeBtn = document.getElementById('usage-upgrade-btn');
     if (remaining === 0) {
-      textEl.innerHTML = '<strong style="color:var(--amber)">0 free analyses left</strong> — upgrade for unlimited';
+      textEl.innerHTML = '<strong style="color:var(--red)">No free analyses left</strong> — upgrade to continue';
+      upgradeBtn?.classList.add('show');
+      document.getElementById('dot-3').classList.add('last');
     } else if (remaining === 1) {
       textEl.innerHTML = '<strong style="color:var(--amber)">1 free analysis remaining</strong> — upgrade for unlimited';
+      upgradeBtn?.classList.add('show');
       document.getElementById('dot-3').classList.add('last');
     } else {
       textEl.innerHTML = `<strong>${remaining} free analyses remaining</strong> — no sign-up needed`;
+      upgradeBtn?.classList.remove('show');
     }
   }
 
@@ -1357,6 +1385,28 @@ Be honest and specific. Reference actual content from the CV. Use British Englis
   // ── INIT ──
   updateUsageBar();
 
+  // ── JD TAB SWITCH ──
+  let jdFile = null;
+  let activeJDTab = 'paste';
+
+  function switchJDTab(tab) {
+    activeJDTab = tab;
+    document.getElementById('jd-tab-paste').classList.toggle('active', tab === 'paste');
+    document.getElementById('jd-tab-upload').classList.toggle('active', tab === 'upload');
+    document.getElementById('jd-paste-panel').style.display = tab === 'paste' ? 'block' : 'none';
+    document.getElementById('jd-upload-panel').style.display = tab === 'upload' ? 'block' : 'none';
+  }
+
+  document.getElementById('jd-file').addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    jdFile = file;
+    document.getElementById('jd-upload-icon').textContent = '✅';
+    document.getElementById('jd-upload-title').textContent = file.name;
+    document.getElementById('jd-upload-sub').textContent = `${(file.size / 1024).toFixed(1)} KB — ready`;
+    document.getElementById('jd-upload-zone').classList.add('has-file');
+  });
+
   // ── TAB SWITCH ──
   function switchTab(tab) {
     activeTab = tab;
@@ -1430,8 +1480,31 @@ Be honest and specific. Reference actual content from the CV. Use British Englis
 
   // ── MAIN ANALYSIS ──
   async function runAnalysis() {
-    const jdText = document.getElementById('jd-text').value.trim();
     const targetRole = document.getElementById('target-role')?.value.trim() || '';
+
+    // Get JD content from paste or file
+    let jdText = '';
+    if (activeJDTab === 'upload' && jdFile) {
+      const ext = jdFile.name.split('.').pop().toLowerCase();
+      if (ext === 'txt') {
+        try { jdText = await readFileAsText(jdFile); } catch {}
+      } else {
+        // Send as base64 for server-side extraction — reuse existing mechanism
+        try {
+          const jdBase64 = await readFileAsBase64(jdFile);
+          // Store for prompt injection — extract via a quick server call
+          const jdResp = await fetch('/api/analyse', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt: 'Extract and return ONLY the plain text content of this document, no commentary:', fileData: jdBase64, fileType: ext })
+          });
+          const jdData = await jdResp.json();
+          jdText = jdData.content?.[0]?.text || '';
+        } catch { jdText = ''; }
+      }
+    } else {
+      jdText = document.getElementById('jd-text').value.trim();
+    }
 
     // Get CV content
     let cvText = '';
