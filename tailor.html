@@ -450,13 +450,14 @@
     const ext = file.name.split('.').pop().toLowerCase();
     if (ext === 'txt') return await readTailorFileAsText(file);
     const b64 = await readTailorFileAsBase64(file);
-    const resp = await fetch('/api/analyse', {
+    const resp = await fetch('/api/extract', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ prompt: 'Return ONLY the plain text content:', fileData: b64, fileType: ext })
+      body: JSON.stringify({ fileData: b64, fileType: ext })
     });
     const data = await resp.json();
-    return data.content?.[0]?.text || '';
+    if (!resp.ok || data.error) throw new Error(data.error || 'Extraction failed');
+    return data.text;
   }
 
   // ── RUN TAILORING ──
