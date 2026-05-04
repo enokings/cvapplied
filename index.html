@@ -970,7 +970,7 @@
           <div class="b-label">Soft Skills & Other</div>
           <textarea class="b-textarea" id="b-skills-soft" placeholder="e.g. Stakeholder Management, Project Leadership, Communication..." oninput="updatePreview()"></textarea>
         </div>
-        <button class="b-enhance-btn" onclick="enhanceSection('skills', 'b-skills-tech')">✦ Enhance Skills with AI</button>
+        <button class="b-enhance-btn" onclick="enhanceSkills()">✦ Enhance Skills with AI</button>
       </div>
 
       <!-- Education -->
@@ -1131,7 +1131,8 @@ function updatePreview() {
   if (title) cv += `TARGET ROLE: ${title}\n\n`;
 
   if (summary) {
-    cv += `─────────────────────────────────────────────\nPROFESSIONAL PROFILE\n─────────────────────────────────────────────\n${summary}\n\n`;
+    const cleanSummary = stripMarkdown(summary);
+    cv += `─────────────────────────────────────────────\nPROFESSIONAL PROFILE\n─────────────────────────────────────────────\n${cleanSummary}\n\n`;
   }
 
   if (experiences.length > 0) {
@@ -1139,7 +1140,7 @@ function updatePreview() {
     experiences.forEach(exp => {
       if (exp.role || exp.company) {
         cv += `${exp.role}${exp.company ? ' | ' + exp.company : ''}${exp.dates ? ' | ' + exp.dates : ''}\n`;
-        if (exp.bullets) cv += `${exp.bullets}\n`;
+        if (exp.bullets) cv += `${stripMarkdown(exp.bullets)}\n`;
         cv += '\n';
       }
     });
@@ -1147,17 +1148,71 @@ function updatePreview() {
 
   if (skillsTech || skillsSoft) {
     cv += `─────────────────────────────────────────────\nSKILLS\n─────────────────────────────────────────────\n`;
-    if (skillsTech) cv += `Technical: ${skillsTech}\n`;
-    if (skillsSoft) cv += `Other: ${skillsSoft}\n`;
+    // Don't add "Technical:" prefix if the content already has structure from AI enhancement
+    const techContent = stripMarkdown(skillsTech);
+    const softContent = stripMarkdown(skillsSoft);
+    if (techContent) {
+      const hasStructure = techContent.includes(':') || techContent.includes('\n');
+      cv += hasStructure ? `${techContent}\n` : `Technical: ${techContent}\n`;
+    }
+    if (softContent) {
+      const hasStructure = softContent.includes(':') || softContent.includes('\n');
+      cv += hasStructure ? `${softContent}\n` : `Other: ${softContent}\n`;
+    }
     cv += '\n';
   }
 
   if (education) {
-    cv += `─────────────────────────────────────────────\nEDUCATION & QUALIFICATIONS\n─────────────────────────────────────────────\n${education}\n`;
+    cv += `─────────────────────────────────────────────\nEDUCATION & QUALIFICATIONS\n─────────────────────────────────────────────\n${stripMarkdown(education)}\n`;
   }
 
   const preview = document.getElementById('cv-preview');
   if (preview) preview.textContent = cv || 'Start filling in your details to see your CV preview here...';
+}
+
+// ── STRIP MARKDOWN ──
+function stripMarkdown(text) {
+  return text
+    .replace(/\*\*(.+?)\*\*/g, '$1')   // **bold**
+    .replace(/\*(.+?)\*/g, '$1')        // *italic*
+    .replace(/^#{1,6}\s+/gm, '')        // # headings
+    .replace(/`(.+?)`/g, '$1')          // `code`
+    .replace(/^\s*[-*]\s+/gm, '• ')     // - bullets → •
+    .trim();
+}
+
+// ── ENHANCE SKILLS (special handler for two fields) ──
+async function enhanceSkills() {
+  const techField = document.getElementById('b-skills-tech');
+  const softField = document.getElementById('b-skills-soft');
+  const combined = [techField?.value, softField?.value].filter(Boolean).join('\n');
+  if (!combined.trim()) return;
+
+  const btn = document.getElementById('btab-skills')?.querySelector('.b-enhance-btn');
+  const originalText = btn?.innerHTML || '';
+  if (btn) { btn.innerHTML = '⏳ Enhancing…'; btn.disabled = true; }
+
+  const jobTitle = document.getElementById('b-jobtitle')?.value || '';
+
+  try {
+    const response = await fetch('/api/enhance', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ section: 'skills', content: combined, jobTitle })
+    });
+    const data = await response.json();
+    if (data.enhanced) {
+      // Put enhanced content into tech field, clear soft field (AI merges them)
+      techField.value = data.enhanced;
+      softField.value = '';
+      updatePreview();
+      if (btn) { btn.innerHTML = '✓ Enhanced!'; btn.style.background = 'var(--green)'; }
+      setTimeout(() => { if (btn) { btn.innerHTML = originalText; btn.style.background = ''; btn.disabled = false; } }, 2500);
+    } else throw new Error(data.error || 'Enhancement failed');
+  } catch {
+    if (btn) { btn.innerHTML = '⚠ Try again'; btn.disabled = false; }
+    setTimeout(() => { if (btn) { btn.innerHTML = originalText; btn.style.background = ''; } }, 2500);
+  }
 }
 
 // ── AI ENHANCE ──
