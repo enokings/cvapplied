@@ -1321,7 +1321,7 @@ updatePreview();
           <li>One-click job tailoring</li>
           <li>Unlimited PDF/DOCX exports</li>
         </ul>
-        <a href="https://buy.stripe.com/cNi14n72RfH1aBa1HOfjG00" target="_blank" rel="noopener" class="plan-btn plan-btn-solid" id="pro-btn">Start Pro — 7 Day Trial</a>
+        <a href="https://buy.stripe.com/cNi14n72RfH1aBa1HOfjG00" target="_blank" rel="noopener" class="plan-btn plan-btn-solid" id="pro-btn">Get CVApplied Pro</a>
       </div>
       <div class="pricing-card fade-up">
         <div class="plan-name">Career+</div>
@@ -1350,14 +1350,18 @@ function setBilling(type) {
     document.getElementById('pro-price').innerHTML = '<sup>£</sup>89<sub>/yr</sub>';
     document.getElementById('pro-desc').textContent = 'Best value — save £19 vs paying monthly.';
     document.getElementById('pro-btn').href = 'https://buy.stripe.com/6oU6oHaf366rbFe2LSfjG01';
+    document.getElementById('pro-btn').textContent = 'Get CVApplied Pro — Annual';
     document.getElementById('career-price').innerHTML = '<sup>£</sup>179<sub>/yr</sub>';
     document.getElementById('career-btn').href = 'https://buy.stripe.com/6oU6oHaf366rbFe2LSfjG01';
+    document.getElementById('career-btn').textContent = 'Get Career+ — Annual';
   } else {
     document.getElementById('pro-price').innerHTML = '<sup>£</sup>9<sub>/mo</sub>';
     document.getElementById('pro-desc').textContent = 'For active jobseekers who want every edge in a competitive market.';
     document.getElementById('pro-btn').href = 'https://buy.stripe.com/cNi14n72RfH1aBa1HOfjG00';
+    document.getElementById('pro-btn').textContent = 'Get CVApplied Pro';
     document.getElementById('career-price').innerHTML = '<sup>£</sup>19<sub>/mo</sub>';
     document.getElementById('career-btn').href = 'https://buy.stripe.com/cNi14n72RfH1aBa1HOfjG00';
+    document.getElementById('career-btn').textContent = 'Get Career+';
   }
 }
 </script>
