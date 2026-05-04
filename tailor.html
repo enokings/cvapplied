@@ -515,16 +515,22 @@
     document.getElementById('tailor-loading').classList.add('show');
     const interval = animateTailorSteps();
 
-    const prompt = `You are an expert UK CV writer and career consultant. Your task is to tailor the following CV to match the provided job description as closely as possible, while keeping all factual experience accurate.
+    const prompt = `You are an expert UK CV writer and career consultant. Your task is to tailor the following CV to match the provided job description AND fix common UK CV issues at the same time.
 
-INSTRUCTIONS:
+TAILORING INSTRUCTIONS:
 1. Rewrite the Professional Profile/Summary to directly mirror the language and priorities in the JD
 2. Reorder and rewrite experience bullet points to highlight the most relevant achievements first
 3. Inject missing keywords from the JD naturally into the experience and skills sections
 4. Adjust the skills section to match the JD's required and preferred skills
 5. Keep all dates, companies, job titles, and factual achievements accurate — do not invent experience
 6. Use British English throughout
-7. Keep the same overall structure and length
+
+CV QUALITY FIXES (apply these as well):
+7. LENGTH: UK CVs must be maximum 2 pages. If the CV is longer, cut aggressively — remove redundant bullets, consolidate similar points, trim verbose language. Do not pad or repeat.
+8. REPETITION: Remove any bullet points or phrases that repeat the same idea across different roles. Each bullet must add distinct value.
+9. SKILLS DEDUPLICATION: If the same skill appears in both a technical skills section and a soft skills section (or appears multiple times), keep it in only one place — the most relevant context. Do not list the same skill twice.
+10. DATES: For the current/most recent role, use "Present" (not a future date or blank). Format all dates consistently as "Month Year" or "Year" throughout (e.g. "March 2023 — Present"). Never use a future year for an ongoing role.
+11. EDUCATION DATES: For education, if the person is clearly a working professional, do not highlight graduation years prominently — keep education section brief.
 
 Return a JSON object with this exact structure (no markdown, no backticks):
 {
@@ -532,7 +538,7 @@ Return a JSON object with this exact structure (no markdown, no backticks):
   "changes": [
     {"type": "rewritten", "description": "<what was changed and why>"},
     {"type": "added", "description": "<keywords or content added>"},
-    {"type": "rewritten", "description": "<another change>"}
+    {"type": "removed", "description": "<what was cut and why — e.g. duplicate bullet, excess length>"}
   ]
 }
 
