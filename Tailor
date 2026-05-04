@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CVApplied — One-Click Job Tailoring</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MG5NEFRT2S"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MG5NEFRT2S');
+</script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #0f1117; --ink-soft: #3a3d4a; --ink-muted: #7a7f8e;
+    --paper: #fafaf8; --white: #ffffff; --accent: #1a56db;
+    --accent-soft: #e8effe; --rule: #e4e4e0; --gold: #c89b3c;
+    --green: #1a7a4a; --green-soft: #e6f4ed;
+    --red: #c0392b; --red-soft: #fdf0ee;
+    --shadow-sm: 0 1px 3px rgba(15,17,23,0.06);
+    --shadow-md: 0 4px 16px rgba(15,17,23,0.08);
+    --shadow-lg: 0 12px 40px rgba(15,17,23,0.10);
+    --radius: 10px; --radius-lg: 18px;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; min-height: 100vh; }
+
+  /* NAV */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(250,250,248,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--rule); padding: 0 48px; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+  .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.35rem; font-weight: 700; color: var(--ink); text-decoration: none; letter-spacing: -0.02em; }
+  .nav-logo span { color: var(--accent); }
+  .nav-right { display: flex; align-items: center; gap: 20px; }
+  .nav-back { font-size: 0.85rem; font-weight: 500; color: var(--ink-soft); text-decoration: none; transition: color 0.2s; }
+  .nav-back:hover { color: var(--ink); }
+  .nav-cta { background: var(--ink); color: var(--white); padding: 9px 20px; border-radius: 6px; font-weight: 600; font-size: 0.85rem; text-decoration: none; transition: background 0.2s; }
+  .nav-cta:hover { background: var(--accent); }
+
+  /* MAIN */
+  .main { max-width: 1200px; margin: 0 auto; padding: 96px 32px 80px; }
+
+  /* PAGE HEADER */
+  .page-header { text-align: center; margin-bottom: 48px; }
+  .page-eyebrow { display: inline-flex; align-items: center; gap: 8px; background: var(--accent-soft); color: var(--accent); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 6px 14px; border-radius: 4px; margin-bottom: 20px; }
+  .page-eyebrow::before { content: ''; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; }
+  h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 700; line-height: 1.15; letter-spacing: -0.025em; margin-bottom: 14px; }
+  h1 em { font-style: normal; color: var(--accent); }
+  .page-sub { font-size: 1.05rem; color: var(--ink-soft); font-weight: 300; max-width: 560px; margin: 0 auto; }
+
+  /* PRO GATE */
+  .pro-gate { background: var(--white); border: 1px solid var(--rule); border-radius: var(--radius-lg); padding: 48px 36px; text-align: center; max-width: 520px; margin: 0 auto 32px; box-shadow: var(--shadow-sm); }
+  .pro-gate h3 { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--ink); margin-bottom: 10px; }
+  .pro-gate p { font-size: 0.9rem; color: var(--ink-soft); margin-bottom: 24px; line-height: 1.6; }
+  .code-input-wrap { display: flex; gap: 10px; margin-bottom: 14px; }
+  .code-field { flex: 1; padding: 12px 14px; border: 1.5px solid var(--rule); border-radius: 8px; font-family: 'DM Mono', monospace; font-size: 0.9rem; text-align: center; letter-spacing: 0.08em; text-transform: uppercase; outline: none; transition: border-color 0.2s; }
+  .code-field:focus { border-color: var(--accent); }
+  .code-submit-btn { padding: 12px 20px; background: var(--accent); color: var(--white); border: none; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 700; cursor: pointer; transition: background 0.2s; white-space: nowrap; }
+  .code-submit-btn:hover { background: #1548c0; }
+  .code-error { font-size: 0.8rem; color: var(--red); margin-bottom: 10px; display: none; }
+  .code-error.show { display: block; }
+  .gate-divider { display: flex; align-items: center; gap: 12px; margin: 16px 0; }
+  .gate-divider::before, .gate-divider::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+  .gate-divider span { font-size: 0.75rem; color: var(--ink-muted); }
+
+  /* INPUT GRID */
+  .input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+  .card { background: var(--white); border: 1px solid var(--rule); border-radius: var(--radius-lg); padding: 28px; box-shadow: var(--shadow-sm); }
+  .card-title { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  .step-dot { width: 22px; height: 22px; background: var(--accent); border-radius: 50%; color: var(--white); font-size: 0.7rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .big-textarea { width: 100%; min-height: 380px; border: 1.5px solid var(--rule); border-radius: var(--radius); padding: 14px 16px; font-family: 'DM Mono', monospace; font-size: 0.8rem; color: var(--ink); line-height: 1.7; resize: vertical; outline: none; transition: border-color 0.2s; background: var(--paper); }
+  .big-textarea:focus { border-color: var(--accent); background: var(--white); }
+  .big-textarea::placeholder { color: var(--ink-muted); font-family: 'DM Sans', sans-serif; }
+
+  /* TAILOR BUTTON */
+  .tailor-btn { width: 100%; padding: 16px; background: var(--accent); color: var(--white); border: none; border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 14px rgba(26,86,219,0.3); display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 20px; }
+  .tailor-btn:hover:not(:disabled) { background: #1548c0; transform: translateY(-1px); }
+  .tailor-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+  /* LOADING */
+  .loading-state { display: none; text-align: center; padding: 56px 24px; }
+  .loading-state.show { display: block; }
+  .loading-spinner { width: 48px; height: 48px; border: 3px solid var(--rule); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 20px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* RESULTS */
+  .results-section { display: none; }
+  .results-section.show { display: block; }
+  .result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+  .result-card { background: var(--white); border: 1px solid var(--rule); border-radius: var(--radius-lg); overflow: hidden; }
+  .result-card-header { padding: 16px 20px; background: var(--paper); border-bottom: 1px solid var(--rule); display: flex; align-items: center; justify-content: space-between; }
+  .result-card-title { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-muted); }
+  .result-card-badge { font-size: 0.72rem; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+  .badge-original { background: var(--rule); color: var(--ink-muted); }
+  .badge-tailored { background: var(--green-soft); color: var(--green); }
+  .result-textarea { width: 100%; min-height: 500px; border: none; outline: none; padding: 20px 24px; font-family: 'DM Mono', monospace; font-size: 0.78rem; line-height: 1.75; color: var(--ink-soft); resize: none; background: var(--white); }
+
+  /* CHANGES SUMMARY */
+  .changes-card { background: var(--white); border: 1px solid var(--rule); border-radius: var(--radius-lg); padding: 24px 28px; margin-bottom: 20px; }
+  .changes-title { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-muted); margin-bottom: 16px; }
+  .change-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--rule); }
+  .change-item:last-child { border-bottom: none; }
+  .change-type { font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; flex-shrink: 0; margin-top: 2px; }
+  .change-type.added { background: var(--green-soft); color: var(--green); }
+  .change-type.rewritten { background: var(--accent-soft); color: var(--accent); }
+  .change-type.removed { background: var(--red-soft); color: var(--red); }
+  .change-text { font-size: 0.85rem; color: var(--ink-soft); line-height: 1.5; }
+
+  /* ACTION ROW */
+  .action-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn-primary { flex: 1; min-width: 180px; padding: 13px 24px; background: var(--accent); color: var(--white); border: none; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .btn-primary:hover { background: #1548c0; }
+  .btn-secondary { flex: 1; min-width: 180px; padding: 13px 24px; background: transparent; color: var(--ink-soft); border: 1.5px solid var(--rule); border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .btn-secondary:hover { border-color: var(--ink); color: var(--ink); }
+
+  /* ERROR */
+  .error-banner { display: none; background: var(--red-soft); border: 1px solid #f5c6c0; border-radius: var(--radius); padding: 14px 18px; font-size: 0.88rem; color: var(--red); margin-bottom: 16px; }
+  .error-banner.show { display: block; }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 0 20px; }
+    .main { padding: 88px 20px 60px; }
+    .input-grid, .result-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    nav { padding: 0 16px; }
+    .main { padding: 80px 12px 48px; }
+    .card { padding: 16px; }
+    .code-input-wrap { flex-direction: column; }
+    h1 { font-size: 1.8rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">CV<span>Applied</span></a>
+  <div class="nav-right">
+    <a href="index.html" class="nav-back">← Home</a>
+    <a href="analyse.html" class="nav-cta">Analyse My CV</a>
+  </div>
+</nav>
+
+<div class="main">
+
+  <div class="page-header">
+    <div class="page-eyebrow">Pro Feature</div>
+    <h1>Tailor your CV to any job — <em>instantly</em></h1>
+    <p class="page-sub">Paste your CV and the job description. CVApplied rewrites your CV to match the role — reordering sections, injecting keywords, and sharpening language — without changing your actual experience.</p>
+  </div>
+
+  <!-- PRO GATE -->
+  <div id="pro-gate-section">
+    <div class="pro-gate">
+      <div style="font-size:2rem; margin-bottom:14px;">🔑</div>
+      <h3>Pro Feature</h3>
+      <p>Job tailoring is available on CVApplied Pro. Enter your access code to unlock, or upgrade below.</p>
+      <div class="code-input-wrap">
+        <input type="text" class="code-field" id="tailor-code" placeholder="CVAP-XXXX-XXXX" maxlength="14" oninput="formatTailorCode(this)">
+        <button class="code-submit-btn" onclick="verifyTailorCode()">Unlock →</button>
+      </div>
+      <div class="code-error" id="tailor-code-error">Invalid code. Please check and try again.</div>
+      <div class="gate-divider"><span>or</span></div>
+      <a href="https://buy.stripe.com/cNi14n72RfH1aBa1HOfjG00" target="_blank" rel="noopener" style="display:block; width:100%; padding:13px; background:var(--accent); color:var(--white); border-radius:8px; font-family:'DM Sans',sans-serif; font-size:0.9rem; font-weight:700; text-decoration:none; text-align:center; transition:background 0.2s; margin-bottom:8px;">Get Pro — £9/mo →</a>
+      <a href="https://buy.stripe.com/6oU6oHaf366rbFe2LSfjG01" target="_blank" rel="noopener" style="display:block; width:100%; padding:13px; background:transparent; color:var(--ink-soft); border:1.5px solid var(--rule); border-radius:8px; font-family:'DM Sans',sans-serif; font-size:0.9rem; font-weight:500; text-decoration:none; text-align:center; transition:all 0.2s;">£89/yr — Save 17%</a>
+      <p style="font-size:0.75rem; color:var(--ink-muted); margin-top:12px;">Cancel any time</p>
+    </div>
+  </div>
+
+  <!-- TAILOR FORM (hidden until unlocked) -->
+  <div id="tailor-form-section" style="display:none;">
+
+    <div class="input-grid">
+      <div class="card">
+        <div class="card-title"><div class="step-dot">1</div> Your Current CV</div>
+        <textarea class="big-textarea" id="tailor-cv" placeholder="Paste your full CV text here...
+
+YOUR FULL NAME
+your.name@email.com | 07700 000000 | London, UK
+
+PROFESSIONAL PROFILE
+Experienced professional with..."></textarea>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="step-dot">2</div> Job Description</div>
+        <textarea class="big-textarea" id="tailor-jd" placeholder="Paste the full job description here...
+
+We are looking for a Senior Data Governance Lead to join our team...
+
+Responsibilities:
+• Define and implement data governance frameworks...
+• Work with stakeholders across the business...
+
+Requirements:
+• 5+ years experience in data governance...
+• DAMA certified preferred..."></textarea>
+      </div>
+    </div>
+
+    <div class="error-banner" id="tailor-error"></div>
+
+    <button class="tailor-btn" id="tailor-btn" onclick="runTailoring()">
+      <span>🎯</span>
+      <span>Tailor My CV to This Job</span>
+    </button>
+
+  </div>
+
+  <!-- LOADING -->
+  <div class="loading-state" id="tailor-loading">
+    <div class="loading-spinner"></div>
+    <p style="font-size:1rem; font-weight:600; color:var(--ink); margin-bottom:6px;">Tailoring your CV...</p>
+    <p style="font-size:0.85rem; color:var(--ink-muted); margin-bottom:24px;">Analysing the JD, injecting keywords, and rewriting for maximum match</p>
+    <div style="display:flex; flex-direction:column; gap:8px; max-width:400px; margin:0 auto;">
+      <div class="loading-step-item" id="ts-1">🔍 Reading job requirements</div>
+      <div class="loading-step-item" id="ts-2">🎯 Identifying keyword gaps</div>
+      <div class="loading-step-item" id="ts-3">✍️ Rewriting profile summary</div>
+      <div class="loading-step-item" id="ts-4">📋 Tailoring experience bullets</div>
+      <div class="loading-step-item" id="ts-5">✅ Finalising tailored CV</div>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="results-section" id="tailor-results">
+
+    <div class="changes-card" id="changes-card">
+      <div class="changes-title">What Changed</div>
+      <div id="changes-list"></div>
+    </div>
+
+    <div class="result-grid">
+      <div class="result-card">
+        <div class="result-card-header">
+          <div class="result-card-title">Original CV</div>
+          <span class="result-card-badge badge-original">Before</span>
+        </div>
+        <textarea class="result-textarea" id="original-cv-display" readonly></textarea>
+      </div>
+      <div class="result-card">
+        <div class="result-card-header">
+          <div class="result-card-title">Tailored CV</div>
+          <span class="result-card-badge badge-tailored">✓ Tailored</span>
+        </div>
+        <textarea class="result-textarea" id="tailored-cv-display" readonly></textarea>
+      </div>
+    </div>
+
+    <div class="action-row">
+      <button class="btn-secondary" onclick="resetTailoring()">← Tailor Another CV</button>
+      <button class="btn-primary" onclick="copyTailoredCV()" id="copy-tailored-btn">📋 Copy Tailored CV</button>
+      <button class="btn-primary" onclick="downloadTailoredDOCX()" style="background:var(--ink);">⬇ Download DOCX</button>
+      <button class="btn-primary" onclick="analyseTailored()" style="background:var(--green);">✦ Analyse Tailored CV</button>
+    </div>
+
+  </div>
+
+</div>
+
+<style>
+.loading-step-item {
+  padding: 10px 16px; background: var(--white); border: 1px solid var(--rule);
+  border-radius: 8px; font-size: 0.85rem; color: var(--ink-muted);
+  transition: all 0.3s;
+}
+.loading-step-item.active { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
+.loading-step-item.done { color: var(--green); border-color: var(--green); background: var(--green-soft); }
+</style>
+
+<script>
+  const STRIPE_MONTHLY = 'https://buy.stripe.com/cNi14n72RfH1aBa1HOfjG00';
+
+  // ── CHECK IF ALREADY PRO ──
+  function checkProStatus() {
+    try {
+      const d = JSON.parse(localStorage.getItem('cva_usage') || '{}');
+      if (d.pro && d.token) {
+        unlockTailorForm();
+      }
+    } catch {}
+  }
+
+  function unlockTailorForm() {
+    document.getElementById('pro-gate-section').style.display = 'none';
+    document.getElementById('tailor-form-section').style.display = 'block';
+  }
+
+  // ── CODE FORMAT ──
+  function formatTailorCode(input) {
+    let val = input.value.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
+    if (val.length > 4) val = val.slice(0,4) + '-' + val.slice(4);
+    if (val.length > 9) val = val.slice(0,9) + '-' + val.slice(9);
+    if (val.length > 14) val = val.slice(0,14);
+    input.value = val;
+  }
+
+  // ── VERIFY CODE ──
+  async function verifyTailorCode() {
+    const code = document.getElementById('tailor-code').value.trim();
+    const errorEl = document.getElementById('tailor-code-error');
+    const btn = document.querySelector('.code-submit-btn');
+
+    if (!code) return;
+    btn.textContent = 'Checking…';
+    btn.disabled = true;
+    errorEl.classList.remove('show');
+
+    try {
+      const response = await fetch('/api/verify-code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code })
+      });
+      const data = await response.json();
+
+      if (response.status === 429) {
+        errorEl.textContent = data.error || 'Too many attempts. Please wait 15 minutes.';
+        errorEl.classList.add('show');
+        btn.textContent = 'Unlock →'; btn.disabled = false;
+        return;
+      }
+
+      if (data.valid && data.token) {
+        const d = JSON.parse(localStorage.getItem('cva_usage') || '{}');
+        d.pro = true; d.token = data.token;
+        localStorage.setItem('cva_usage', JSON.stringify(d));
+        unlockTailorForm();
+
+        const banner = document.createElement('div');
+        banner.style.cssText = 'position:fixed;top:72px;left:50%;transform:translateX(-50%);background:var(--green);color:white;padding:12px 24px;border-radius:8px;font-weight:600;font-size:0.9rem;z-index:300;box-shadow:0 4px 16px rgba(0,0,0,0.2)';
+        banner.textContent = '✓ Pro access unlocked';
+        document.body.appendChild(banner);
+        setTimeout(() => banner.remove(), 3000);
+      } else {
+        errorEl.textContent = data.error || 'Invalid code. Please check and try again.';
+        errorEl.classList.add('show');
+        document.getElementById('tailor-code').style.borderColor = 'var(--red)';
+        setTimeout(() => { document.getElementById('tailor-code').style.borderColor = ''; }, 3000);
+        btn.textContent = 'Unlock →'; btn.disabled = false;
+      }
+    } catch {
+      errorEl.textContent = 'Network error. Please try again.';
+      errorEl.classList.add('show');
+      btn.textContent = 'Unlock →'; btn.disabled = false;
+    }
+  }
+
+  document.getElementById('tailor-code').addEventListener('keydown', e => {
+    if (e.key === 'Enter') verifyTailorCode();
+  });
+
+  // ── LOADING ANIMATION ──
+  function animateTailorSteps() {
+    const steps = ['ts-1','ts-2','ts-3','ts-4','ts-5'];
+    let i = 0;
+    const interval = setInterval(() => {
+      if (i > 0) {
+        document.getElementById(steps[i-1]).classList.remove('active');
+        document.getElementById(steps[i-1]).classList.add('done');
+        document.getElementById(steps[i-1]).textContent = '✓ ' + document.getElementById(steps[i-1]).textContent.slice(2);
+      }
+      if (i < steps.length) {
+        document.getElementById(steps[i]).classList.add('active');
+        i++;
+      } else clearInterval(interval);
+    }, 2000);
+    return interval;
+  }
+
+  // ── RUN TAILORING ──
+  async function runTailoring() {
+    const cvText = document.getElementById('tailor-cv').value.trim();
+    const jdText = document.getElementById('tailor-jd').value.trim();
+
+    if (cvText.length < 100) { showTailorError('Please paste your full CV (minimum 100 characters).'); return; }
+    if (jdText.length < 100) { showTailorError('Please paste the full job description (minimum 100 characters).'); return; }
+
+    hideTailorError();
+    document.getElementById('tailor-form-section').style.display = 'none';
+    document.getElementById('tailor-loading').classList.add('show');
+    const interval = animateTailorSteps();
+
+    const prompt = `You are an expert UK CV writer and career consultant. Your task is to tailor the following CV to match the provided job description as closely as possible, while keeping all factual experience accurate.
+
+INSTRUCTIONS:
+1. Rewrite the Professional Profile/Summary to directly mirror the language and priorities in the JD
+2. Reorder and rewrite experience bullet points to highlight the most relevant achievements first
+3. Inject missing keywords from the JD naturally into the experience and skills sections
+4. Adjust the skills section to match the JD's required and preferred skills
+5. Keep all dates, companies, job titles, and factual achievements accurate — do not invent experience
+6. Use British English throughout
+7. Keep the same overall structure and length
+
+Return a JSON object with this exact structure (no markdown, no backticks):
+{
+  "tailored_cv": "<the full tailored CV as plain text, preserving the original formatting style>",
+  "changes": [
+    {"type": "rewritten", "description": "<what was changed and why>"},
+    {"type": "added", "description": "<keywords or content added>"},
+    {"type": "rewritten", "description": "<another change>"}
+  ]
+}
+
+ORIGINAL CV:
+${cvText}
+
+JOB DESCRIPTION:
+${jdText}`;
+
+    try {
+      const response = await fetch('/api/analyse', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt })
+      });
+
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || 'Tailoring failed');
+      const rawText = data.content?.[0]?.text || '';
+
+      let result;
+      try {
+        let cleaned = rawText.trim().replace(/```json\s*/gi, '').replace(/```\s*/g, '').trim();
+        const start = cleaned.indexOf('{');
+        const end = cleaned.lastIndexOf('}');
+        result = JSON.parse(cleaned.slice(start, end + 1));
+      } catch {
+        throw new Error('Could not parse response. Please try again.');
+      }
+
+      clearInterval(interval);
+      ['ts-1','ts-2','ts-3','ts-4','ts-5'].forEach(id => {
+        const el = document.getElementById(id);
+        el.classList.remove('active'); el.classList.add('done');
+      });
+
+      setTimeout(() => {
+        document.getElementById('tailor-loading').classList.remove('show');
+        renderTailoringResults(cvText, result);
+        document.getElementById('tailor-results').classList.add('show');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        gtag('event', 'cv_tailored');
+      }, 600);
+
+    } catch (err) {
+      clearInterval(interval);
+      document.getElementById('tailor-loading').classList.remove('show');
+      document.getElementById('tailor-form-section').style.display = 'block';
+      showTailorError('Tailoring failed: ' + err.message);
+    }
+  }
+
+  // ── RENDER RESULTS ──
+  function renderTailoringResults(originalCV, result) {
+    document.getElementById('original-cv-display').value = originalCV;
+    document.getElementById('tailored-cv-display').value = result.tailored_cv || '';
+
+    const changesList = document.getElementById('changes-list');
+    changesList.innerHTML = (result.changes || []).map(c => `
+      <div class="change-item">
+        <span class="change-type ${c.type}">${c.type}</span>
+        <span class="change-text">${c.description}</span>
+      </div>
+    `).join('');
+  }
+
+  // ── COPY ──
+  function copyTailoredCV() {
+    const text = document.getElementById('tailored-cv-display').value;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.getElementById('copy-tailored-btn');
+      btn.textContent = '✓ Copied!';
+      btn.style.background = 'var(--green)';
+      setTimeout(() => { btn.textContent = '📋 Copy Tailored CV'; btn.style.background = ''; }, 2500);
+    });
+  }
+
+  // ── ANALYSE TAILORED ──
+  function analyseTailored() {
+    const text = document.getElementById('tailored-cv-display').value;
+    sessionStorage.setItem('tailor_cv_to_analyse', text);
+    window.location.href = 'analyse.html?from=tailor';
+  }
+
+  // ── RESET ──
+  function resetTailoring() {
+    document.getElementById('tailor-results').classList.remove('show');
+    document.getElementById('tailor-form-section').style.display = 'block';
+    ['ts-1','ts-2','ts-3','ts-4','ts-5'].forEach(id => {
+      const el = document.getElementById(id);
+      el.classList.remove('active','done');
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ── ERRORS ──
+  function showTailorError(msg) {
+    const el = document.getElementById('tailor-error');
+    el.textContent = '⚠ ' + msg;
+    el.classList.add('show');
+  }
+  function hideTailorError() {
+    document.getElementById('tailor-error').classList.remove('show');
+  }
+
+  // ── DOWNLOAD DOCX ──
+  async function downloadTailoredDOCX() {
+    const d = JSON.parse(localStorage.getItem('cva_usage') || '{}');
+    if (!d.pro) { window.location.href = 'https://buy.stripe.com/cNi14n72RfH1aBa1HOfjG00'; return; }
+    const cvText = document.getElementById('tailored-cv-display').value;
+    if (!cvText) return;
+    const btn = document.querySelector('[onclick="downloadTailoredDOCX()"]');
+    if (btn) { btn.textContent = '⏳ Generating…'; btn.disabled = true; }
+    try {
+      const response = await fetch('/api/export', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ cvText, token: d.token, name: 'tailored-cv' })
+      });
+      if (!response.ok) throw new Error('Export failed');
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'tailored-cv-cvapplied.docx';
+      document.body.appendChild(a); a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      if (btn) { btn.textContent = '⬇ Download DOCX'; btn.disabled = false; }
+    } catch {
+      alert('DOCX export failed. Please try again.');
+      if (btn) { btn.textContent = '⬇ Download DOCX'; btn.disabled = false; }
+    }
+  }
+
+  // ── INIT ──
+  checkProStatus();
+</script>
+</body>
+</html>
