@@ -715,7 +715,7 @@ We are looking for a Senior Data Analyst to join our team..."></textarea>
             <button class="gate-btn" onclick="submitGateEmail()">Send My Report →</button>
           </div>
           <div class="gate-success" id="gate-success">
-            ✓ Saved! Check your inbox for your CV report.
+            ✓ Saved! You’re subscribed — check your inbox.
           </div>
           <p class="gate-note">🔒 No spam. Unsubscribe any time.</p>
         </div>
@@ -1169,8 +1169,10 @@ Be honest and specific. Reference actual content from the CV. Use British Englis
       // Increment usage count
       incrementUsage();
 
-      // Store CV text for PDF export
-      sessionStorage.setItem('last_cv_text', cvText === '__CV_TEXT__' ? '' : cvText);
+      // Store CV text for PDF export (localStorage survives new tabs / refreshes)
+      const cvTextToStore = cvText === '__CV_TEXT__' ? '' : cvText;
+      sessionStorage.setItem('last_cv_text', cvTextToStore);
+      if (cvTextToStore) localStorage.setItem('cva_last_cv_text', cvTextToStore);
 
       clearInterval(loadingInterval);
       ['step-1','step-2','step-3','step-4','step-5'].forEach(id => {
@@ -1262,7 +1264,7 @@ Be honest and specific. Reference actual content from the CV. Use British Englis
       const missingTags = (r.keywords.missing || []).map(k => `<span class="keyword-tag missing">${k}</span>`).join('');
       kwGrid.innerHTML = `
         <div class="keyword-group present"><h4>✓ Found in your CV</h4><div class="keyword-tags">${presentTags}</div></div>
-        <div class="keyword-group missing"><h4>✗ Missing keywords</h4><div class="keyword-tags">${missingTags}</div></div>`;
+        <div class="keyword-group missing"><h4>✗ Missing Keywords (Suggested)</h4><div class="keyword-tags">${missingTags}</div></div>`;
     } else {
       document.getElementById('keywords-section').style.display = 'none';
     }
@@ -1389,35 +1391,19 @@ Be honest and specific. Reference actual content from the CV. Use British Englis
   (function autoRunFromTailor() {
     const params = new URLSearchParams(window.location.search);
     if (params.get('from') !== 'tailor') return;
-
-    // Read from localStorage (sessionStorage is not shared across tabs)
-    let cvText = '';
-    try {
-      const raw = localStorage.getItem('cva_tailor_handoff');
-      if (raw) {
-        const parsed = JSON.parse(raw);
-        // Only use if written within the last 60 seconds
-        if (parsed.text && (Date.now() - parsed.ts) < 60000) {
-          cvText = parsed.text;
-        }
-        localStorage.removeItem('cva_tailor_handoff');
-      }
-    } catch {}
-
-    // Fallback: legacy sessionStorage path (same-tab redirects)
-    if (!cvText || cvText.length < 100) {
-      cvText = sessionStorage.getItem('tailor_cv_to_analyse') || '';
-      sessionStorage.removeItem('tailor_cv_to_analyse');
-    }
-
+    const cvText = sessionStorage.getItem('tailor_cv_to_analyse');
     if (!cvText || cvText.length < 100) return;
+    sessionStorage.removeItem('tailor_cv_to_analyse');
 
-    // Populate paste tab and auto-run
+    // Switch to paste tab and populate
     switchTab('paste');
     const textarea = document.getElementById('cv-text');
     if (textarea) textarea.value = cvText;
 
-    setTimeout(() => { runAnalysis(); }, 300);
+    // Small delay so the DOM is fully settled, then run
+    setTimeout(() => {
+      runAnalysis();
+    }, 300);
   })();
 
   // ── JD TAB SWITCH ──
@@ -1863,7 +1849,7 @@ Be honest and specific. Reference actual content from the CV. Use British Englis
   function exportAnalysisPDF() {
     const d = JSON.parse(localStorage.getItem('cva_usage') || '{}');
     if (!d.pro) { document.querySelector('.pro-cta-btn')?.scrollIntoView({ behavior: 'smooth' }); return; }
-    const cvText = sessionStorage.getItem('last_cv_text') || '';
+    const cvText = sessionStorage.getItem('last_cv_text') || localStorage.getItem('cva_last_cv_text') || '';
     if (!cvText) { alert('Please re-analyse your CV to export.'); return; }
     printCV(cvText, 'cv-cvapplied');
   }
