@@ -74,6 +74,14 @@
   .big-textarea:focus { border-color: var(--accent); background: var(--white); }
   .big-textarea::placeholder { color: var(--ink-muted); font-family: 'DM Sans', sans-serif; }
 
+  .upload-zone-t {
+    border: 2px dashed var(--rule); border-radius: var(--radius);
+    padding: 48px 24px; text-align: center;
+    background: var(--paper); cursor: pointer; transition: all 0.2s;
+  }
+  .upload-zone-t:hover { border-color: var(--accent); background: var(--accent-soft); }
+  .upload-zone-t.has-file { border-color: var(--green); background: var(--green-soft); border-style: solid; }
+
   /* TAILOR BUTTON */
   .tailor-btn { width: 100%; padding: 16px; background: var(--accent); color: var(--white); border: none; border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 14px rgba(26,86,219,0.3); display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 20px; }
   .tailor-btn:hover:not(:disabled) { background: #1548c0; transform: translateY(-1px); }
@@ -176,27 +184,39 @@
     <div class="input-grid">
       <div class="card">
         <div class="card-title"><div class="step-dot">1</div> Your Current CV</div>
-        <textarea class="big-textarea" id="tailor-cv" placeholder="Paste your full CV text here...
-
-YOUR FULL NAME
-your.name@email.com | 07700 000000 | London, UK
-
-PROFESSIONAL PROFILE
-Experienced professional with..."></textarea>
+        <div class="input-tabs" style="margin-bottom:14px;">
+          <button class="input-tab active" id="tcv-tab-paste" onclick="switchTailorTab('cv','paste')">✏️ Paste Text</button>
+          <button class="input-tab" id="tcv-tab-upload" onclick="switchTailorTab('cv','upload')">📄 Upload File</button>
+        </div>
+        <div id="tcv-paste-panel">
+          <textarea class="big-textarea" id="tailor-cv" placeholder="Paste your full CV text here..."></textarea>
+        </div>
+        <div id="tcv-upload-panel" style="display:none;">
+          <div class="upload-zone-t" id="tcv-upload-zone" onclick="document.getElementById('tcv-file').click()">
+            <input type="file" id="tcv-file" accept=".pdf,.doc,.docx,.txt" style="display:none">
+            <div id="tcv-icon" style="font-size:2rem; margin-bottom:8px;">📄</div>
+            <h3 id="tcv-title" style="font-size:0.95rem; margin-bottom:4px;">Drop your CV here or click to browse</h3>
+            <p id="tcv-sub" style="font-size:0.8rem; color:var(--ink-muted);">PDF, DOC, DOCX or TXT</p>
+          </div>
+        </div>
       </div>
       <div class="card">
         <div class="card-title"><div class="step-dot">2</div> Job Description</div>
-        <textarea class="big-textarea" id="tailor-jd" placeholder="Paste the full job description here...
-
-We are looking for a Senior Data Governance Lead to join our team...
-
-Responsibilities:
-• Define and implement data governance frameworks...
-• Work with stakeholders across the business...
-
-Requirements:
-• 5+ years experience in data governance...
-• DAMA certified preferred..."></textarea>
+        <div class="input-tabs" style="margin-bottom:14px;">
+          <button class="input-tab active" id="tjd-tab-paste" onclick="switchTailorTab('jd','paste')">✏️ Paste Text</button>
+          <button class="input-tab" id="tjd-tab-upload" onclick="switchTailorTab('jd','upload')">📄 Upload File</button>
+        </div>
+        <div id="tjd-paste-panel">
+          <textarea class="big-textarea" id="tailor-jd" placeholder="Paste the full job description here..."></textarea>
+        </div>
+        <div id="tjd-upload-panel" style="display:none;">
+          <div class="upload-zone-t" id="tjd-upload-zone" onclick="document.getElementById('tjd-file').click()">
+            <input type="file" id="tjd-file" accept=".pdf,.doc,.docx,.txt" style="display:none">
+            <div id="tjd-icon" style="font-size:2rem; margin-bottom:8px;">📄</div>
+            <h3 id="tjd-title" style="font-size:0.95rem; margin-bottom:4px;">Drop JD file here or click to browse</h3>
+            <p id="tjd-sub" style="font-size:0.8rem; color:var(--ink-muted);">PDF, DOC, DOCX or TXT</p>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -369,13 +389,99 @@ Requirements:
     return interval;
   }
 
+  // ── TAILOR TAB SWITCH ──
+  let tcvFile = null, tjdFile = null;
+  let activeTCVTab = 'paste', activeTJDTab = 'paste';
+
+  function switchTailorTab(field, tab) {
+    if (field === 'cv') {
+      activeTCVTab = tab;
+      document.getElementById('tcv-tab-paste').classList.toggle('active', tab === 'paste');
+      document.getElementById('tcv-tab-upload').classList.toggle('active', tab === 'upload');
+      document.getElementById('tcv-paste-panel').style.display = tab === 'paste' ? 'block' : 'none';
+      document.getElementById('tcv-upload-panel').style.display = tab === 'upload' ? 'block' : 'none';
+    } else {
+      activeTJDTab = tab;
+      document.getElementById('tjd-tab-paste').classList.toggle('active', tab === 'paste');
+      document.getElementById('tjd-tab-upload').classList.toggle('active', tab === 'upload');
+      document.getElementById('tjd-paste-panel').style.display = tab === 'paste' ? 'block' : 'none';
+      document.getElementById('tjd-upload-panel').style.display = tab === 'upload' ? 'block' : 'none';
+    }
+  }
+
+  document.getElementById('tcv-file').addEventListener('change', (e) => {
+    const file = e.target.files[0]; if (!file) return;
+    tcvFile = file;
+    document.getElementById('tcv-icon').textContent = '✅';
+    document.getElementById('tcv-title').textContent = file.name;
+    document.getElementById('tcv-sub').textContent = `${(file.size/1024).toFixed(1)} KB — ready`;
+    document.getElementById('tcv-upload-zone').classList.add('has-file');
+  });
+
+  document.getElementById('tjd-file').addEventListener('change', (e) => {
+    const file = e.target.files[0]; if (!file) return;
+    tjdFile = file;
+    document.getElementById('tjd-icon').textContent = '✅';
+    document.getElementById('tjd-title').textContent = file.name;
+    document.getElementById('tjd-sub').textContent = `${(file.size/1024).toFixed(1)} KB — ready`;
+    document.getElementById('tjd-upload-zone').classList.add('has-file');
+  });
+
+  // ── READ FILE ──
+  async function readTailorFileAsBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => resolve(e.target.result.split(',')[1]);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  async function readTailorFileAsText(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => resolve(e.target.result);
+      reader.onerror = reject;
+      reader.readAsText(file, 'UTF-8');
+    });
+  }
+
+  async function extractTextFromFile(file) {
+    const ext = file.name.split('.').pop().toLowerCase();
+    if (ext === 'txt') return await readTailorFileAsText(file);
+    const b64 = await readTailorFileAsBase64(file);
+    const resp = await fetch('/api/analyse', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt: 'Return ONLY the plain text content:', fileData: b64, fileType: ext })
+    });
+    const data = await resp.json();
+    return data.content?.[0]?.text || '';
+  }
+
   // ── RUN TAILORING ──
   async function runTailoring() {
-    const cvText = document.getElementById('tailor-cv').value.trim();
-    const jdText = document.getElementById('tailor-jd').value.trim();
+    let cvText = '';
+    let jdText = '';
 
-    if (cvText.length < 100) { showTailorError('Please paste your full CV (minimum 100 characters).'); return; }
-    if (jdText.length < 100) { showTailorError('Please paste the full job description (minimum 100 characters).'); return; }
+    // Get CV text
+    if (activeTCVTab === 'upload' && tcvFile) {
+      try { cvText = await extractTextFromFile(tcvFile); }
+      catch { showTailorError('Could not read CV file. Please try pasting the text instead.'); return; }
+    } else {
+      cvText = document.getElementById('tailor-cv').value.trim();
+    }
+
+    // Get JD text
+    if (activeTJDTab === 'upload' && tjdFile) {
+      try { jdText = await extractTextFromFile(tjdFile); }
+      catch { showTailorError('Could not read JD file. Please try pasting the text instead.'); return; }
+    } else {
+      jdText = document.getElementById('tailor-jd').value.trim();
+    }
+
+    if (cvText.length < 100) { showTailorError('Please provide your full CV (minimum 100 characters).'); return; }
+    if (jdText.length < 100) { showTailorError('Please provide the full job description (minimum 100 characters).'); return; }
 
     hideTailorError();
     document.getElementById('tailor-form-section').style.display = 'none';
