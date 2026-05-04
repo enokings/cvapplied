@@ -464,24 +464,49 @@
     let cvText = '';
     let jdText = '';
 
+    hideTailorError();
+
+    // Show extracting state if files are uploaded
+    const extractingFiles = (activeTCVTab === 'upload' && tcvFile) || (activeTJDTab === 'upload' && tjdFile);
+    if (extractingFiles) {
+      document.getElementById('tailor-btn').innerHTML = '<span>⏳</span><span>Extracting text from files...</span>';
+      document.getElementById('tailor-btn').disabled = true;
+    }
+
     // Get CV text
     if (activeTCVTab === 'upload' && tcvFile) {
-      try { cvText = await extractTextFromFile(tcvFile); }
-      catch { showTailorError('Could not read CV file. Please try pasting the text instead.'); return; }
+      try {
+        cvText = await extractTextFromFile(tcvFile);
+      } catch {
+        document.getElementById('tailor-btn').innerHTML = '<span>🎯</span><span>Tailor My CV to This Job</span>';
+        document.getElementById('tailor-btn').disabled = false;
+        showTailorError('Could not read CV file. Please try pasting the text instead.');
+        return;
+      }
     } else {
       cvText = document.getElementById('tailor-cv').value.trim();
     }
 
     // Get JD text
     if (activeTJDTab === 'upload' && tjdFile) {
-      try { jdText = await extractTextFromFile(tjdFile); }
-      catch { showTailorError('Could not read JD file. Please try pasting the text instead.'); return; }
+      try {
+        jdText = await extractTextFromFile(tjdFile);
+      } catch {
+        document.getElementById('tailor-btn').innerHTML = '<span>🎯</span><span>Tailor My CV to This Job</span>';
+        document.getElementById('tailor-btn').disabled = false;
+        showTailorError('Could not read JD file. Please try pasting the text instead.');
+        return;
+      }
     } else {
       jdText = document.getElementById('tailor-jd').value.trim();
     }
 
-    if (cvText.length < 100) { showTailorError('Please provide your full CV (minimum 100 characters).'); return; }
-    if (jdText.length < 100) { showTailorError('Please provide the full job description (minimum 100 characters).'); return; }
+    // Reset button
+    document.getElementById('tailor-btn').innerHTML = '<span>🎯</span><span>Tailor My CV to This Job</span>';
+    document.getElementById('tailor-btn').disabled = false;
+
+    if (!cvText || cvText.length < 100) { showTailorError('Could not extract enough text from your CV. Please use Paste Text instead.'); return; }
+    if (!jdText || jdText.length < 100) { showTailorError('Could not extract enough text from the JD. Please use Paste Text instead.'); return; }
 
     hideTailorError();
     document.getElementById('tailor-form-section').style.display = 'none';
