@@ -1385,6 +1385,41 @@ Be honest and specific. Reference actual content from the CV. Use British Englis
   // ── INIT ──
   updateUsageBar();
 
+  // ── AUTO-RUN FROM TAILOR PAGE ──
+  (function autoRunFromTailor() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('from') !== 'tailor') return;
+
+    // Read from localStorage (sessionStorage is not shared across tabs)
+    let cvText = '';
+    try {
+      const raw = localStorage.getItem('cva_tailor_handoff');
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        // Only use if written within the last 60 seconds
+        if (parsed.text && (Date.now() - parsed.ts) < 60000) {
+          cvText = parsed.text;
+        }
+        localStorage.removeItem('cva_tailor_handoff');
+      }
+    } catch {}
+
+    // Fallback: legacy sessionStorage path (same-tab redirects)
+    if (!cvText || cvText.length < 100) {
+      cvText = sessionStorage.getItem('tailor_cv_to_analyse') || '';
+      sessionStorage.removeItem('tailor_cv_to_analyse');
+    }
+
+    if (!cvText || cvText.length < 100) return;
+
+    // Populate paste tab and auto-run
+    switchTab('paste');
+    const textarea = document.getElementById('cv-text');
+    if (textarea) textarea.value = cvText;
+
+    setTimeout(() => { runAnalysis(); }, 300);
+  })();
+
   // ── JD TAB SWITCH ──
   let jdFile = null;
   let activeJDTab = 'paste';
