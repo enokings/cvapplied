@@ -515,41 +515,45 @@
     document.getElementById('tailor-loading').classList.add('show');
     const interval = animateTailorSteps();
 
-    const prompt = `You are an expert UK CV writer and career consultant. Your task is to tailor the following CV to match the provided job description AND produce a polished, high-scoring UK CV at the same time.
+    const prompt = `You are an expert UK CV writer. Produce a tailored, publication-ready UK CV. Work in two passes:
 
-TAILORING INSTRUCTIONS:
-1. PROFILE SUMMARY: Rewrite to directly mirror the language and priorities in the JD. Maximum 4 lines / 80 words. It must be punchy, specific, and front-load the candidate's strongest relevant credentials. No filler phrases like "results-driven" or "passionate about".
-2. Reorder and rewrite experience bullet points to highlight the most relevant achievements first. Every bullet must start with a strong past-tense action verb. Maximum 5 bullets per role.
-3. Inject missing keywords from the JD naturally into the experience and skills sections.
-4. SKILLS SECTION: Restructure into clearly labelled categories, each on its own line, e.g.:
-    Technical Skills: SQL, Python, Power BI, Azure Data Lake, Collibra
-    Data Governance: MDM, Data Lineage, GDPR Compliance, Data Cataloguing
-    Soft Skills: Stakeholder Management, Cross-functional Collaboration, Training
-    Use this category format consistently — never merge skills into a paragraph. Match categories to the candidate's actual field. Include only skills the candidate genuinely has, supplemented by JD-relevant terms where applicable.
-5. Keep all dates, companies, job titles, and factual achievements accurate — do not invent experience.
-6. Use British English throughout (e.g. "organisation" not "organization", "analyse" not "analyze").
+PASS 1 — TAILOR
+A. PROFILE SUMMARY: Rewrite to mirror the JD's language. Hard limit: 4 lines / 80 words. No filler phrases ("results-driven", "passionate about", "dynamic"). Open with the candidate's strongest relevant credential.
+B. EXPERIENCE: Reorder bullets to lead with JD-relevant achievements. Every bullet: strong past-tense action verb + specific outcome. Max 5 bullets per role. Cut any bullet that repeats an idea already stated in another role.
+C. KEYWORDS: Inject missing JD keywords naturally into experience and skills. Do not fabricate experience.
+D. SKILLS: Rewrite as labelled categories — one per line, comma-separated values. Example format:
+   Technical Skills: SQL, Python, Power BI, Azure Data Lake, Collibra
+   Data Governance: MDM, Data Lineage, GDPR Compliance, Data Cataloguing
+   Soft Skills: Stakeholder Management, Training & Mentoring, Cross-functional Collaboration
+   Never use a paragraph. Never mix technical and soft skills on the same line. Use categories appropriate to the candidate's field.
+E. CORE COMPETENCIES: If not already present, add after the profile summary — 8–12 keywords in a compact 2–3 column layout, drawn from JD and candidate's actual experience.
+F. DATES: Every role must show "Month Year — Month Year" or "Month Year — Present". The current role must use "Present". Never use a future year. Use a standard hyphen-minus surrounded by spaces ( - ) as the date separator consistently throughout — not an em dash (—) or en dash (–).
+G. EDUCATION: Preserve all qualification names, institutions, and graduation years exactly. Never remove dates.
+H. LENGTH: Target 600–800 words. Cut aggressively to hit this — remove redundant bullets, consolidate similar points.
+I. BRITISH ENGLISH: Use British spelling throughout (organisation, analyse, behaviour, programme, etc).
 
-CV QUALITY FIXES (apply these as well):
-7. LENGTH: Target 600–800 words total for the tailored CV. UK CVs must fit 2 pages. Cut aggressively — remove redundant bullets, consolidate similar points, trim verbose language. Do not pad.
-8. REPETITION: Remove any bullet points or phrases that repeat the same idea across different roles. Each bullet must add distinct value.
-9. SKILLS DEDUPLICATION: If the same skill appears more than once anywhere in the CV, keep it in one place only — the most relevant context.
-10. DATES: For the current/most recent role, use "Present". Format all dates consistently as "Month Year" (e.g. "March 2023 — Present"). Never use a future year for an ongoing role.
-11. EDUCATION: Keep qualification names, institutions, and graduation years exactly as written — never remove or obscure dates. Keep descriptions brief.
-12. CORE COMPETENCIES: If the CV does not already have a "Core Competencies" section near the top (after the profile summary), add one with 8–12 keywords from the JD and candidate's experience, formatted as a compact 2–3 column list.
-13. FORMATTING: Apply consistent formatting throughout:
-    - Section headers: ALL CAPS (e.g. WORK EXPERIENCE, EDUCATION)
-    - Bullet points: use "•" character consistently for all bullets — never mix with "-" or "o"
-    - Job entries: "Job Title | Company Name | Month Year — Month Year" on one line
-    - One blank line between each section, no double blank lines
-    - No bold, italic or markdown symbols — plain text only
+PASS 2 — SELF-CHECK (do this before writing the JSON)
+Go through the draft and verify every point below. Fix anything that fails before outputting:
+[ ] Profile summary is ≤ 80 words and contains no clichés
+[ ] Every bullet starts with a past-tense action verb
+[ ] No bullet is duplicated across roles
+[ ] Skills section uses labelled category lines — not a paragraph
+[ ] No skill appears in more than one section
+[ ] Current role date ends with "Present" not a future year
+[ ] All date separators are " - " (hyphen-minus) — not "—" or "–"
+[ ] All section headers are ALL CAPS
+[ ] All bullets use "•" — no "-" or "o" mixed in
+[ ] No bold, italic, asterisks or markdown anywhere
+[ ] Total word count is between 600 and 800 words
+[ ] No double blank lines anywhere
 
-Return a JSON object with this exact structure (no markdown, no backticks):
+Return a JSON object — no markdown, no backticks, raw JSON only:
 {
-  "tailored_cv": "<the full tailored CV as plain text>",
+  "tailored_cv": "<full tailored CV as plain text>",
   "changes": [
-    {"type": "rewritten", "description": "<what was changed and why>"},
-    {"type": "added", "description": "<keywords or content added>"},
-    {"type": "removed", "description": "<what was cut and why — e.g. duplicate bullet, excess length>"}
+    {"type": "rewritten", "description": "<what changed and why>"},
+    {"type": "added", "description": "<what was added>"},
+    {"type": "removed", "description": "<what was cut and why>"}
   ]
 }
 
