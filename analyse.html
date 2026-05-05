@@ -1145,15 +1145,48 @@ Return ONLY a valid JSON object with this exact structure (no markdown, no backt
   }
 }
 
-SCORING RUBRIC — use these benchmarks to calibrate scores consistently:
-- Length & Conciseness: 90–100 = 600–800 words, tight and purposeful; 70–89 = slightly over/under but acceptable; below 70 = clearly too long (3+ pages) or padded
-- Profile Summary: 90–100 = 3–4 lines, role-specific, no clichés, strong opening credential; 70–89 = acceptable length but generic phrases present; below 70 = too long, vague, or cliché-heavy
-- Formatting Consistency: 90–100 = consistent bullet style throughout (all "•"), consistent date format, consistent section header style; 70–89 = minor inconsistencies; below 70 = mixed bullet styles, inconsistent dates, or mixed header casing
-- ATS Compatibility: 90–100 = standard section headers, no tables/columns, clean plain text, keywords present; below 70 = unusual headers, missing keywords, complex formatting
-- Work Experience: 90–100 = every bullet starts with action verb, quantified achievements present, max 5 bullets per role; below 70 = weak verbs, no metrics, too many bullets
-- Skills Section: 90–100 = clearly labelled categories (e.g. Technical Skills, Soft Skills) each on its own line, comma-separated; 70–89 = some categorisation but inconsistent; below 70 = flat paragraph, mixed with soft skills, or no categorisation
+SCORING RUBRIC — calibrate every dimension against these specific benchmarks. Do not deviate:
 
-Be honest and specific. Reference actual content from the CV. Use British English throughout.`;
+LENGTH & CONCISENESS
+- 90–100: 600–800 words, no padding, every sentence earns its place
+- 70–89: 800–1000 words or minor padding present
+- 50–69: 1000–1200 words or noticeable repetition
+- below 50: over 1200 words or severely padded
+
+PROFILE SUMMARY
+- 90–100: 3–4 lines, ≤80 words, role-specific, no clichés, opens with strongest credential
+- 70–89: Correct length but contains 1–2 generic phrases
+- 50–69: Too long (5+ lines) or vague/generic throughout
+- below 50: Missing, or entirely cliché-filled
+
+FORMATTING CONSISTENCY
+- 90–100: ALL CAPS section headers throughout; all bullets use "•"; all date separators identical; no markdown
+- 70–89: 1–2 minor inconsistencies (e.g. one section header not capitalised)
+- 50–69: Mixed bullet styles ("-" and "•" both present) OR inconsistent date separators (em dash vs hyphen)
+- below 50: Multiple formatting failures — mixed bullets, mixed dashes, mixed header casing
+
+SKILLS SECTION
+- 90–100: Labelled category lines (Technical Skills: x, y, z), no paragraph format, no duplicate skills
+- 70–89: Some categorisation but one category collapses into a paragraph
+- 50–69: Partial categorisation or skills mixed with experience section
+- below 50: Flat paragraph or no skills section
+
+ATS COMPATIBILITY
+- 90–100: Standard headers (WORK EXPERIENCE, EDUCATION, SKILLS), no tables, clean plain text, keywords present
+- 70–89: Non-standard header names or 1–2 missing keywords
+- below 50: Tables, columns, graphics, or missing core section headers
+
+WORK EXPERIENCE
+- 90–100: Every bullet starts with past-tense action verb, quantified achievements present, max 5 bullets per role
+- 70–89: Most bullets strong but 1–2 start with weak verbs or lack metrics
+- below 50: Weak verbs throughout, no quantification, excessive bullets
+
+DATE ERRORS — flag as CRITICAL if any of these are present:
+- Current role end date is a future year (e.g. "March 2025" when that year is in the future relative to today)
+- Mixed date separators (some "—" some "-" some "–")
+- Dates missing entirely from any role
+
+Be honest, specific, and reference actual content from the CV. Use British English throughout.`;
 
     try {
       const response = await fetch('/api/analyse', {
