@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CVApplied Career+ — Cover Letter, LinkedIn & Interview Prep</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MG5NEFRT2S"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MG5NEFRT2S');
+</script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #0f1117; --ink-soft: #3a3d4a; --ink-muted: #7a7f8e;
+    --paper: #fafaf8; --white: #ffffff;
+    --accent: #7c3aed; --accent-soft: #f3e8ff; --accent-dark: #6d28d9;
+    --blue: #1a56db; --blue-soft: #e8effe;
+    --rule: #e4e4e0; --gold: #c89b3c;
+    --green: #1a7a4a; --green-soft: #e6f4ed;
+    --red: #c0392b; --red-soft: #fdf0ee;
+    --amber: #d97706; --amber-soft: #fef3c7;
+    --shadow-sm: 0 1px 3px rgba(15,17,23,0.06);
+    --shadow-md: 0 4px 16px rgba(15,17,23,0.08);
+    --shadow-lg: 0 12px 40px rgba(15,17,23,0.10);
+    --radius: 10px; --radius-lg: 18px;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; min-height: 100vh; }
+
+  /* NAV */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(250,250,248,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--rule); padding: 0 48px; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+  .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.35rem; font-weight: 700; color: var(--ink); text-decoration: none; letter-spacing: -0.02em; }
+  .nav-logo span { color: var(--accent); }
+  .nav-badge { display: inline-flex; align-items: center; background: var(--accent); color: var(--white); font-size: 0.65rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 9px; border-radius: 4px; margin-left: 8px; vertical-align: middle; }
+  .nav-right { display: flex; align-items: center; gap: 20px; }
+  .nav-link { font-size: 0.85rem; font-weight: 500; color: var(--ink-soft); text-decoration: none; transition: color 0.2s; }
+  .nav-link:hover { color: var(--ink); }
+
+  .main { max-width: 1100px; margin: 0 auto; padding: 100px 32px 80px; }
+
+  /* PAGE HEADER */
+  .page-header { text-align: center; margin-bottom: 48px; }
+  .page-eyebrow { display: inline-flex; align-items: center; gap: 8px; background: var(--accent-soft); color: var(--accent); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 6px 14px; border-radius: 4px; margin-bottom: 16px; }
+  .page-eyebrow::before { content: ''; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; }
+  .page-header h1 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 700; line-height: 1.15; letter-spacing: -0.025em; margin-bottom: 12px; }
+  .page-header h1 em { font-style: normal; color: var(--accent); }
+  .page-header p { font-size: 1rem; color: var(--ink-soft); font-weight: 300; max-width: 520px; margin: 0 auto; }
+
+  /* PRO GATE */
+  .pro-gate { background: var(--white); border: 1px solid var(--rule); border-radius: var(--radius-lg); padding: 48px 40px; text-align: center; box-shadow: var(--shadow-sm); }
+  .pro-gate-icon { font-size: 2.5rem; margin-bottom: 16px; }
+  .pro-gate h2 { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; margin-bottom: 8px; }
+  .pro-gate p { font-size: 0.92rem; color: var(--ink-soft); margin-bottom: 28px; max-width: 420px; margin-left: auto; margin-right: auto; line-height: 1.6; }
+  .gate-features { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; margin-bottom: 32px; }
+  .gate-feature { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--ink-soft); }
+  .gate-feature-icon { font-size: 1.1rem; }
+  .gate-form-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 10px; }
+  .code-input { padding: 12px 16px; border: 1.5px solid var(--rule); border-radius: 8px; font-family: 'DM Mono', monospace; font-size: 1rem; text-align: center; letter-spacing: 0.1em; outline: none; text-transform: uppercase; transition: border-color 0.2s; width: 210px; }
+  .code-input:focus { border-color: var(--accent); }
+  .unlock-btn { padding: 12px 24px; background: var(--accent); color: var(--white); border: none; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+  .unlock-btn:hover { background: var(--accent-dark); }
+  .unlock-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+  .code-error { font-size: 0.8rem; color: var(--red); margin: 8px 0; display: none; }
+  .code-error.show { display: block; }
+  .gate-divider { font-size: 0.8rem; color: var(--ink-muted); margin: 20px 0; }
+  .gate-stripe-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .btn-upgrade { padding: 12px 24px; background: var(--accent); color: var(--white); border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 700; text-decoration: none; transition: background 0.2s; }
+  .btn-upgrade:hover { background: var(--accent-dark); }
+  .btn-upgrade-ghost { padding: 12px 24px; background: transparent; color: var(--ink-soft); border: 1.5px solid var(--rule); border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 500; text-decoration: none; transition: all 0.2s; }
+  .btn-upgrade-ghost:hover { border-color: var(--ink); color: var(--ink); }
+
+  /* TOOL TABS */
+  .tool-tabs { display: flex; gap: 4px; background: var(--white); border: 1px solid var(--rule); border-radius: var(--radius-lg); padding: 6px; margin-bottom: 28px; box-shadow: var(--shadow-sm); }
+  .tool-tab { flex: 1; padding: 12px 16px; text-align: center; border-radius: 10px; border: none; background: transparent; font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 500; color: var(--ink-muted); cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .tool-tab:hover { color: var(--ink); background: var(--paper); }
+  .tool-tab.active { background: var(--accent); color: var(--white); font-weight: 600; box-shadow: var(--shadow-sm); }
+  .tool-tab-icon { font-size: 1rem; }
+
+  /* TOOL PANELS */
+  .tool-panel { display: none; }
+  .tool-panel.active { display: block; }
+
+  /* CARDS */
+  .card { background: var(--white); border: 1px solid var(--rule); border-radius: var(--radius-lg); padding: 28px; margin-bottom: 16px; box-shadow: var(--shadow-sm); }
+  .card-title { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 18px; display: flex; align-items: center; gap: 8px; }
+
+  /* FORM ELEMENTS */
+  label { font-size: 0.82rem; font-weight: 600; color: var(--ink-soft); display: block; margin-bottom: 6px; }
+  .field-group { margin-bottom: 16px; }
+  textarea.field { width: 100%; border: 1.5px solid var(--rule); border-radius: var(--radius); padding: 14px; font-family: 'DM Mono', monospace; font-size: 0.82rem; color: var(--ink); line-height: 1.6; resize: vertical; outline: none; transition: border-color 0.2s; background: var(--paper); }
+  textarea.field:focus { border-color: var(--accent); background: var(--white); }
+  textarea.field::placeholder { color: var(--ink-muted); font-family: 'DM Sans', sans-serif; }
+  textarea.field.prose { font-family: 'DM Sans', sans-serif; font-size: 0.88rem; }
+  input.field { width: 100%; border: 1.5px solid var(--rule); border-radius: var(--radius); padding: 11px 14px; font-family: 'DM Sans', sans-serif; font-size: 0.88rem; color: var(--ink); outline: none; transition: border-color 0.2s; background: var(--paper); }
+  input.field:focus { border-color: var(--accent); background: var(--white); }
+  select.field { width: 100%; border: 1.5px solid var(--rule); border-radius: var(--radius); padding: 11px 14px; font-family: 'DM Sans', sans-serif; font-size: 0.88rem; color: var(--ink); outline: none; background: var(--paper); cursor: pointer; }
+  select.field:focus { border-color: var(--accent); }
+  .field-hint { font-size: 0.75rem; color: var(--ink-muted); margin-top: 5px; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  /* TONE PICKER */
+  .tone-picker { display: flex; gap: 8px; }
+  .tone-btn { flex: 1; padding: 9px 12px; border: 1.5px solid var(--rule); border-radius: 8px; background: var(--paper); font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 500; color: var(--ink-muted); cursor: pointer; transition: all 0.2s; text-align: center; }
+  .tone-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .tone-btn.active { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+
+  /* GENERATE BUTTON */
+  .generate-btn { width: 100%; padding: 15px; background: var(--accent); color: var(--white); border: none; border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 14px rgba(124,58,237,0.3); display: flex; align-items: center; justify-content: center; gap: 10px; }
+  .generate-btn:hover:not(:disabled) { background: var(--accent-dark); transform: translateY(-1px); }
+  .generate-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+  /* ERROR */
+  .error-banner { display: none; background: var(--red-soft); border: 1px solid #f5c6c0; border-radius: var(--radius); padding: 14px 18px; font-size: 0.88rem; color: var(--red); margin-bottom: 16px; }
+  .error-banner.show { display: block; }
+
+  /* LOADING */
+  .loading-state { display: none; text-align: center; padding: 48px 24px; }
+  .loading-state.show { display: block; }
+  .loading-spinner { width: 44px; height: 44px; border: 3px solid var(--rule); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* RESULTS */
+  .result-block { display: none; }
+  .result-block.show { display: block; }
+  .result-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+  .result-title { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-muted); display: flex; align-items: center; gap: 8px; }
+  .result-title::after { content: ''; flex: 1; height: 1px; background: var(--rule); min-width: 20px; }
+  .result-actions { display: flex; gap: 8px; flex-shrink: 0; }
+  .btn-copy { padding: 8px 16px; background: var(--accent-soft); color: var(--accent); border: none; border-radius: 7px; font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+  .btn-copy:hover { background: var(--accent); color: var(--white); }
+  .btn-copy.copied { background: var(--green-soft); color: var(--green); }
+  .btn-regen { padding: 8px 16px; background: transparent; color: var(--ink-muted); border: 1.5px solid var(--rule); border-radius: 7px; font-family: 'DM Sans', sans-serif; font-size: 0.82rem; cursor: pointer; transition: all 0.2s; }
+  .btn-regen:hover { border-color: var(--ink); color: var(--ink); }
+
+  .result-textarea { width: 100%; border: 1.5px solid var(--rule); border-radius: var(--radius); padding: 18px; font-family: 'DM Mono', monospace; font-size: 0.82rem; color: var(--ink-soft); line-height: 1.8; resize: vertical; outline: none; background: var(--paper); min-height: 300px; }
+  .result-textarea:focus { border-color: var(--accent); background: var(--white); }
+
+  /* LINKEDIN RESULTS */
+  .linkedin-results { display: flex; flex-direction: column; gap: 16px; }
+  .linkedin-section { background: var(--white); border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; }
+  .linkedin-section-header { padding: 12px 18px; background: var(--paper); border-bottom: 1px solid var(--rule); display: flex; align-items: center; justify-content: space-between; }
+  .linkedin-section-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-muted); }
+  .linkedin-section-body { padding: 16px 18px; }
+  .headline-primary { font-size: 0.95rem; font-weight: 600; color: var(--ink); margin-bottom: 8px; }
+  .headline-alts { font-size: 0.82rem; color: var(--ink-muted); }
+  .about-text { font-size: 0.88rem; color: var(--ink-soft); line-height: 1.7; white-space: pre-wrap; }
+  .skills-grid { display: flex; flex-wrap: wrap; gap: 6px; }
+  .skill-tag { font-size: 0.78rem; font-weight: 500; padding: 4px 10px; border-radius: 20px; background: var(--accent-soft); color: var(--accent); }
+  .tip-list { display: flex; flex-direction: column; gap: 8px; }
+  .tip-item { display: flex; gap: 10px; padding: 10px 14px; background: var(--amber-soft); border-radius: 8px; font-size: 0.85rem; color: var(--ink-soft); border-left: 3px solid var(--amber); }
+  .keyword-gap-tag { font-size: 0.78rem; padding: 4px 10px; border-radius: 20px; background: var(--red-soft); color: var(--red); font-weight: 500; }
+
+  /* INTERVIEW RESULTS */
+  .interview-meta { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+  .interview-theme { font-size: 0.75rem; font-weight: 600; padding: 4px 12px; border-radius: 20px; background: var(--accent-soft); color: var(--accent); }
+  .question-card { background: var(--white); border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; margin-bottom: 12px; }
+  .question-header { padding: 14px 18px; background: var(--paper); border-bottom: 1px solid var(--rule); display: flex; align-items: flex-start; gap: 12px; }
+  .question-num { width: 26px; height: 26px; background: var(--accent); color: var(--white); border-radius: 50%; font-size: 0.72rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+  .question-text { font-size: 0.92rem; font-weight: 600; color: var(--ink); line-height: 1.4; }
+  .question-type-badge { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; margin-left: auto; flex-shrink: 0; }
+  .question-type-badge.competency { background: var(--blue-soft); color: var(--blue); }
+  .question-type-badge.technical { background: var(--green-soft); color: var(--green); }
+  .question-type-badge.motivation { background: var(--amber-soft); color: var(--amber); }
+  .question-type-badge.culture { background: var(--accent-soft); color: var(--accent); }
+  .question-body { padding: 16px 18px; display: flex; flex-direction: column; gap: 12px; }
+  .question-field { font-size: 0.82rem; line-height: 1.6; }
+  .question-field-label { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+  .question-field-label.why { color: var(--ink-muted); }
+  .question-field-label.how { color: var(--green); }
+  .question-field-label.example { color: var(--blue); }
+  .question-field-label.watch { color: var(--red); }
+  .question-field-text { color: var(--ink-soft); }
+  .questions-to-ask { background: var(--accent-soft); border-radius: var(--radius); padding: 16px 20px; margin-top: 16px; }
+  .questions-to-ask h4 { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent); margin-bottom: 10px; }
+  .questions-to-ask ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .questions-to-ask li { font-size: 0.88rem; color: var(--ink-soft); padding-left: 16px; position: relative; }
+  .questions-to-ask li::before { content: '?'; position: absolute; left: 0; color: var(--accent); font-weight: 700; font-size: 0.78rem; }
+
+  @media (max-width: 900px) {
+    nav { padding: 0 20px; }
+    .main { padding: 88px 20px 60px; }
+    .tool-tabs { flex-wrap: wrap; }
+    .field-row { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    nav { padding: 0 16px; }
+    .main { padding: 80px 12px 48px; }
+    .card { padding: 16px; }
+    .tool-tab { font-size: 0.78rem; padding: 10px 8px; }
+    .tone-picker { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">CV<span>Applied</span><span class="nav-badge">Career+</span></a>
+  <div class="nav-right">
+    <a href="analyse.html" class="nav-link">Analyse CV</a>
+    <a href="tailor.html" class="nav-link">Job Tailoring</a>
+    <a href="index.html" class="nav-link">← Home</a>
+  </div>
+</nav>
+
+<div class="main">
+
+  <div class="page-header">
+    <div class="page-eyebrow">Career+</div>
+    <h1>Your full job-search <em>toolkit</em></h1>
+    <p>Cover letters, LinkedIn optimisation, and interview prep — all tailored to your CV and target role.</p>
+  </div>
+
+  <!-- PRO GATE -->
+  <div id="pro-gate" class="pro-gate">
+    <div class="pro-gate-icon">✦</div>
+    <h2>Career+ Access Required</h2>
+    <p>Enter your Career+ access code to unlock all three tools, or upgrade below.</p>
+    <div class="gate-features">
+      <div class="gate-feature"><span class="gate-feature-icon">✉️</span> Cover Letter Generator</div>
+      <div class="gate-feature"><span class="gate-feature-icon">💼</span> LinkedIn Optimiser</div>
+      <div class="gate-feature"><span class="gate-feature-icon">🎯</span> Interview Prep Guide</div>
+    </div>
+    <div class="gate-form-row">
+      <input type="text" class="code-input" id="gate-code-input" placeholder="CVCP-XXXX-XXXX" maxlength="14" oninput="formatGateCode(this)" aria-label="Career+ access code">
+      <button class="unlock-btn" id="gate-unlock-btn" onclick="verifyGateCode()">Unlock Career+ →</button>
+    </div>
+    <div class="code-error" id="gate-code-error" role="alert"></div>
+    <div class="gate-divider">or upgrade to Career+</div>
+    <div class="gate-stripe-row">
+      <a href="https://buy.stripe.com/bJe5kD2MB52n7oYgCIfjG02" target="_blank" rel="noopener" class="btn-upgrade">Get Career+ — £39/mo →</a>
+      <a href="https://buy.stripe.com/6oU7sLevjgL5aBabiofjG05" target="_blank" rel="noopener" class="btn-upgrade-ghost">£299/yr — Save 36%</a>
+    </div>
+    <p style="margin-top:12px; font-size:0.75rem; color:var(--ink-muted);">Includes all Pro features. Cancel any time.</p>
+  </div>
+
+  <!-- TOOL DASHBOARD (shown when Career+ unlocked) -->
+  <div id="tool-dashboard" style="display:none;">
+
+    <!-- TOOL TABS -->
+    <div class="tool-tabs" role="tablist">
+      <button class="tool-tab active" role="tab" aria-selected="true" onclick="switchTool('cover-letter')">
+        <span class="tool-tab-icon">✉️</span> Cover Letter
+      </button>
+      <button class="tool-tab" role="tab" aria-selected="false" onclick="switchTool('linkedin')">
+        <span class="tool-tab-icon">💼</span> LinkedIn Optimiser
+      </button>
+      <button class="tool-tab" role="tab" aria-selected="false" onclick="switchTool('interview')">
+        <span class="tool-tab-icon">🎯</span> Interview Prep
+      </button>
+    </div>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- COVER LETTER TOOL                          -->
+    <!-- ══════════════════════════════════════════ -->
+    <div class="tool-panel active" id="panel-cover-letter">
+
+      <div class="card">
+        <div class="card-title">Your CV</div>
+        <div class="field-group">
+          <label for="cl-cv-text">Paste your CV — the cover letter will be written in your voice and reference your actual experience</label>
+          <textarea class="field" id="cl-cv-text" rows="8" placeholder="Paste your full CV here..."></textarea>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Job Details</div>
+        <div class="field-group">
+          <label for="cl-jd-text">Job Description <span style="font-weight:400;color:var(--ink-muted);">(required)</span></label>
+          <textarea class="field prose" id="cl-jd-text" rows="6" placeholder="Paste the full job description here..."></textarea>
+        </div>
+        <div class="field-row">
+          <div class="field-group" style="margin-bottom:0;">
+            <label for="cl-company">Company Name <span style="font-weight:400;color:var(--ink-muted);">(optional)</span></label>
+            <input type="text" class="field" id="cl-company" placeholder="e.g. Deloitte, HSBC, Monzo">
+          </div>
+          <div class="field-group" style="margin-bottom:0;">
+            <label for="cl-hiring-manager">Hiring Manager Name <span style="font-weight:400;color:var(--ink-muted);">(optional)</span></label>
+            <input type="text" class="field" id="cl-hiring-manager" placeholder="e.g. Sarah Chen — uses 'Hiring Manager' if blank">
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Tone</div>
+        <div class="tone-picker">
+          <button class="tone-btn active" onclick="setTone(this, 'professional')">Professional</button>
+          <button class="tone-btn" onclick="setTone(this, 'confident')">Confident</button>
+          <button class="tone-btn" onclick="setTone(this, 'warm')">Warm &amp; Personable</button>
+        </div>
+      </div>
+
+      <div class="error-banner" id="cl-error" role="alert"></div>
+      <button class="generate-btn" onclick="generateCoverLetter()">
+        <span>✉️</span><span>Generate Cover Letter</span>
+      </button>
+
+      <div class="loading-state" id="cl-loading" aria-live="polite">
+        <div class="loading-spinner"></div>
+        <p style="font-size:0.95rem; font-weight:600; color:var(--ink);">Writing your cover letter...</p>
+        <p style="font-size:0.85rem; color:var(--ink-muted); margin-top:6px;">Tailoring your experience to the role — takes about 15 seconds</p>
+      </div>
+
+      <div class="result-block" id="cl-result" style="margin-top:20px;">
+        <div class="result-header">
+          <div class="result-title">Your Cover Letter</div>
+          <div class="result-actions">
+            <button class="btn-regen" onclick="generateCoverLetter()">↺ Regenerate</button>
+            <button class="btn-copy" id="cl-copy-btn" onclick="copyResult('cl-result-text','cl-copy-btn')">📋 Copy</button>
+          </div>
+        </div>
+        <textarea class="result-textarea" id="cl-result-text" readonly rows="20" aria-label="Generated cover letter"></textarea>
+        <p style="font-size:0.75rem; color:var(--ink-muted); margin-top:8px;">Review and personalise before sending. Add specific details about why you want to work at this company.</p>
+      </div>
+
+    </div>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- LINKEDIN OPTIMISER                         -->
+    <!-- ══════════════════════════════════════════ -->
+    <div class="tool-panel" id="panel-linkedin">
+
+      <div class="card">
+        <div class="card-title">Your CV</div>
+        <div class="field-group">
+          <label for="li-cv-text">Paste your CV — we'll extract your experience, achievements, and skills to build your profile</label>
+          <textarea class="field" id="li-cv-text" rows="8" placeholder="Paste your full CV here..."></textarea>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Current LinkedIn Profile <span style="font-weight:400; text-transform:none; font-size:0.75rem; color:var(--ink-muted);">— optional but improves suggestions</span></div>
+        <div class="field-group">
+          <label for="li-current-headline">Current Headline</label>
+          <input type="text" class="field" id="li-current-headline" placeholder="e.g. Senior Data Analyst at ASOS | SQL | Python | Power BI">
+        </div>
+        <div class="field-group" style="margin-bottom:0;">
+          <label for="li-current-about">Current About Section</label>
+          <textarea class="field prose" id="li-current-about" rows="5" placeholder="Paste your current LinkedIn About section here..."></textarea>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Target Role</div>
+        <div class="field-row">
+          <div class="field-group" style="margin-bottom:0;">
+            <label for="li-target-role">Target Job Title</label>
+            <input type="text" class="field" id="li-target-role" placeholder="e.g. Head of Data, Senior Product Manager">
+          </div>
+          <div class="field-group" style="margin-bottom:0;">
+            <label for="li-target-industry">Industry</label>
+            <input type="text" class="field" id="li-target-industry" placeholder="e.g. FinTech, FMCG, Professional Services">
+          </div>
+        </div>
+      </div>
+
+      <div class="error-banner" id="li-error" role="alert"></div>
+      <button class="generate-btn" onclick="generateLinkedIn()">
+        <span>💼</span><span>Optimise My LinkedIn Profile</span>
+      </button>
+
+      <div class="loading-state" id="li-loading" aria-live="polite">
+        <div class="loading-spinner"></div>
+        <p style="font-size:0.95rem; font-weight:600; color:var(--ink);">Optimising your LinkedIn profile...</p>
+        <p style="font-size:0.85rem; color:var(--ink-muted); margin-top:6px;">Analysing your experience and crafting keyword-rich copy</p>
+      </div>
+
+      <div class="result-block linkedin-results" id="li-result" style="margin-top:20px;">
+
+        <!-- Headline -->
+        <div class="linkedin-section" id="li-headline-section">
+          <div class="linkedin-section-header">
+            <span class="linkedin-section-label">Headline</span>
+            <button class="btn-copy" id="li-headline-copy" onclick="copyText(document.getElementById('li-headline-primary').textContent, 'li-headline-copy')">📋 Copy</button>
+          </div>
+          <div class="linkedin-section-body">
+            <div class="headline-primary" id="li-headline-primary"></div>
+            <div class="headline-alts" id="li-headline-alts"></div>
+          </div>
+        </div>
+
+        <!-- About -->
+        <div class="linkedin-section" id="li-about-section">
+          <div class="linkedin-section-header">
+            <span class="linkedin-section-label">About Section</span>
+            <button class="btn-copy" id="li-about-copy" onclick="copyText(document.getElementById('li-about-text').textContent, 'li-about-copy')">📋 Copy</button>
+          </div>
+          <div class="linkedin-section-body">
+            <div class="about-text" id="li-about-text"></div>
+          </div>
+        </div>
+
+        <!-- Skills -->
+        <div class="linkedin-section" id="li-skills-section">
+          <div class="linkedin-section-header">
+            <span class="linkedin-section-label">Recommended Skills (add these to your profile)</span>
+          </div>
+          <div class="linkedin-section-body">
+            <div class="skills-grid" id="li-skills-grid"></div>
+          </div>
+        </div>
+
+        <!-- Keyword Gaps -->
+        <div class="linkedin-section" id="li-gaps-section" style="display:none;">
+          <div class="linkedin-section-header">
+            <span class="linkedin-section-label" style="color:var(--red);">Keyword Gaps — add these to your profile</span>
+          </div>
+          <div class="linkedin-section-body">
+            <div class="skills-grid" id="li-gaps-grid"></div>
+          </div>
+        </div>
+
+        <!-- Tips -->
+        <div class="linkedin-section" id="li-tips-section" style="display:none;">
+          <div class="linkedin-section-header">
+            <span class="linkedin-section-label">Profile Tips</span>
+          </div>
+          <div class="linkedin-section-body">
+            <div class="tip-list" id="li-tips-list"></div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- INTERVIEW PREP                             -->
+    <!-- ══════════════════════════════════════════ -->
+    <div class="tool-panel" id="panel-interview">
+
+      <div class="card">
+        <div class="card-title">Your CV</div>
+        <div class="field-group">
+          <label for="iv-cv-text">Paste your CV — questions will be based on your actual experience, not generic</label>
+          <textarea class="field" id="iv-cv-text" rows="8" placeholder="Paste your full CV here..."></textarea>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Target Role</div>
+        <div class="field-group">
+          <label for="iv-jd-text">Job Description <span style="font-weight:400;color:var(--ink-muted);">(optional — significantly improves question relevance)</span></label>
+          <textarea class="field prose" id="iv-jd-text" rows="5" placeholder="Paste the job description here for role-specific questions..."></textarea>
+        </div>
+        <div class="field-row">
+          <div class="field-group" style="margin-bottom:0;">
+            <label for="iv-interview-type">Interview Type</label>
+            <select class="field" id="iv-interview-type">
+              <option value="mixed">Mixed (recommended)</option>
+              <option value="competency">Competency / STAR</option>
+              <option value="technical">Technical / Role-specific</option>
+              <option value="senior">Senior / Leadership</option>
+              <option value="general">General / Behavioural</option>
+            </select>
+          </div>
+          <div class="field-group" style="margin-bottom:0;">
+            <label for="iv-seniority">Seniority Level</label>
+            <select class="field" id="iv-seniority">
+              <option value="">Auto-detect from CV</option>
+              <option value="graduate">Graduate / Entry Level</option>
+              <option value="mid">Mid-Level (3-7 years)</option>
+              <option value="senior">Senior (7-15 years)</option>
+              <option value="executive">Executive / Director+</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="error-banner" id="iv-error" role="alert"></div>
+      <button class="generate-btn" onclick="generateInterviewPrep()">
+        <span>🎯</span><span>Generate My Interview Prep Guide</span>
+      </button>
+
+      <div class="loading-state" id="iv-loading" aria-live="polite">
+        <div class="loading-spinner"></div>
+        <p style="font-size:0.95rem; font-weight:600; color:var(--ink);">Building your interview guide...</p>
+        <p style="font-size:0.85rem; color:var(--ink-muted); margin-top:6px;">Generating 10 tailored questions from your CV — takes about 20 seconds</p>
+      </div>
+
+      <div class="result-block" id="iv-result" style="margin-top:20px;">
+
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; flex-wrap:wrap; gap:12px;">
+          <div>
+            <div style="font-size:0.78rem; font-weight:700; text-transform:uppercase; letter-spacing:0.07em; color:var(--ink-muted); margin-bottom:6px;">Interview Prep Guide</div>
+            <div style="font-size:0.88rem; color:var(--ink-soft);" id="iv-role-title"></div>
+          </div>
+          <div style="display:flex; gap:8px;">
+            <button class="btn-regen" onclick="generateInterviewPrep()">↺ Regenerate</button>
+            <button class="btn-copy" id="iv-copy-btn" onclick="copyInterviewGuide()">📋 Copy All</button>
+          </div>
+        </div>
+
+        <div class="interview-meta" id="iv-themes"></div>
+        <div id="iv-questions"></div>
+        <div class="questions-to-ask" id="iv-questions-to-ask" style="display:none;">
+          <h4>Questions to Ask the Interviewer</h4>
+          <ul id="iv-ask-list"></ul>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+  // ── CONFIG ──
+  const STRIPE_CPLUS_MONTHLY = 'https://buy.stripe.com/CAREER_PLUS_MONTHLY_LINK';
+  const STRIPE_CPLUS_ANNUAL  = 'https://buy.stripe.com/CAREER_PLUS_ANNUAL_LINK';
+
+  // ── STATE ──
+  let selectedTone = 'professional';
+  let lastInterviewData = null;
+
+  // ── STORAGE ──
+  function getUsageData() {
+    try { return JSON.parse(localStorage.getItem('cva_usage') || '{}'); }
+    catch { return {}; }
+  }
+  function saveUsageData(d) { localStorage.setItem('cva_usage', JSON.stringify(d)); }
+  function isCareerPlus() { return getUsageData().career_plus === true; }
+  function getToken() { return getUsageData().token || null; }
+
+  // ── INIT ──
+  if (isCareerPlus()) {
+    document.getElementById('pro-gate').style.display = 'none';
+    document.getElementById('tool-dashboard').style.display = 'block';
+  }
+
+  // Populate CV fields from last stored CV if available
+  const storedCV = localStorage.getItem('cva_last_cv_text') || sessionStorage.getItem('last_cv_text') || '';
+  if (storedCV) {
+    ['cl-cv-text','li-cv-text','iv-cv-text'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el && !el.value) el.value = storedCV;
+    });
+  }
+
+  // ── GATE CODE ──
+  function formatGateCode(input) {
+    let val = input.value.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
+    if (val.length > 4) val = val.slice(0,4) + '-' + val.slice(4);
+    if (val.length > 9) val = val.slice(0,9) + '-' + val.slice(9);
+    if (val.length > 14) val = val.slice(0,14);
+    input.value = val;
+  }
+
+  document.getElementById('gate-code-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') verifyGateCode();
+  });
+
+  async function verifyGateCode() {
+    const code = document.getElementById('gate-code-input').value.trim();
+    const errorEl = document.getElementById('gate-code-error');
+    const btn = document.getElementById('gate-unlock-btn');
+    if (!code) return;
+
+    btn.textContent = 'Verifying...';
+    btn.disabled = true;
+    errorEl.classList.remove('show');
+
+    try {
+      const response = await fetch('/api/verify-code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code })
+      });
+      const data = await response.json();
+
+      if (response.status === 429) {
+        errorEl.textContent = data.error || 'Too many attempts. Please wait and try again.';
+        errorEl.classList.add('show');
+        btn.textContent = 'Unlock Career+ →';
+        btn.disabled = false;
+        return;
+      }
+
+      if (data.valid && data.token) {
+        const d = getUsageData();
+        // Career+ is a superset — set both flags
+        if (data.tier === 'career_plus') {
+          d.career_plus = true;
+          d.pro = true;
+        } else {
+          // Pro-only code entered on Career+ page — tell them
+          errorEl.textContent = 'This is a Pro code, not a Career+ code. Use it on the Analyse or Tailor pages instead.';
+          errorEl.classList.add('show');
+          btn.textContent = 'Unlock Career+ →';
+          btn.disabled = false;
+          return;
+        }
+        d.token = data.token;
+        saveUsageData(d);
+        document.getElementById('pro-gate').style.display = 'none';
+        document.getElementById('tool-dashboard').style.display = 'block';
+        showBanner('✓ Career+ unlocked — all tools ready');
+      } else {
+        errorEl.textContent = data.error || 'Invalid code. Please check and try again.';
+        errorEl.classList.add('show');
+        btn.textContent = 'Unlock Career+ →';
+        btn.disabled = false;
+      }
+    } catch (err) {
+      errorEl.textContent = 'Network error. Please try again.';
+      errorEl.classList.add('show');
+      btn.textContent = 'Unlock Career+ →';
+      btn.disabled = false;
+    }
+  }
+
+  function showBanner(msg) {
+    const b = document.createElement('div');
+    b.style.cssText = 'position:fixed;top:72px;left:50%;transform:translateX(-50%);background:var(--green);color:white;padding:12px 24px;border-radius:8px;font-weight:600;font-size:0.9rem;z-index:300;box-shadow:0 4px 16px rgba(0,0,0,0.2)';
+    b.textContent = msg;
+    document.body.appendChild(b);
+    setTimeout(() => b.remove(), 4000);
+  }
+
+  // ── TOOL TAB SWITCH ──
+  function switchTool(tool) {
+    document.querySelectorAll('.tool-tab').forEach((t, i) => {
+      const tools = ['cover-letter','linkedin','interview'];
+      t.classList.toggle('active', tools[i] === tool);
+      t.setAttribute('aria-selected', tools[i] === tool ? 'true' : 'false');
+    });
+    document.querySelectorAll('.tool-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById(`panel-${tool}`).classList.add('active');
+  }
+
+  // ── TONE PICKER ──
+  function setTone(btn, tone) {
+    document.querySelectorAll('.tone-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    selectedTone = tone;
+  }
+
+  // ── SHARED HELPERS ──
+  function showError(id, msg) {
+    const el = document.getElementById(id);
+    el.textContent = '⚠ ' + msg;
+    el.classList.add('show');
+  }
+  function hideError(id) {
+    document.getElementById(id).classList.remove('show');
+  }
+  function setLoading(id, show) {
+    document.getElementById(id).classList.toggle('show', show);
+  }
+
+  async function copyText(text, btnId) {
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+    }
+    const btn = document.getElementById(btnId);
+    if (btn) {
+      const orig = btn.textContent;
+      btn.textContent = '✓ Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 2500);
+    }
+  }
+
+  function copyResult(textareaId, btnId) {
+    const text = document.getElementById(textareaId).value;
+    copyText(text, btnId);
+  }
+
+  // ── COVER LETTER ──
+  async function generateCoverLetter() {
+    const cvText = document.getElementById('cl-cv-text').value.trim();
+    const jdText = document.getElementById('cl-jd-text').value.trim();
+    if (!cvText || cvText.length < 100) { showError('cl-error','Please paste your full CV (minimum 100 characters).'); return; }
+    if (!jdText || jdText.length < 50) { showError('cl-error','Please paste the job description.'); return; }
+    hideError('cl-error');
+
+    document.getElementById('cl-result').classList.remove('show');
+    setLoading('cl-loading', true);
+    document.querySelector('#panel-cover-letter .generate-btn').disabled = true;
+
+    try {
+      const response = await fetch('/api/cover-letter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          token: getToken(),
+          cvText,
+          jdText,
+          companyName: document.getElementById('cl-company').value.trim(),
+          hiringManager: document.getElementById('cl-hiring-manager').value.trim(),
+          tone: selectedTone
+        })
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || 'Generation failed');
+
+      document.getElementById('cl-result-text').value = data.coverLetter;
+      document.getElementById('cl-result').classList.add('show');
+      document.getElementById('cl-result').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      gtag('event', 'cover_letter_generated');
+    } catch (err) {
+      showError('cl-error', err.message);
+    } finally {
+      setLoading('cl-loading', false);
+      document.querySelector('#panel-cover-letter .generate-btn').disabled = false;
+    }
+  }
+
+  // ── LINKEDIN ──
+  async function generateLinkedIn() {
+    const cvText = document.getElementById('li-cv-text').value.trim();
+    if (!cvText || cvText.length < 100) { showError('li-error','Please paste your full CV (minimum 100 characters).'); return; }
+    hideError('li-error');
+
+    document.getElementById('li-result').classList.remove('show');
+    setLoading('li-loading', true);
+    document.querySelector('#panel-linkedin .generate-btn').disabled = true;
+
+    try {
+      const response = await fetch('/api/linkedin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          token: getToken(),
+          cvText,
+          currentHeadline: document.getElementById('li-current-headline').value.trim(),
+          currentAbout: document.getElementById('li-current-about').value.trim(),
+          targetRole: document.getElementById('li-target-role').value.trim(),
+          targetIndustry: document.getElementById('li-target-industry').value.trim()
+        })
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || 'Optimisation failed');
+
+      renderLinkedInResults(data);
+      document.getElementById('li-result').classList.add('show');
+      document.getElementById('li-result').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      gtag('event', 'linkedin_optimised');
+    } catch (err) {
+      showError('li-error', err.message);
+    } finally {
+      setLoading('li-loading', false);
+      document.querySelector('#panel-linkedin .generate-btn').disabled = false;
+    }
+  }
+
+  function renderLinkedInResults(data) {
+    // Headline
+    const primary = data.headline?.primary || '';
+    document.getElementById('li-headline-primary').textContent = primary;
+    const alts = (data.headline?.alternatives || []);
+    document.getElementById('li-headline-alts').textContent = alts.length
+      ? 'Alternatives: ' + alts.join(' · ')
+      : '';
+
+    // About
+    document.getElementById('li-about-text').textContent = data.about || '';
+
+    // Skills
+    const skillsGrid = document.getElementById('li-skills-grid');
+    skillsGrid.innerHTML = '';
+    (data.skills || []).forEach(s => {
+      const span = document.createElement('span');
+      span.className = 'skill-tag';
+      span.textContent = s;
+      skillsGrid.appendChild(span);
+    });
+
+    // Keyword gaps
+    const gaps = data.keywordGaps || [];
+    const gapsSection = document.getElementById('li-gaps-section');
+    if (gaps.length > 0) {
+      gapsSection.style.display = 'block';
+      const gapsGrid = document.getElementById('li-gaps-grid');
+      gapsGrid.innerHTML = '';
+      gaps.forEach(g => {
+        const span = document.createElement('span');
+        span.className = 'keyword-gap-tag';
+        span.textContent = g;
+        gapsGrid.appendChild(span);
+      });
+    } else {
+      gapsSection.style.display = 'none';
+    }
+
+    // Tips
+    const tips = data.tips || [];
+    const tipsSection = document.getElementById('li-tips-section');
+    if (tips.length > 0) {
+      tipsSection.style.display = 'block';
+      const tipsList = document.getElementById('li-tips-list');
+      tipsList.innerHTML = '';
+      tips.forEach(t => {
+        const div = document.createElement('div');
+        div.className = 'tip-item';
+        div.textContent = t;
+        tipsList.appendChild(div);
+      });
+    } else {
+      tipsSection.style.display = 'none';
+    }
+  }
+
+  // ── INTERVIEW PREP ──
+  async function generateInterviewPrep() {
+    const cvText = document.getElementById('iv-cv-text').value.trim();
+    if (!cvText || cvText.length < 100) { showError('iv-error','Please paste your full CV (minimum 100 characters).'); return; }
+    hideError('iv-error');
+
+    document.getElementById('iv-result').classList.remove('show');
+    setLoading('iv-loading', true);
+    document.querySelector('#panel-interview .generate-btn').disabled = true;
+
+    try {
+      const response = await fetch('/api/interview-prep', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          token: getToken(),
+          cvText,
+          jdText: document.getElementById('iv-jd-text').value.trim(),
+          interviewType: document.getElementById('iv-interview-type').value,
+          seniorityLevel: document.getElementById('iv-seniority').value
+        })
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || 'Generation failed');
+
+      lastInterviewData = data;
+      renderInterviewResults(data);
+      document.getElementById('iv-result').classList.add('show');
+      document.getElementById('iv-result').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      gtag('event', 'interview_prep_generated');
+    } catch (err) {
+      showError('iv-error', err.message);
+    } finally {
+      setLoading('iv-loading', false);
+      document.querySelector('#panel-interview .generate-btn').disabled = false;
+    }
+  }
+
+  function renderInterviewResults(data) {
+    document.getElementById('iv-role-title').textContent = data.roleTitle ? `Prepared for: ${data.roleTitle}` : '';
+
+    // Themes
+    const themesEl = document.getElementById('iv-themes');
+    themesEl.innerHTML = '';
+    (data.keyThemes || []).forEach(t => {
+      const span = document.createElement('span');
+      span.className = 'interview-theme';
+      span.textContent = t;
+      themesEl.appendChild(span);
+    });
+
+    // Questions
+    const questionsEl = document.getElementById('iv-questions');
+    questionsEl.innerHTML = '';
+    (data.questions || []).forEach((q, i) => {
+      const card = document.createElement('div');
+      card.className = 'question-card';
+
+      const header = document.createElement('div');
+      header.className = 'question-header';
+
+      const num = document.createElement('div');
+      num.className = 'question-num';
+      num.textContent = i + 1;
+
+      const text = document.createElement('div');
+      text.className = 'question-text';
+      text.textContent = q.question;
+
+      const badge = document.createElement('span');
+      badge.className = `question-type-badge ${q.type || 'competency'}`;
+      badge.textContent = q.type || 'competency';
+
+      header.appendChild(num);
+      header.appendChild(text);
+      header.appendChild(badge);
+
+      const body = document.createElement('div');
+      body.className = 'question-body';
+
+      const fields = [
+        { label: 'Why they ask this', key: 'whyAsked',       labelClass: 'why' },
+        { label: 'How to answer',     key: 'howToAnswer',    labelClass: 'how' },
+        { label: 'Best example to use', key: 'suggestedExample', labelClass: 'example' },
+        { label: 'Watch out for',     key: 'watchOut',       labelClass: 'watch' },
+      ];
+
+      fields.forEach(f => {
+        if (!q[f.key]) return;
+        const field = document.createElement('div');
+        field.className = 'question-field';
+        const label = document.createElement('div');
+        label.className = `question-field-label ${f.labelClass}`;
+        label.textContent = f.label;
+        const val = document.createElement('div');
+        val.className = 'question-field-text';
+        val.textContent = q[f.key];
+        field.appendChild(label);
+        field.appendChild(val);
+        body.appendChild(field);
+      });
+
+      card.appendChild(header);
+      card.appendChild(body);
+      questionsEl.appendChild(card);
+    });
+
+    // Questions to ask
+    const askList = data.questionsToAsk || [];
+    const askSection = document.getElementById('iv-questions-to-ask');
+    if (askList.length > 0) {
+      askSection.style.display = 'block';
+      const ul = document.getElementById('iv-ask-list');
+      ul.innerHTML = '';
+      askList.forEach(q => {
+        const li = document.createElement('li');
+        li.textContent = q;
+        ul.appendChild(li);
+      });
+    } else {
+      askSection.style.display = 'none';
+    }
+  }
+
+  function copyInterviewGuide() {
+    if (!lastInterviewData) return;
+    const d = lastInterviewData;
+    let text = `INTERVIEW PREP GUIDE — ${d.roleTitle || 'Target Role'}\n`;
+    text += `Key Themes: ${(d.keyThemes || []).join(', ')}\n\n`;
+    (d.questions || []).forEach((q, i) => {
+      text += `${i+1}. ${q.question}\n`;
+      text += `   Why asked: ${q.whyAsked || ''}\n`;
+      text += `   How to answer: ${q.howToAnswer || ''}\n`;
+      if (q.suggestedExample) text += `   Best example: ${q.suggestedExample}\n`;
+      text += `   Watch out: ${q.watchOut || ''}\n\n`;
+    });
+    if (d.questionsToAsk?.length) {
+      text += 'QUESTIONS TO ASK THE INTERVIEWER:\n';
+      d.questionsToAsk.forEach(q => { text += `• ${q}\n`; });
+    }
+    copyText(text, 'iv-copy-btn');
+  }
+</script>
+</body>
+</html>
