@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CVApplied — OG Image Generator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #1a1a1a;
+    font-family: 'DM Sans', sans-serif;
+    padding: 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    align-items: center;
+  }
+
+  /* INSTRUCTION BAR */
+  .instructions {
+    background: #2a2a2a;
+    border: 1px solid #3a3a3a;
+    border-radius: 10px;
+    padding: 20px 28px;
+    max-width: 1200px;
+    width: 100%;
+    color: #888;
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+  .instructions strong { color: #ccc; }
+  .instructions ol { padding-left: 20px; margin-top: 8px; display: flex; flex-direction: column; gap: 4px; }
+
+  /* ARTICLE LABEL */
+  .article-block { display: flex; flex-direction: column; gap: 12px; width: 1200px; }
+  .article-label {
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: #555;
+    padding-left: 4px;
+  }
+  .filename {
+    font-size: 0.72rem; color: #444; font-family: monospace;
+    padding-left: 4px;
+  }
+
+  /* OG CARD — exact 1200x630 */
+  .og-card {
+    width: 1200px;
+    height: 630px;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+    border-radius: 0;
+  }
+
+  /* ── CARD 1: FEATURES (blue) ── */
+  .og-features {
+    background: #0f1117;
+  }
+  .og-features .bg-gradient {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, #0f1117 0%, #1a2744 45%, #1a3a6e 100%);
+  }
+  .og-features .bg-glow {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 75% 60%, rgba(26,86,219,0.45) 0%, transparent 55%);
+  }
+
+  /* ── CARD 2: REMOVALS (red) ── */
+  .og-removals {
+    background: #0f0808;
+  }
+  .og-removals .bg-gradient {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, #1a0a0a 0%, #3a1212 45%, #7a1a1a 100%);
+  }
+  .og-removals .bg-glow {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 75% 60%, rgba(192,57,43,0.4) 0%, transparent 55%);
+  }
+
+  /* SHARED CARD ELEMENTS */
+  .og-noise {
+    position: absolute; inset: 0;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+  }
+
+  /* Grid lines — subtle depth */
+  .og-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  /* Large decorative number */
+  .og-deco-number {
+    position: absolute;
+    right: -20px;
+    bottom: -40px;
+    font-family: 'Playfair Display', serif;
+    font-size: 380px;
+    font-weight: 700;
+    line-height: 1;
+    color: rgba(255,255,255,0.035);
+    letter-spacing: -0.05em;
+    user-select: none;
+    pointer-events: none;
+  }
+
+  /* Vertical accent bar */
+  .og-accent-bar {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 5px;
+  }
+  .og-features .og-accent-bar { background: linear-gradient(180deg, #1a56db 0%, #5b8cf7 100%); }
+  .og-removals .og-accent-bar { background: linear-gradient(180deg, #c0392b 0%, #e74c3c 100%); }
+  .og-ats { background: #050e0e; }
+  .og-ats .bg-gradient { position: absolute; inset: 0; background: linear-gradient(135deg, #050e0e 0%, #082020 45%, #0a3535 100%); }
+  .og-ats .bg-glow { position: absolute; inset: 0; background: radial-gradient(ellipse at 75% 60%, rgba(13,115,119,0.45) 0%, transparent 55%); }
+  .og-ats .og-accent-bar { background: linear-gradient(180deg, #0d7377 0%, #2bb5b8 100%); }
+
+  /* Content area */
+  .og-content {
+    position: absolute;
+    left: 72px;
+    top: 0; bottom: 0;
+    right: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0;
+  }
+
+  /* Logo */
+  .og-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: -0.01em;
+    margin-bottom: 36px;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+  }
+  .og-logo-accent { color: #4a7fff; }
+  .og-removals .og-logo-accent { color: #e05c4e; }
+
+  /* Category pill */
+  .og-category {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 20px;
+    width: fit-content;
+  }
+  .og-category-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .og-features .og-category-dot { background: #4a7fff; }
+  .og-removals .og-category-dot { background: #e05c4e; }
+  .og-category-text {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .og-features .og-category-text { color: #4a7fff; }
+  .og-removals .og-category-text { color: #e05c4e; }
+
+  /* Title */
+  .og-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.4rem;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: #ffffff;
+    margin-bottom: 22px;
+    max-width: 680px;
+  }
+  .og-title em {
+    font-style: italic;
+    color: rgba(255,255,255,0.7);
+  }
+
+  /* Description */
+  .og-desc {
+    font-size: 1.15rem;
+    color: rgba(255,255,255,0.5);
+    font-weight: 300;
+    line-height: 1.55;
+    max-width: 600px;
+    margin-bottom: 36px;
+  }
+
+  /* CTA row */
+  .og-cta-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .og-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 22px;
+    border-radius: 7px;
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    color: white;
+  }
+  .og-features .og-cta { background: #1a56db; }
+  .og-removals .og-cta { background: #c0392b; }
+  .og-cta-arrow { font-size: 1rem; }
+  .og-meta {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.25);
+    font-weight: 400;
+  }
+
+  /* Right side — article preview panel */
+  .og-panel {
+    position: absolute;
+    right: -1px;
+    top: 0; bottom: 0;
+    width: 340px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    padding: 52px 44px 52px 32px;
+  }
+  .og-panel::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.08) 30%, rgba(255,255,255,0.08) 70%, transparent 100%);
+  }
+
+  .og-point {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    opacity: 0;
+    animation: fadePoint 0.4s ease forwards;
+  }
+  .og-point:nth-child(1) { animation-delay: 0.1s; }
+  .og-point:nth-child(2) { animation-delay: 0.2s; }
+  .og-point:nth-child(3) { animation-delay: 0.3s; }
+  .og-point:nth-child(4) { animation-delay: 0.4s; }
+  .og-point:nth-child(5) { animation-delay: 0.5s; }
+  @keyframes fadePoint {
+    from { opacity: 0; transform: translateX(8px); }
+    to { opacity: 1; transform: none; }
+  }
+
+  .og-point-num {
+    width: 24px; height: 24px;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.68rem; font-weight: 800;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .og-features .og-point-num { background: rgba(26,86,219,0.2); color: #4a7fff; }
+  .og-removals .og-point-num { background: rgba(192,57,43,0.2); color: #e05c4e; }
+
+  .og-point-text {
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.5);
+    font-weight: 400;
+    line-height: 1.4;
+  }
+  .og-point-text strong {
+    color: rgba(255,255,255,0.8);
+    font-weight: 600;
+    display: block;
+    margin-bottom: 1px;
+  }
+
+  /* domain strip at bottom */
+  .og-domain {
+    position: absolute;
+    bottom: 28px;
+    left: 72px;
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.18);
+    letter-spacing: 0.05em;
+    font-weight: 500;
+  }
+</style>
+</head>
+<body>
+
+<div class="instructions">
+  <strong>How to use this file:</strong>
+  <ol>
+    <li>Open this file in Chrome (File → Open, or drag into browser)</li>
+    <li>For each card below, right-click the card → Inspect → find the <code>.og-card</code> div → right-click in DevTools → "Capture node screenshot". This exports exactly 1200×630px.</li>
+    <li>Alternatively: use the browser zoom to make the card fill your screen, then screenshot and crop to 1200×630.</li>
+    <li>Save as <code>og/blog-10-features.png</code> and <code>og/blog-10-removals.png</code> in your repo root.</li>
+  </ol>
+  The <code>/og/</code> folder should sit at the root of your Vercel project alongside <code>index.html</code>.
+</div>
+
+<!-- ── CARD 1: 10 FEATURES ── -->
+<div class="article-block">
+  <div class="article-label">Article 1</div>
+  <div class="filename">→ save as: og/blog-10-features.png</div>
+  <div class="og-card og-features">
+    <div class="bg-gradient"></div>
+    <div class="bg-glow"></div>
+    <div class="og-noise"></div>
+    <div class="og-grid"></div>
+    <div class="og-accent-bar"></div>
+    <div class="og-deco-number">10</div>
+
+    <div class="og-content">
+      <div class="og-logo">CV<span class="og-logo-accent">Applied</span></div>
+      <div class="og-category">
+        <div class="og-category-dot"></div>
+        <span class="og-category-text">CV Writing</span>
+      </div>
+      <div class="og-title">10 Features of a<br>Standout CV</div>
+      <div class="og-desc">The 10 things every UK CV needs to land interviews — from ATS keywords to achievements over duties.</div>
+      <div class="og-cta-row">
+        <div class="og-cta">Read article <span class="og-cta-arrow">→</span></div>
+        <div class="og-meta">5 min read · cvapplied.com</div>
+      </div>
+    </div>
+
+    <div class="og-panel">
+      <div class="og-point">
+        <div class="og-point-num">1</div>
+        <div class="og-point-text"><strong>Clean Layout</strong>ALL CAPS headers, no tables or columns</div>
+      </div>
+      <div class="og-point">
+        <div class="og-point-num">2</div>
+        <div class="og-point-text"><strong>Tailored for the Role</strong>Match JD language exactly</div>
+      </div>
+      <div class="og-point">
+        <div class="og-point-num">3</div>
+        <div class="og-point-text"><strong>Punchy Summary</strong>3-4 lines, no clichés</div>
+      </div>
+      <div class="og-point">
+        <div class="og-point-num">4</div>
+        <div class="og-point-text"><strong>Achievements Over Duties</strong>Action verbs + numbers</div>
+      </div>
+      <div class="og-point">
+        <div class="og-point-num">5</div>
+        <div class="og-point-text"><strong>ATS Keywords</strong>Copy from JD, don't paraphrase</div>
+      </div>
+    </div>
+
+    <div class="og-domain">cvapplied.com/blog</div>
+  </div>
+</div>
+
+<!-- ── CARD 2: 10 REMOVALS ── -->
+<div class="article-block">
+  <div class="article-label">Article 2</div>
+  <div class="filename">→ save as: og/blog-10-removals.png</div>
+  <div class="og-card og-removals">
+    <div class="bg-gradient"></div>
+    <div class="bg-glow"></div>
+    <div class="og-noise"></div>
+    <div class="og-grid"></div>
+    <div class="og-accent-bar"></div>
+    <div class="og-deco-number">10</div>
+
+    <div class="og-content">
+      <div class="og-logo">CV<span class="og-logo-accent">Applied</span></div>
+      <div class="og-category">
+        <div class="og-category-dot"></div>
+        <span class="og-category-text">CV Writing</span>
+      </div>
+      <div class="og-title">10 Things to Remove<br>From Your CV <em>Right Now</em></div>
+      <div class="og-desc">Most CVs are rejected for what they include, not what they're missing. Here is what to cut.</div>
+      <div class="og-cta-row">
+        <div class="og-cta">Read article <span class="og-cta-arrow">→</span></div>
+        <div class="og-meta">5 min read · cvapplied.com</div>
+      </div>
+    </div>
+
+    <div class="og-panel">
+      <div class="og-point">
+        <div class="og-point-num">✕</div>
+        <div class="og-point-text"><strong>Career Objective</strong>What you want, not what you bring</div>
+      </div>
+      <div class="og-point">
+        <div class="og-point-num">✕</div>
+        <div class="og-point-text"><strong>Personal Information</strong>DOB, address, marital status</div>
+      </div>
+      <div class="og-point">
+        <div class="og-point-num">✕</div>
+        <div class="og-point-text"><strong>Photo</strong>Introduces bias, not expected in UK</div>
+      </div>
+      <div class="og-point">
+        <div class="og-point-num">✕</div>
+        <div class="og-point-text"><strong>Buzzwords</strong>"Hard-working", "passionate", "dynamic"</div>
+      </div>
+      <div class="og-point">
+        <div class="og-point-num">✕</div>
+        <div class="og-point-text"><strong>Graphics &amp; Tables</strong>Break ATS parsing entirely</div>
+      </div>
+    </div>
+
+    <div class="og-domain">cvapplied.com/blog</div>
+  </div>
+</div>
+
+<!-- ── CARD 3: ATS SYSTEMS ── -->
+<div class="article-block">
+  <div class="article-label">Article 3</div>
+  <div class="filename">→ save as: og/blog-ats-systems.png</div>
+  <div class="og-card og-ats">
+    <div class="bg-gradient"></div>
+    <div class="bg-glow"></div>
+    <div class="og-noise"></div>
+    <div class="og-grid"></div>
+    <div class="og-accent-bar"></div>
+    <div class="og-deco-number" style="font-size:260px; right:10px; bottom:-20px; letter-spacing:-0.02em;">ATS</div>
+
+    <div class="og-content">
+      <div class="og-logo">CV<span class="og-logo-accent" style="color:#2bb5b8;">Applied</span></div>
+      <div class="og-category">
+        <div class="og-category-dot" style="background:#2bb5b8;"></div>
+        <span class="og-category-text" style="color:#2bb5b8;">ATS &amp; Keywords</span>
+      </div>
+      <div class="og-title">How UK ATS Systems<br>Actually Score Your CV</div>
+      <div class="og-desc">Greenhouse, Workday, and SAP SuccessFactors don't all work the same way. Here is exactly what each one does to your CV.</div>
+      <div class="og-cta-row">
+        <div class="og-cta" style="background:#0d7377;">Read article <span class="og-cta-arrow">→</span></div>
+        <div class="og-meta">6 min read · cvapplied.com</div>
+      </div>
+    </div>
+
+    <div class="og-panel">
+      <div class="og-point">
+        <div class="og-point-num" style="background:rgba(13,115,119,0.2); color:#2bb5b8;">GH</div>
+        <div class="og-point-text"><strong>Greenhouse</strong>Recruiter search-led, field-level parsing</div>
+      </div>
+      <div class="og-point">
+        <div class="og-point-num" style="background:rgba(13,115,119,0.2); color:#2bb5b8;">WD</div>
+        <div class="og-point-text"><strong>Workday</strong>Most aggressive parser, Skills Cloud scoring</div>
+      </div>
+      <div class="og-point">
+        <div class="og-point-num" style="background:rgba(13,115,119,0.2); color:#2bb5b8;">SF</div>
+        <div class="og-point-text"><strong>SAP SuccessFactors</strong>Exact keyword match, no paraphrasing</div>
+      </div>
+      <div class="og-point">
+        <div class="og-point-num" style="background:rgba(13,115,119,0.2); color:#2bb5b8;">LV</div>
+        <div class="og-point-text"><strong>Lever</strong>Full-text index, keyword placement flexible</div>
+      </div>
+      <div class="og-point">
+        <div class="og-point-num" style="background:rgba(13,115,119,0.2); color:#2bb5b8;">7</div>
+        <div class="og-point-text"><strong>Universal Rules</strong>Apply across every system</div>
+      </div>
+    </div>
+
+    <div class="og-domain">cvapplied.com/blog</div>
+  </div>
+</div>
+
+</body>
+</html>
