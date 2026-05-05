@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How UK ATS Systems Actually Score Your CV — CVApplied Blog</title>
+<meta name="description" content="Greenhouse, Workday, and SAP SuccessFactors don't all work the same way. Here is exactly how each one scores your CV — and what to do about it.">
+<!-- Open Graph -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="CVApplied">
+<meta property="og:url" content="https://cvapplied.com/blog-ats-systems.html">
+<meta property="og:title" content="How UK ATS Systems Actually Score Your CV">
+<meta property="og:description" content="Greenhouse, Workday, and SAP SuccessFactors don't all work the same way. Here is exactly how each one scores your CV — and what to do about it.">
+<meta property="og:image" content="https://cvapplied.com/og/blog-ats-systems.png">
+<meta property="article:published_time" content="2026-05-05">
+<meta property="article:section" content="ATS & Keywords">
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@cvapplied">
+<meta name="twitter:title" content="How UK ATS Systems Actually Score Your CV">
+<meta name="twitter:description" content="Greenhouse, Workday, and SAP SuccessFactors don't all work the same way. Here is exactly how each one scores your CV — and what to do about it.">
+<meta name="twitter:image" content="https://cvapplied.com/og/blog-ats-systems.png">
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MG5NEFRT2S"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MG5NEFRT2S');
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0f1117; --ink-soft: #3a3d4a; --ink-muted: #7a7f8e;
+    --paper: #fafaf8; --white: #ffffff; --accent: #1a56db;
+    --accent-soft: #e8effe; --rule: #e4e4e0; --gold: #c89b3c;
+    --green: #1a7a4a; --green-soft: #e6f4ed;
+    --teal: #0d7377; --teal-soft: #e0f4f4;
+    --shadow-sm: 0 1px 3px rgba(15,17,23,0.06);
+    --shadow-md: 0 4px 16px rgba(15,17,23,0.08), 0 2px 6px rgba(15,17,23,0.05);
+    --shadow-lg: 0 12px 40px rgba(15,17,23,0.10), 0 4px 12px rgba(15,17,23,0.06);
+    --radius: 10px;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+  /* NAV */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(250,250,248,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--rule); padding: 0 48px; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+  .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.35rem; font-weight: 700; color: var(--ink); text-decoration: none; letter-spacing: -0.02em; }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; align-items: center; gap: 32px; }
+  .nav-links a { font-size: 0.875rem; font-weight: 500; color: var(--ink-soft); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-cta { background: var(--ink); color: var(--white) !important; padding: 9px 20px; border-radius: 6px; font-weight: 600 !important; font-size: 0.85rem !important; transition: background 0.2s !important; }
+  .nav-cta:hover { background: var(--accent) !important; }
+  .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+  .hamburger span { width: 22px; height: 2px; background: var(--ink); border-radius: 2px; transition: all 0.25s; transform-origin: center; }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .mobile-drawer { display: none; position: fixed; top: 64px; left: 0; right: 0; background: var(--white); z-index: 99; border-bottom: 1px solid var(--rule); flex-direction: column; padding: 16px 24px 24px; box-shadow: var(--shadow-md); }
+  .mobile-drawer.open { display: flex; }
+  .mobile-drawer a { padding: 14px 0; color: var(--ink); text-decoration: none; font-size: 1rem; font-weight: 500; border-bottom: 1px solid var(--rule); }
+  .mobile-drawer a.mobile-cta { margin-top: 10px; background: var(--accent); color: var(--white) !important; padding: 14px 24px; border-radius: 8px; text-align: center; font-weight: 700; border-bottom: none; }
+
+  /* HERO — teal/dark theme */
+  .article-hero {
+    background: linear-gradient(160deg, #050e0e 0%, #082020 50%, #0a3535 100%);
+    padding: 120px 48px 72px; position: relative; overflow: hidden;
+  }
+  .article-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 65% 75%, rgba(13,115,119,0.45) 0%, transparent 58%); }
+  .article-hero-inner { max-width: 720px; margin: 0 auto; position: relative; z-index: 1; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: rgba(255,255,255,0.45); margin-bottom: 24px; }
+  .breadcrumb a { color: rgba(255,255,255,0.45); text-decoration: none; transition: color 0.2s; }
+  .breadcrumb a:hover { color: rgba(255,255,255,0.8); }
+  .breadcrumb span { color: rgba(255,255,255,0.2); }
+  .article-tag { display: inline-block; background: rgba(255,255,255,0.1); backdrop-filter: blur(6px); border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.8); font-size: 0.72rem; font-weight: 700; padding: 5px 12px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 20px; }
+  .article-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; line-height: 1.15; letter-spacing: -0.03em; color: white; margin-bottom: 20px; }
+  .article-hero .standfirst { font-size: 1.1rem; color: rgba(255,255,255,0.6); font-weight: 300; line-height: 1.65; max-width: 580px; margin-bottom: 32px; }
+  .article-meta { display: flex; align-items: center; gap: 16px; font-size: 0.82rem; color: rgba(255,255,255,0.4); padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.1); }
+  .article-meta strong { color: rgba(255,255,255,0.7); }
+
+  /* LAYOUT */
+  .article-layout { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 300px; gap: 64px; padding: 64px 48px 96px; align-items: start; }
+  .prose { max-width: 680px; }
+  .prose p { font-size: 1.02rem; color: var(--ink-soft); line-height: 1.8; font-weight: 300; margin-bottom: 1.4em; }
+  .prose strong { color: var(--ink); font-weight: 600; }
+  .prose h2 { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--ink); margin: 48px 0 16px; line-height: 1.2; letter-spacing: -0.02em; }
+  .prose h2:first-of-type { margin-top: 0; }
+
+  /* ATS SYSTEM CARDS */
+  .ats-card {
+    border: 1px solid var(--rule); border-radius: 14px;
+    background: var(--white); overflow: hidden;
+    margin-bottom: 28px;
+    transition: box-shadow 0.2s;
+  }
+  .ats-card:hover { box-shadow: var(--shadow-md); }
+  .ats-card-header {
+    padding: 20px 28px;
+    display: flex; align-items: center; gap: 16px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .ats-icon {
+    width: 44px; height: 44px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; flex-shrink: 0;
+    font-weight: 800; font-family: 'DM Sans', sans-serif;
+    letter-spacing: -0.04em;
+  }
+  .ats-icon.greenhouse { background: #e8f5e9; color: #2e7d32; }
+  .ats-icon.workday { background: #fff3e0; color: #e65100; }
+  .ats-icon.sap { background: #e3f2fd; color: #1565c0; }
+  .ats-icon.lever { background: #f3e5f5; color: #6a1b9a; }
+  .ats-icon.smartrecruiters { background: #e8effe; color: var(--accent); }
+  .ats-card-title { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; color: var(--ink); }
+  .ats-card-subtitle { font-size: 0.8rem; color: var(--ink-muted); margin-top: 2px; }
+  .ats-prevalence {
+    margin-left: auto; flex-shrink: 0;
+    display: flex; flex-direction: column; align-items: flex-end; gap: 4px;
+  }
+  .ats-prevalence-label { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-muted); }
+  .ats-prevalence-dots { display: flex; gap: 4px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--rule); }
+  .dot.filled { background: var(--teal); }
+
+  .ats-card-body { padding: 20px 28px; display: flex; flex-direction: column; gap: 16px; }
+  .ats-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .ats-col-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink-muted); margin-bottom: 6px; }
+  .ats-col-content { font-size: 0.875rem; color: var(--ink-soft); line-height: 1.6; font-weight: 300; }
+  .ats-col-content strong { color: var(--ink); font-weight: 600; }
+
+  .ats-tip {
+    display: flex; align-items: flex-start; gap: 10px;
+    background: var(--teal-soft); border-left: 3px solid var(--teal);
+    border-radius: 0 6px 6px 0; padding: 10px 14px;
+    font-size: 0.85rem; color: var(--teal); font-weight: 500; line-height: 1.55;
+  }
+  .ats-tip::before { content: '✦'; flex-shrink: 0; font-size: 0.7rem; margin-top: 2px; }
+
+  /* UNIVERSAL RULES SECTION */
+  .rules-grid { display: flex; flex-direction: column; gap: 12px; margin-bottom: 0; }
+  .rule-item {
+    display: flex; align-items: flex-start; gap: 14px;
+    background: var(--white); border: 1px solid var(--rule);
+    border-radius: 10px; padding: 18px 20px;
+    transition: border-color 0.2s;
+  }
+  .rule-item:hover { border-color: rgba(13,115,119,0.3); }
+  .rule-num {
+    width: 28px; height: 28px; border-radius: 7px;
+    background: var(--teal-soft); color: var(--teal);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem; font-weight: 800; flex-shrink: 0;
+  }
+  .rule-text { font-size: 0.9rem; color: var(--ink-soft); line-height: 1.65; font-weight: 300; }
+  .rule-text strong { color: var(--ink); font-weight: 600; display: block; margin-bottom: 2px; font-size: 0.925rem; }
+
+  /* MYTH BUSTERS */
+  .myth-item {
+    background: var(--white); border: 1px solid var(--rule);
+    border-radius: 12px; padding: 24px 28px;
+    margin-bottom: 16px;
+  }
+  .myth-label {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 0.7rem; font-weight: 800; letter-spacing: 0.08em;
+    text-transform: uppercase; padding: 3px 10px; border-radius: 4px;
+    margin-bottom: 10px;
+  }
+  .myth-label.myth { background: #fdf0ee; color: #c0392b; }
+  .myth-label.reality { background: var(--green-soft); color: var(--green); }
+  .myth-item h4 { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: var(--ink); margin-bottom: 8px; line-height: 1.3; }
+  .myth-item p { font-size: 0.875rem; color: var(--ink-soft); line-height: 1.65; font-weight: 300; }
+
+  /* SIDEBAR */
+  .sidebar { position: sticky; top: 88px; display: flex; flex-direction: column; gap: 20px; }
+  .sidebar-card { background: var(--white); border: 1px solid var(--rule); border-radius: var(--radius); padding: 24px; }
+  .sidebar-card h4 { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; margin-bottom: 12px; color: var(--ink); }
+  .sidebar-card p { font-size: 0.85rem; color: var(--ink-soft); line-height: 1.6; font-weight: 300; margin-bottom: 16px; }
+  .sidebar-btn { display: block; text-align: center; background: var(--accent); color: white; padding: 11px 20px; border-radius: 7px; font-size: 0.875rem; font-weight: 600; text-decoration: none; transition: background 0.2s; }
+  .sidebar-btn:hover { background: #1548c0; }
+  .sidebar-btn.outline { background: transparent; color: var(--ink); border: 1.5px solid var(--rule); margin-top: 8px; }
+  .sidebar-btn.outline:hover { background: var(--paper); }
+  .toc { display: flex; flex-direction: column; gap: 4px; }
+  .toc a { font-size: 0.82rem; color: var(--ink-muted); text-decoration: none; padding: 6px 8px; border-radius: 5px; transition: all 0.15s; display: flex; align-items: center; gap: 8px; }
+  .toc a::before { content: attr(data-n); width: 20px; height: 20px; background: var(--paper); border: 1px solid var(--rule); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; color: var(--ink-muted); flex-shrink: 0; }
+  .toc a:hover { color: var(--ink); background: var(--paper); }
+  .toc a.active { color: var(--teal); }
+  .toc a.active::before { background: var(--teal-soft); border-color: var(--teal); color: var(--teal); }
+
+  /* CTA */
+  .article-cta { background: var(--ink); border-radius: 16px; padding: 48px; text-align: center; margin-top: 48px; }
+  .article-cta h3 { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: white; margin-bottom: 10px; }
+  .article-cta p { color: rgba(255,255,255,0.55); margin-bottom: 24px; font-size: 0.95rem; }
+  .article-cta a { display: inline-flex; align-items: center; gap: 8px; background: var(--accent); color: white; padding: 13px 28px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; text-decoration: none; box-shadow: 0 4px 14px rgba(26,86,219,0.35); transition: background 0.2s; }
+  .article-cta a:hover { background: #1548c0; }
+
+  /* SHARE */
+  .share-bar { display: flex; align-items: center; gap: 10px; padding: 20px 0; margin-top: 24px; border-top: 1px solid var(--rule); font-size: 0.82rem; color: var(--ink-muted); }
+  .share-btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: 6px; border: 1px solid var(--rule); background: var(--white); font-size: 0.8rem; font-weight: 500; color: var(--ink-soft); cursor: pointer; text-decoration: none; transition: all 0.15s; }
+  .share-btn:hover { border-color: var(--ink); color: var(--ink); }
+
+  /* RELATED */
+  .related-section { max-width: 1100px; margin: 0 auto; padding: 0 48px 80px; border-top: 1px solid var(--rule); }
+  .related-section h3 { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; margin: 40px 0 24px; }
+  .related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .related-card { background: var(--white); border: 1px solid var(--rule); border-radius: var(--radius); padding: 24px; text-decoration: none; color: inherit; transition: box-shadow 0.2s, transform 0.2s; }
+  .related-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+  .related-card-inactive { opacity: 0.6; pointer-events: none; }
+  .related-cat { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+  .related-card h4 { font-family: 'Playfair Display', serif; font-size: 0.95rem; line-height: 1.35; margin-bottom: 8px; }
+  .related-card p { font-size: 0.82rem; color: var(--ink-muted); line-height: 1.55; }
+  .coming-soon-badge { font-size: 0.68rem; font-weight: 600; background: #f3f4f6; color: var(--ink-muted); padding: 3px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.04em; display: inline-block; margin-top: 12px; }
+
+  /* FOOTER */
+  footer { background: var(--ink); color: rgba(255,255,255,0.5); padding: 56px 48px 28px; }
+  .footer-inner { max-width: 1100px; margin: 0 auto; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+  .footer-brand p { font-size: 0.875rem; line-height: 1.65; margin-top: 12px; }
+  .footer-col h4 { color: white; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 16px; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-col ul li a { color: rgba(255,255,255,0.45); text-decoration: none; font-size: 0.875rem; transition: color 0.2s; }
+  .footer-col ul li a:hover { color: white; }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; }
+
+  .fade-up { opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
+  .fade-up.visible { opacity: 1; transform: none; }
+
+  @media (max-width: 960px) { .article-layout { grid-template-columns: 1fr; } .sidebar { position: static; } }
+  @media (max-width: 900px) {
+    nav { padding: 0 24px; } .nav-links { display: none; } .hamburger { display: flex; }
+    .article-hero { padding: 100px 24px 56px; }
+    .article-layout, .related-section { padding-left: 24px; padding-right: 24px; }
+    .related-grid { grid-template-columns: 1fr; } .ats-row { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; } footer { padding: 48px 24px 24px; }
+  }
+  @media (max-width: 600px) {
+    nav { padding: 0 16px; } .article-hero { padding: 96px 16px 48px; }
+    .article-layout, .related-section { padding-left: 16px; padding-right: 16px; }
+    .footer-grid { grid-template-columns: 1fr; } .article-cta { padding: 32px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">CV<span>Applied</span></a>
+  <div class="nav-links">
+    <a href="index.html#how">How It Works</a>
+    <a href="templates.html">Templates</a>
+    <a href="index.html#features">Features</a>
+    <a href="index.html#pricing">Pricing</a>
+    <a href="blog.html">Blog</a>
+    <a href="analyse.html" class="nav-cta">Analyse My CV Free</a>
+  </div>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-drawer" id="mobile-drawer">
+  <a href="index.html#how" onclick="closeMenu()">How It Works</a>
+  <a href="templates.html" onclick="closeMenu()">Templates</a>
+  <a href="index.html#features" onclick="closeMenu()">Features</a>
+  <a href="index.html#pricing" onclick="closeMenu()">Pricing</a>
+  <a href="blog.html" onclick="closeMenu()">Blog</a>
+  <a href="analyse.html" class="mobile-cta" onclick="closeMenu()">✦ Analyse My CV Free</a>
+</div>
+
+<div class="article-hero">
+  <div class="article-hero-inner">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a><span>/</span>
+      <a href="blog.html">Blog</a><span>/</span>
+      <span>How UK ATS Systems Actually Score Your CV</span>
+    </div>
+    <div class="article-tag">ATS &amp; Keywords</div>
+    <h1>How UK ATS Systems Actually Score Your CV</h1>
+    <p class="standfirst">Most candidates think ATS is one thing. It isn't. Greenhouse, Workday, and SAP SuccessFactors all work differently — and what gets you through one can fail you on another.</p>
+    <div class="article-meta">
+      <span><strong>CVApplied</strong></span>
+      <span>·</span>
+      <span>5 May 2026</span>
+      <span>·</span>
+      <span>6 min read</span>
+    </div>
+  </div>
+</div>
+
+<div class="article-layout">
+  <article class="prose">
+
+    <p>An Applicant Tracking System does not read your CV the way a recruiter does. It parses your document into structured data fields, scores those fields against what the employer configured, and either passes you forward or drops you — often before any human has seen your name. Understanding how this works is not optional if you are applying to UK companies of any size. It is the difference between your CV being read and it disappearing.</p>
+
+    <p>Three ATS platforms dominate UK hiring: <strong>Greenhouse</strong>, <strong>Workday</strong>, and <strong>SAP SuccessFactors</strong>. A fourth, <strong>Lever</strong>, is growing in the UK tech sector. They do not all behave the same way. Here is what each one actually does to your CV.</p>
+
+    <!-- SECTION: THE THREE SYSTEMS -->
+    <h2 id="s-greenhouse">Greenhouse</h2>
+
+    <div class="ats-card fade-up">
+      <div class="ats-card-header">
+        <div class="ats-icon greenhouse">GH</div>
+        <div>
+          <div class="ats-card-title">Greenhouse</div>
+          <div class="ats-card-subtitle">Used by: Monzo, Deliveroo, Revolut, GoCardless, most UK tech scaleups</div>
+        </div>
+        <div class="ats-prevalence">
+          <div class="ats-prevalence-label">UK Prevalence</div>
+          <div class="ats-prevalence-dots">
+            <div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div>
+          </div>
+        </div>
+      </div>
+      <div class="ats-card-body">
+        <div class="ats-row">
+          <div>
+            <div class="ats-col-label">How it parses</div>
+            <div class="ats-col-content">Greenhouse uses a structured parser that extracts named fields — job titles, companies, dates, education — and maps them to a candidate profile. It handles PDF and DOCX reliably as long as you use single-column formatting. <strong>Multi-column layouts frequently scramble the field mapping.</strong></div>
+          </div>
+          <div>
+            <div class="ats-col-label">How it scores</div>
+            <div class="ats-col-content">Scoring in Greenhouse is largely recruiter-configured. Employers set up scorecards with weighted attributes. Keyword matching happens at the search stage, not at submission — so your CV is not auto-rejected by a score, but <strong>it will never surface in searches if your keywords are absent.</strong></div>
+          </div>
+        </div>
+        <div class="ats-tip">For Greenhouse: use clean single-column PDF. Ensure your job titles match standard UK industry titles exactly — Greenhouse's parser keys on these. A "Product Lead" may not surface when a recruiter searches "Product Manager".</div>
+      </div>
+    </div>
+
+    <h2 id="s-workday">Workday</h2>
+
+    <div class="ats-card fade-up">
+      <div class="ats-card-header">
+        <div class="ats-icon workday">WD</div>
+        <div>
+          <div class="ats-card-title">Workday</div>
+          <div class="ats-card-subtitle">Used by: HSBC, Barclays, Unilever, GSK, John Lewis, most FTSE 100</div>
+        </div>
+        <div class="ats-prevalence">
+          <div class="ats-prevalence-label">UK Prevalence</div>
+          <div class="ats-prevalence-dots">
+            <div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div>
+          </div>
+        </div>
+      </div>
+      <div class="ats-card-body">
+        <div class="ats-row">
+          <div>
+            <div class="ats-col-label">How it parses</div>
+            <div class="ats-col-content">Workday is the most aggressive parser of the three. It attempts to extract every field — including skills, certifications, and even sentence-level content — into its own candidate database fields. <strong>Tables, headers in text boxes, and graphics are dropped entirely.</strong> Workday also normalises job titles against its own taxonomy, which can downgrade unusual titles.</div>
+          </div>
+          <div>
+            <div class="ats-col-label">How it scores</div>
+            <div class="ats-col-content">Workday includes an optional Machine Learning scoring layer called Workday Skills Cloud. When enabled by the employer, it <strong>scores candidates against a skills ontology</strong> — meaning implied skills matter, not just exact keywords. However, most UK employers using Workday have not fully configured this layer and rely on keyword search.</div>
+          </div>
+        </div>
+        <div class="ats-tip">For Workday: avoid DOCX with tracked changes, headers, footers, or text boxes — these confuse the parser badly. Plain DOCX or PDF only. Use the exact job title from the posting in your profile summary where it is truthful to do so.</div>
+      </div>
+    </div>
+
+    <h2 id="s-sap">SAP SuccessFactors</h2>
+
+    <div class="ats-card fade-up">
+      <div class="ats-card-header">
+        <div class="ats-icon sap">SF</div>
+        <div>
+          <div class="ats-card-title">SAP SuccessFactors</div>
+          <div class="ats-card-subtitle">Used by: NHS, Civil Service, Deloitte, PwC, Shell, large public sector</div>
+        </div>
+        <div class="ats-prevalence">
+          <div class="ats-prevalence-label">UK Prevalence</div>
+          <div class="ats-prevalence-dots">
+            <div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div>
+          </div>
+        </div>
+      </div>
+      <div class="ats-card-body">
+        <div class="ats-row">
+          <div>
+            <div class="ats-col-label">How it parses</div>
+            <div class="ats-col-content">SuccessFactors parsing is less sophisticated than Greenhouse or Workday. It extracts text sequentially and is more tolerant of formatting variations — but this also means it is <strong>less precise at field-level extraction</strong>. Skills and keywords buried in dense paragraphs may be missed entirely.</div>
+          </div>
+          <div>
+            <div class="ats-col-label">How it scores</div>
+            <div class="ats-col-content">SuccessFactors scoring is almost entirely keyword-based. Employers configure required and preferred keywords at the job posting level. <strong>Exact match is weighted significantly higher than semantic match.</strong> This makes it the most literal of the three — paraphrasing keywords here is the most costly mistake you can make.</div>
+          </div>
+        </div>
+        <div class="ats-tip">For SuccessFactors: copy required skills and keywords verbatim from the job posting. Do not rephrase. "Data Governance" and "governance of data" are not the same thing to this system.</div>
+      </div>
+    </div>
+
+    <h2 id="s-lever">Lever (bonus)</h2>
+
+    <div class="ats-card fade-up">
+      <div class="ats-card-header">
+        <div class="ats-icon lever">LV</div>
+        <div>
+          <div class="ats-card-title">Lever</div>
+          <div class="ats-card-subtitle">Used by: Netflix UK, Figma, Notion, growing number of UK tech firms</div>
+        </div>
+        <div class="ats-prevalence">
+          <div class="ats-prevalence-label">UK Prevalence</div>
+          <div class="ats-prevalence-dots">
+            <div class="dot filled"></div><div class="dot filled"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+          </div>
+        </div>
+      </div>
+      <div class="ats-card-body">
+        <div class="ats-row">
+          <div>
+            <div class="ats-col-label">How it parses</div>
+            <div class="ats-col-content">Lever has the most modern parser of the four. It handles both PDF and DOCX well, copes with minor formatting variations, and is generally more forgiving about layout. <strong>It also indexes the full text of your CV</strong>, not just extracted fields.</div>
+          </div>
+          <div>
+            <div class="ats-col-label">How it scores</div>
+            <div class="ats-col-content">Lever is recruiter-search-led rather than auto-scored. Recruiters search the candidate database using skills and keywords. Because full-text is indexed, <strong>keywords anywhere in your CV count</strong> — not just in the skills section.</div>
+          </div>
+        </div>
+        <div class="ats-tip">For Lever: keyword placement is less critical than for SuccessFactors, but completeness matters. Make sure every relevant skill appears somewhere in the document, not just once.</div>
+      </div>
+    </div>
+
+    <!-- SECTION: UNIVERSAL RULES -->
+    <h2 id="s-rules">The 7 rules that apply to every ATS</h2>
+
+    <p>System-specific tactics help at the margin. These rules apply everywhere and matter more.</p>
+
+    <div class="rules-grid fade-up">
+      <div class="rule-item">
+        <div class="rule-num">1</div>
+        <div class="rule-text"><strong>Single column, always</strong>Multi-column layouts break parsing across every ATS platform without exception. The system reads left to right across the full width, which turns two columns into garbled interleaved text.</div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-num">2</div>
+        <div class="rule-text"><strong>No headers, footers, or text boxes</strong>Content placed in Word's header/footer region or in text boxes is invisible to most ATS parsers. Your name and contact details in a header may never be extracted.</div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-num">3</div>
+        <div class="rule-text"><strong>Standard section names</strong>Use WORK EXPERIENCE, EDUCATION, SKILLS, PROFESSIONAL PROFILE. Creative alternatives like "Where I've Been" or "My Toolkit" are not recognised by structured parsers.</div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-num">4</div>
+        <div class="rule-text"><strong>Exact keyword matching</strong>Identify the 8-12 most important keywords in the job description. Use them verbatim in your skills section and woven naturally into your experience bullets. Do not paraphrase.</div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-num">5</div>
+        <div class="rule-text"><strong>Consistent date formatting</strong>Parsers extract employment dates to calculate tenure. Mixed formats (Jan 2022, January 2022, 01/2022 all in the same document) can cause miscalculation or extraction failure.</div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-num">6</div>
+        <div class="rule-text"><strong>No tables for skills or experience</strong>Tables are the most common cause of ATS parsing failure. Content inside table cells is either dropped or merged into a single unstructured block of text.</div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-num">7</div>
+        <div class="rule-text"><strong>File format matters</strong>PDF is generally safest for formatting preservation. DOCX is better if the ATS is Workday (it handles DOCX natively). Never submit a scanned image PDF — it is not machine-readable.</div>
+      </div>
+    </div>
+
+    <!-- SECTION: MYTH BUSTERS -->
+    <h2 id="s-myths">Three ATS myths that are costing people interviews</h2>
+
+    <div class="myth-item fade-up">
+      <div class="myth-label myth">✕ Myth</div>
+      <h4>"I need to stuff my CV with keywords to beat the ATS"</h4>
+      <p>Keyword stuffing — placing dozens of terms in white text, repeating the same phrase ten times, or dumping a keyword block at the bottom — was gamed out of most modern ATS platforms years ago. Greenhouse and Workday both flag abnormal keyword density. More importantly, once a human reads the CV, a keyword-stuffed document fails immediately. Keyword relevance beats keyword volume every time.</p>
+    </div>
+
+    <div class="myth-item fade-up">
+      <div class="myth-label myth">✕ Myth</div>
+      <h4>"If I format my CV beautifully it will stand out to the ATS"</h4>
+      <p>ATS systems do not see your formatting. They see extracted text. A beautifully designed two-column CV with a photo, progress bars for skills, and a colour-coded timeline may look impressive as a PDF but parse into near-unreadable structured data. Design for the human who reads after the ATS, not for the ATS itself — and that means clean, parseable structure first.</p>
+    </div>
+
+    <div class="myth-item fade-up">
+      <div class="myth-label myth">✕ Myth</div>
+      <h4>"ATS auto-rejects most applications before humans see them"</h4>
+      <p>This is overstated. Most UK ATS deployments use the system to organise and search candidates, not to hard-reject them. The more accurate picture is: a poor CV does not get rejected — it simply never surfaces when a recruiter searches. The practical effect is the same, but the mechanism matters: you are not being filtered out by a bot making a decision, you are being made invisible by a search that cannot find you.</p>
+    </div>
+
+    <!-- INLINE CTA -->
+    <div class="article-cta fade-up">
+      <h3>See how your CV performs against UK ATS systems.</h3>
+      <p>CVApplied scores your CV across 14 dimensions including ATS compatibility, keyword coverage, and formatting — calibrated against Greenhouse, Workday, and SAP SuccessFactors.</p>
+      <a href="analyse.html">✦ Analyse My CV Free &rarr;</a>
+    </div>
+
+    <div class="share-bar">
+      <span>Share this article:</span>
+      <a class="share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https://cvapplied.com/blog-ats-systems.html" target="_blank" rel="noopener">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        LinkedIn
+      </a>
+      <button class="share-btn" onclick="copyLink()">
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 0 0-5.656 0l-4 4a4 4 0 1 0 5.656 5.656l1.102-1.101m-.758-4.899a4 4 0 0 0 5.656 0l4-4a4 4 0 0 0-5.656-5.656l-1.1 1.1"/></svg>
+        <span id="copy-label">Copy link</span>
+      </button>
+    </div>
+
+  </article>
+
+  <aside class="sidebar">
+    <div class="sidebar-card">
+      <h4>Check your ATS score</h4>
+      <p>See your CV's ATS compatibility score across Greenhouse, Workday, and SAP SuccessFactors. Free, no sign-up.</p>
+      <a href="analyse.html" class="sidebar-btn">✦ Analyse My CV Free</a>
+      <a href="tailor.html" class="sidebar-btn outline">Tailor CV to a Job</a>
+    </div>
+    <div class="sidebar-card">
+      <h4>In this article</h4>
+      <nav class="toc" id="toc">
+        <a href="#s-greenhouse" data-n="1">Greenhouse</a>
+        <a href="#s-workday" data-n="2">Workday</a>
+        <a href="#s-sap" data-n="3">SAP SuccessFactors</a>
+        <a href="#s-lever" data-n="4">Lever</a>
+        <a href="#s-rules" data-n="5">7 Universal Rules</a>
+        <a href="#s-myths" data-n="6">3 ATS Myths</a>
+      </nav>
+    </div>
+  </aside>
+</div>
+
+<div class="related-section">
+  <h3>More from the blog</h3>
+  <div class="related-grid">
+    <a href="blog-10-features.html" class="related-card">
+      <div class="related-cat">CV Writing</div>
+      <h4>10 Features of a Standout CV</h4>
+      <p>The 10 things every UK CV needs to land interviews — from ATS keywords to achievements over duties.</p>
+    </a>
+    <a href="blog-10-removals.html" class="related-card">
+      <div class="related-cat">CV Writing</div>
+      <h4>10 Things to Remove From Your CV Right Now</h4>
+      <p>Most CVs are rejected for what they include, not what they're missing. Here is what to cut.</p>
+    </a>
+    <div class="related-card related-card-inactive" style="opacity:0.6; pointer-events:none;">
+      <div class="related-cat">Recruiter Insight</div>
+      <h4>What UK Recruiters Actually Look At in 7 Seconds</h4>
+      <p>Eye-tracking research and recruiter interviews on what gets the scan and what gets skipped.</p>
+      <span class="coming-soon-badge">Coming Soon</span>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo" style="color:white;">CV<span style="color:var(--accent)">Applied</span></a>
+        <p>AI-powered CV analysis and building platform. Helping UK professionals land more interviews, faster.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="analyse.html">CV Analyser</a></li>
+          <li><a href="tailor.html">Job Tailoring</a></li>
+          <li><a href="index.html#builder">CV Builder</a></li>
+          <li><a href="templates.html">Templates</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="terms.html">Terms of Service</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="index.html#pricing">Pricing</a></li>
+          <li><a href="analyse.html">Analyse Free</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 CVApplied. All rights reserved.</p>
+      <div style="display:flex; gap:16px;">
+        <a href="privacy.html" style="font-size:0.8rem; color:rgba(255,255,255,0.3); text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='rgba(255,255,255,0.6)'" onmouseout="this.style.color='rgba(255,255,255,0.3)'">Privacy Policy</a>
+        <a href="terms.html" style="font-size:0.8rem; color:rgba(255,255,255,0.3); text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='rgba(255,255,255,0.6)'" onmouseout="this.style.color='rgba(255,255,255,0.3)'">Terms of Service</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function toggleMenu() {
+    const drawer = document.getElementById('mobile-drawer');
+    const btn = document.getElementById('hamburger');
+    drawer.classList.toggle('open'); btn.classList.toggle('open');
+    document.body.style.overflow = drawer.classList.contains('open') ? 'hidden' : '';
+  }
+  function closeMenu() {
+    document.getElementById('mobile-drawer').classList.remove('open');
+    document.getElementById('hamburger').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  window.addEventListener('scroll', () => closeMenu(), { passive: true });
+  window.addEventListener('scroll', () => {
+    document.querySelector('nav').style.boxShadow = window.scrollY > 20 ? '0 2px 16px rgba(15,17,23,0.08)' : 'none';
+  });
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) setTimeout(() => entry.target.classList.add('visible'), i * 60);
+    });
+  }, { threshold: 0.06, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  const sections = document.querySelectorAll('[id^="s-"]');
+  const tocLinks = document.querySelectorAll('.toc a');
+  const tocObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        tocLinks.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector(`.toc a[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-15% 0px -65% 0px' });
+  sections.forEach(s => tocObserver.observe(s));
+
+  function copyLink() {
+    navigator.clipboard.writeText(window.location.href).then(() => {
+      const label = document.getElementById('copy-label');
+      label.textContent = 'Copied!';
+      setTimeout(() => label.textContent = 'Copy link', 2000);
+    });
+  }
+</script>
+</body>
+</html>
