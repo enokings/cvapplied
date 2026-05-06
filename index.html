@@ -1181,7 +1181,7 @@ function updatePreview() {
   if (contacts) cv += `${contacts}\n`;
   if (name || contacts) cv += `\n`;
 
-  if (title) cv += `TARGET ROLE: ${title}\n\n`;
+  if (title) cv += `${title}\n\n`;
 
   if (summary) {
     const cleanSummary = stripMarkdown(summary);
