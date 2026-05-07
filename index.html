@@ -1083,6 +1083,10 @@
 .b-input { width:100%; padding:9px 12px; background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.12); border-radius:6px; font-family:'DM Sans',sans-serif; font-size:0.85rem; color:var(--white); outline:none; transition:border-color 0.2s; }
 .b-input:focus { border-color:rgba(26,86,219,0.6); background:rgba(255,255,255,0.1); }
 .b-input::placeholder { color:rgba(255,255,255,0.3); }
+.b-select { width:100%; padding:9px 10px; background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.12); border-radius:6px; font-family:'DM Sans',sans-serif; font-size:0.82rem; color:var(--white); outline:none; cursor:pointer; transition:border-color 0.2s; appearance:none; -webkit-appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='rgba(255,255,255,0.4)' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 8px center; padding-right:24px; }
+.b-select:focus { border-color:rgba(26,86,219,0.6); background-color:rgba(255,255,255,0.1); }
+.b-select:disabled { cursor:not-allowed; }
+.b-select option { background:#1a1d2e; color:var(--white); }
 .b-textarea { width:100%; padding:9px 12px; background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.12); border-radius:6px; font-family:'DM Sans',sans-serif; font-size:0.85rem; color:var(--white); outline:none; resize:vertical; min-height:100px; line-height:1.6; transition:border-color 0.2s; }
 .b-textarea:focus { border-color:rgba(26,86,219,0.6); background:rgba(255,255,255,0.1); }
 .b-textarea::placeholder { color:rgba(255,255,255,0.3); }
@@ -1117,7 +1121,7 @@ function showBuilderTab(tab) {
 
 function addExperience() {
   const id = expCounter++;
-  experiences.push({ id, company:'', role:'', dates:'', bullets:'' });
+  experiences.push({ id, company:'', role:'', dateFromMonth:'', dateFromYear:'', dateToMonth:'', dateToYear:'', datePresent:true, bullets:'' });
   renderExperienceCards();
 }
 
@@ -1125,6 +1129,47 @@ function removeExperience(id) {
   experiences = experiences.filter(e => e.id !== id);
   renderExperienceCards();
   updatePreview();
+}
+
+// ── DATE HELPERS ──
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const CURRENT_YEAR = new Date().getFullYear();
+
+function yearOptions(selectedYear) {
+  let html = '<option value="">Year</option>';
+  for (let y = CURRENT_YEAR; y >= CURRENT_YEAR - 50; y--) {
+    html += `<option value="${y}"${String(selectedYear) === String(y) ? ' selected' : ''}>${y}</option>`;
+  }
+  return html;
+}
+
+function monthOptions(selectedMonth) {
+  let html = '<option value="">Month</option>';
+  MONTHS.forEach(m => {
+    html += `<option value="${m}"${selectedMonth === m ? ' selected' : ''}>${m}</option>`;
+  });
+  return html;
+}
+
+function buildDateString(exp) {
+  const from = [exp.dateFromMonth, exp.dateFromYear].filter(Boolean).join(' ');
+  const to = exp.datePresent ? 'Present' : [exp.dateToMonth, exp.dateToYear].filter(Boolean).join(' ');
+  if (!from && !to) return '';
+  if (from && to) return `${from} - ${to}`;
+  return from || to;
+}
+
+function togglePresent(id, checked) {
+  const exp = experiences.find(e => e.id === id);
+  if (!exp) return;
+  exp.datePresent = checked;
+  const toMonthSel = document.getElementById(`exp-to-month-${id}`);
+  const toYearSel = document.getElementById(`exp-to-year-${id}`);
+  if (toMonthSel) toMonthSel.disabled = checked;
+  if (toYearSel) toYearSel.disabled = checked;
+  if (toMonthSel) toMonthSel.style.opacity = checked ? '0.4' : '1';
+  if (toYearSel) toYearSel.style.opacity = checked ? '0.4' : '1';
+  updateExp(id, 'datePresent', checked);
 }
 
 function renderExperienceCards() {
@@ -1146,8 +1191,33 @@ function renderExperienceCards() {
         </div>
       </div>
       <div style="margin-bottom:10px;">
-        <div class="b-label">Dates</div>
-        <input class="b-input" value="${exp.dates}" placeholder="Jan 2022 – Present" oninput="updateExp(${exp.id},'dates',this.value)">
+        <div class="b-label" style="margin-bottom:6px;">Dates</div>
+        <div style="display:grid; grid-template-columns:1fr auto 1fr; gap:8px; align-items:start;">
+          <!-- FROM -->
+          <div>
+            <div style="font-size:0.62rem; font-weight:600; color:rgba(255,255,255,0.3); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:4px;">From</div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
+              <select class="b-select" onchange="updateExp(${exp.id},'dateFromMonth',this.value)">${monthOptions(exp.dateFromMonth)}</select>
+              <select class="b-select" onchange="updateExp(${exp.id},'dateFromYear',this.value)">${yearOptions(exp.dateFromYear)}</select>
+            </div>
+          </div>
+          <!-- SEPARATOR -->
+          <div style="color:rgba(255,255,255,0.25); font-size:0.9rem; padding-top:22px; text-align:center;">–</div>
+          <!-- TO -->
+          <div>
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:4px;">
+              <div style="font-size:0.62rem; font-weight:600; color:rgba(255,255,255,0.3); text-transform:uppercase; letter-spacing:0.05em;">To</div>
+              <label style="display:flex; align-items:center; gap:5px; cursor:pointer; font-size:0.68rem; color:rgba(255,255,255,0.5); font-weight:600;">
+                <input type="checkbox" ${exp.datePresent ? 'checked' : ''} onchange="togglePresent(${exp.id},this.checked)" style="accent-color:var(--accent); width:13px; height:13px; cursor:pointer;">
+                Present
+              </label>
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
+              <select class="b-select" id="exp-to-month-${exp.id}" onchange="updateExp(${exp.id},'dateToMonth',this.value)" ${exp.datePresent ? 'disabled' : ''} style="opacity:${exp.datePresent ? '0.4' : '1'}">${monthOptions(exp.dateToMonth)}</select>
+              <select class="b-select" id="exp-to-year-${exp.id}" onchange="updateExp(${exp.id},'dateToYear',this.value)" ${exp.datePresent ? 'disabled' : ''} style="opacity:${exp.datePresent ? '0.4' : '1'}">${yearOptions(exp.dateToYear)}</select>
+            </div>
+          </div>
+        </div>
       </div>
       <div style="margin-bottom:10px;">
         <div class="b-label">Key Achievements & Responsibilities</div>
@@ -1160,7 +1230,9 @@ function renderExperienceCards() {
 
 function updateExp(id, field, value) {
   const exp = experiences.find(e => e.id === id);
-  if (exp) { exp[field] = value; updatePreview(); }
+  if (!exp) return;
+  exp[field] = value;
+  updatePreview();
 }
 
 // ── UPDATE PREVIEW ──
@@ -1197,7 +1269,8 @@ function updatePreview() {
     cv += `─────────────────────────────────────────────\nPROFESSIONAL EXPERIENCE\n─────────────────────────────────────────────\n`;
     experiences.forEach(exp => {
       if (exp.role || exp.company) {
-        cv += `${exp.role}${exp.company ? ' | ' + exp.company : ''}${exp.dates ? ' | ' + exp.dates : ''}\n`;
+        const dates = buildDateString(exp);
+        cv += `${exp.role}${exp.company ? ' | ' + exp.company : ''}${dates ? ' | ' + dates : ''}\n`;
         if (exp.bullets) cv += `${stripMarkdown(exp.bullets)}\n`;
         cv += '\n';
       }
