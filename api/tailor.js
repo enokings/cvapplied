@@ -91,7 +91,7 @@ RULES:
 2. Reorder sections and bullet points to front-load the most JD-relevant experience.
 3. Inject exact keywords and phrases from the JD naturally into existing bullet points.
 4. Rewrite weak or generic bullet points using strong UK action verbs and quantified impact where the CV already implies metrics.
-5. Ensure the Profile Summary directly addresses the JD's key requirements.
+5. Ensure the Profile Summary directly addresses the JD's key requirements (punchy 3-4 line summaries that get straight to the point.).
 6. Remove or condense bullets that are completely irrelevant to this role.
 7. Keep British English throughout — no Americanised spelling.
 8. Maintain the same CV structure and formatting conventions as the original (same use of separators, bullet style, ALL CAPS headers, etc.).
