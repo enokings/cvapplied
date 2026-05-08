@@ -353,8 +353,8 @@ We are looking for an experienced Senior Product Manager to join our growing tea
 
 <script>
   // ── CONFIG ──
-  const STRIPE_MONTHLY = 'https://buy.stripe.com/cNi14n72RfH1aBa1HOfjG00';
-  const STRIPE_ANNUAL  = 'https://buy.stripe.com/6oU6oHaf366rbFe2LSfjG01';
+  const STRIPE_MONTHLY = 'https://buy.stripe.com/4gM3cv3QFamH10A1HOfjG06';
+  const STRIPE_ANNUAL  = 'https://buy.stripe.com/3cIcN5evjdyT9x69agfjG04';
 
   // ── STATE ──
   let cvFile = null;
