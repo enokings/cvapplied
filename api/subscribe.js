@@ -1,17 +1,28 @@
 export default async function handler(req, res) {
-  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
-
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  if (req.method === 'OPTIONS') return res.status(200).end();
 
-  const CK_API_KEY = 'AIAMEjISW_Fv22iO-4lCsA';
-  const CK_FORM_ID = '9398094';
+  if (req.method === 'OPTIONS') return res.status(200).end();
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+
+  // Keys from environment variables — never hardcode in source
+  const CK_API_KEY = process.env.CONVERTKIT_API_KEY;
+  const CK_FORM_ID = process.env.CONVERTKIT_FORM_ID;
+
+  if (!CK_API_KEY || !CK_FORM_ID) {
+    console.error('ConvertKit env vars not set');
+    return res.status(500).json({ error: 'Email service not configured' });
+  }
 
   try {
     const { email, tag } = req.body;
-    if (!email) return res.status(400).json({ error: 'Email required' });
+    if (!email || typeof email !== 'string') return res.status(400).json({ error: 'Email required' });
+
+    // Basic server-side email format check
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return res.status(400).json({ error: 'Invalid email address' });
+    }
 
     const response = await fetch(
       `https://api.convertkit.com/v3/forms/${CK_FORM_ID}/subscribe`,
