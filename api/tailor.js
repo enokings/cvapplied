@@ -95,7 +95,7 @@ RULES:
 6. Remove or condense bullets that are completely irrelevant to this role.
 7. Keep British English throughout — no Americanised spelling.
 8. Maintain the same CV structure and formatting conventions as the original (same use of separators, bullet style, ALL CAPS headers, etc.).
-9. Keep total length similar to original — do not pad.
+9. Keep total length similar to original — do not pad (otherwise reduce bullet points for earliest roles to keep to maximum 2 pages).
 
 OUTPUT FORMAT:
 Return a JSON object with exactly this structure:
