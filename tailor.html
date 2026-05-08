@@ -172,8 +172,8 @@
       </div>
       <div class="code-error" id="tailor-code-error">Invalid code. Please check and try again.</div>
       <div class="gate-divider"><span>or</span></div>
-      <a href="https://buy.stripe.com/cNi14n72RfH1aBa1HOfjG00" target="_blank" rel="noopener" style="display:block; width:100%; padding:13px; background:var(--accent); color:var(--white); border-radius:8px; font-family:'DM Sans',sans-serif; font-size:0.9rem; font-weight:700; text-decoration:none; text-align:center; transition:background 0.2s; margin-bottom:8px;">Get Pro — £19/mo →</a>
-      <a href="https://buy.stripe.com/6oU6oHaf366rbFe2LSfjG01" target="_blank" rel="noopener" style="display:block; width:100%; padding:13px; background:transparent; color:var(--ink-soft); border:1.5px solid var(--rule); border-radius:8px; font-family:'DM Sans',sans-serif; font-size:0.9rem; font-weight:500; text-decoration:none; text-align:center; transition:all 0.2s;">£149/yr — Save 17%</a>
+      <a href="https://buy.stripe.com/4gM3cv3QFamH10A1HOfjG06" target="_blank" rel="noopener" style="display:block; width:100%; padding:13px; background:var(--accent); color:var(--white); border-radius:8px; font-family:'DM Sans',sans-serif; font-size:0.9rem; font-weight:700; text-decoration:none; text-align:center; transition:background 0.2s; margin-bottom:8px;">Get Pro — £19/mo →</a>
+      <a href="https://buy.stripe.com/3cIcN5evjdyT9x69agfjG04" target="_blank" rel="noopener" style="display:block; width:100%; padding:13px; background:transparent; color:var(--ink-soft); border:1.5px solid var(--rule); border-radius:8px; font-family:'DM Sans',sans-serif; font-size:0.9rem; font-weight:500; text-decoration:none; text-align:center; transition:all 0.2s;">£149/yr — Save 17%</a>
       <p style="font-size:0.75rem; color:var(--ink-muted); margin-top:12px;">Cancel any time</p>
     </div>
   </div>
@@ -291,7 +291,7 @@
 </style>
 
 <script>
-  const STRIPE_MONTHLY = 'https://buy.stripe.com/cNi14n72RfH1aBa1HOfjG00';
+  const STRIPE_MONTHLY = 'https://buy.stripe.com/4gM3cv3QFamH10A1HOfjG06';
 
   // ── CHECK IF ALREADY PRO ──
   function checkProStatus() {
@@ -661,7 +661,7 @@ ${jdText}`;
   // ── DOWNLOAD DOCX ──
   async function downloadTailoredDOCX() {
     const d = JSON.parse(localStorage.getItem('cva_usage') || '{}');
-    if (!d.pro) { window.location.href = 'https://buy.stripe.com/cNi14n72RfH1aBa1HOfjG00'; return; }
+    if (!d.pro) { window.location.href = 'https://buy.stripe.com/4gM3cv3QFamH10A1HOfjG06'; return; }
     const cvText = document.getElementById('tailored-cv-display').value;
     if (!cvText) return;
     const btn = document.getElementById('docx-download-btn');
@@ -725,7 +725,7 @@ ${jdText}`;
   // ── SAVE AS PDF ──
   function printTailoredPDF() {
     const d = JSON.parse(localStorage.getItem('cva_usage') || '{}');
-    if (!d.pro) { window.location.href = 'https://buy.stripe.com/cNi14n72RfH1aBa1HOfjG00'; return; }
+    if (!d.pro) { window.location.href = 'https://buy.stripe.com/4gM3cv3QFamH10A1HOfjG06'; return; }
     const cvText = document.getElementById('tailored-cv-display').value;
     if (!cvText) return;
 
