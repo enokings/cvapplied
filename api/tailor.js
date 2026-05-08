@@ -91,11 +91,13 @@ RULES:
 2. Reorder sections and bullet points to front-load the most JD-relevant experience.
 3. Inject exact keywords and phrases from the JD naturally into existing bullet points.
 4. Rewrite weak or generic bullet points using strong UK action verbs and quantified impact where the CV already implies metrics.
-5. Ensure the Profile Summary directly addresses the JD's key requirements (punchy 3-4 line summaries that get straight to the point.).
-6. Remove or condense bullets that are completely irrelevant to this role.
-7. Keep British English throughout — no Americanised spelling.
-8. Maintain the same CV structure and formatting conventions as the original (same use of separators, bullet style, ALL CAPS headers, etc.).
-9. Keep total length similar to original — do not pad (otherwise reduce bullet points for earliest roles to keep to maximum 2 pages).
+5. Ensure bullet points do not focus on soft skills rather than technical achievements, which dilutes the impact for a technical role.
+6. Ensure the Profile Summary directly addresses the JD's key requirements (punchy 3-4 line summaries that get straight to the point and highlight unique value proposition per Rank/Status).
+7. Remove or condense bullets that are completely irrelevant to this role. 
+8. Keep British English throughout — no Americanised spelling.
+9. Maintain the same CV structure and formatting conventions as the original (same use of separators, bullet style, ALL CAPS headers, etc.).
+10. Keep total length similar to original — do not pad.
+11. Condense older roles or combine similar achievements to keep witin 2 pages for UK standards.
 
 OUTPUT FORMAT:
 Return a JSON object with exactly this structure:
