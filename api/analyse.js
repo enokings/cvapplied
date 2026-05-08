@@ -2,18 +2,19 @@ import pdfParse from 'pdf-parse/lib/pdf-parse.js';
 import mammoth from 'mammoth';
 
 export default async function handler(req, res) {
-  // Only allow POST
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
-
-  // CORS headers
+  // CORS headers — must be set before any early returns
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
+  // Handle preflight
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
+  }
+
+  // Only allow POST
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
   }
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
@@ -24,11 +25,11 @@ export default async function handler(req, res) {
   try {
     const { prompt, fileData, fileType } = req.body;
     let finalPrompt = prompt;
+    let extractedText = '';
 
     // If a file was sent as base64, extract text server-side
     if (fileData && fileType) {
       const buffer = Buffer.from(fileData, 'base64');
-      let extractedText = '';
 
       if (fileType === 'pdf') {
         try {
@@ -45,7 +46,6 @@ export default async function handler(req, res) {
           return res.status(400).json({ error: 'Could not extract text from Word document. Please use the Paste Text tab instead.' });
         }
       } else {
-        // TXT — decode as UTF-8
         extractedText = buffer.toString('utf-8')
           .replace(/[^\x20-\x7E\n\r\t£€]/g, ' ')
           .replace(/\s+/g, ' ')
@@ -56,7 +56,6 @@ export default async function handler(req, res) {
         return res.status(400).json({ error: 'Could not extract enough text from this file. Please use the Paste Text tab instead.' });
       }
 
-      // Inject extracted text into the prompt
       finalPrompt = prompt.replace('__CV_TEXT__', extractedText.trim());
     }
 
@@ -84,7 +83,14 @@ export default async function handler(req, res) {
     }
 
     const data = await response.json();
-    return res.status(200).json({ content: data.content });
+
+    // Return both the analysis content AND the extracted text so the
+    // frontend can store it for PDF export. File uploads only have
+    // '__CV_TEXT__' client-side, so we return the real extracted text here.
+    return res.status(200).json({
+      content: data.content,
+      extractedText: extractedText || null
+    });
 
   } catch (err) {
     console.error('Proxy error:', err);
